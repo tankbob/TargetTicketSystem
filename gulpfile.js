@@ -1,4 +1,7 @@
 var elixir = require('laravel-elixir');
+if(elixir.config.babel) {
+	elixir.config.babel.enabled = false;
+}
 
 /*
  |--------------------------------------------------------------------------
@@ -12,5 +15,9 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.sass('app.scss');
+	return mix
+		.stylesIn('resources/css', 'public/css/app.css')
+		.scriptsIn('resources/js', 'public/js/app.js')
+		.version(['css/app.css', 'js/app.js'])
+		;
 });
