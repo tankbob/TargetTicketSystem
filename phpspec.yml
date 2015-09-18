@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: TargetInk
+        psr4_prefix: TargetInk
+        src_path: app
