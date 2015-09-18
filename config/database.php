@@ -1,5 +1,11 @@
 <?php
 
+// Codeship Setup
+if(getenv('MYSQL_USER') !== false && getenv('MYSQL_PASSWORD') !== false) {
+    putenv("DB_USERNAME=" . getenv('MYSQL_USER'));
+    putenv("DB_PASSWORD=" . getenv('MYSQL_PASSWORD'));
+}
+
 return [
 
     /*
@@ -55,7 +61,7 @@ return [
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'forge'),
+            'database'  => env('DB_DATABASE', 'tits'),
             'username'  => env('DB_USERNAME', 'forge'),
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
