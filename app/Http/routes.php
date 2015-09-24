@@ -22,8 +22,11 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 Route::get('/', 'AppController@index');
-//That route can be removed if redirect if auth or register is changed to /
-Route::get('/home', 'AppController@index');
+
+// Failsafe redirect
+Route::any('home', function () {
+    return redirect('/');
+});
 
 Route::resource('/maintenance', 'MaintenanceController');
 Route::resource('/seo', 'SEOController');

@@ -18,14 +18,14 @@
             <div class="container">
                 @if(auth()->check() && auth()->user()->admin)
                 <div class="btn-group-justified main-nav" role="group">
-                    <a href="#" class="btn btn-default btn-menu active">Maintenance Accounts</a>
-                    <a href="#" class="btn btn-default btn-menu">Admin Services</a>
+                    <a href="{{ url('/') }}" class="btn btn-default btn-menu">Maintenance Accounts</a>
+                    <a href="{{ request()->url() }}" class="btn btn-default btn-menu active">Admin Services</a>
                     <a href="{{ url('auth/logout') }}" class="btn btn-default btn-menu btn-logout">Logout</a>
                 </div>
                 @elseif(auth()->check())
                 <div class="btn-group-justified main-nav" role="group">
-                    <a href="#" class="btn btn-default btn-menu active">Maintenance Accounts</a>
-                    <a href="#" class="btn btn-default btn-menu">Your Services</a>
+                    <a href="{{ url('/') }}" class="btn btn-default btn-menu">Maintenance Accounts</a>
+                    <a href="{{ request()->url() }}" class="btn btn-default btn-menu active">Your Services</a>
                     <a href="{{ url('auth/logout') }}" class="btn btn-default btn-menu btn-logout">Logout</a>
                 </div>
                 @endif
