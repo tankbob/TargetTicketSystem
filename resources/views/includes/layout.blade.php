@@ -7,7 +7,7 @@
         <title>@section('title') @if(isset($title)) {{ $title }} @else Target Ink @endif @show</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Montserrat" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/all.css') }}">
+        <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -16,17 +16,25 @@
     <body>
         <div class="nav-container">
             <div class="container">
+                @if(auth()->check() && auth()->user()->admin)
                 <div class="btn-group-justified main-nav" role="group">
                     <a href="#" class="btn btn-default btn-menu active">Maintenance Accounts</a>
                     <a href="#" class="btn btn-default btn-menu">Admin Services</a>
                     <a href="{{ url('auth/logout') }}" class="btn btn-default btn-menu btn-logout">Logout</a>
                 </div>
+                @elseif(auth()->check())
+                <div class="btn-group-justified main-nav" role="group">
+                    <a href="#" class="btn btn-default btn-menu active">Maintenance Accounts</a>
+                    <a href="#" class="btn btn-default btn-menu">Your Services</a>
+                    <a href="{{ url('auth/logout') }}" class="btn btn-default btn-menu btn-logout">Logout</a>
+                </div>
+                @endif
             </div>
         </div>
         <div class="container">
             @yield('content')
         </div>
         <script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
-        <script src="{{ asset('js/all.js') }}"></script>
+        <script src="{{ elixir('js/all.js') }}"></script>
     </body>
 </html>

@@ -8,7 +8,11 @@
 
 <div class="page-content">
     <div class="row">
+        @if(auth()->check() && auth()->user()->admin)
+        <div class="col-xs-12">
+        @else
         <div class="col-sm-9 col-xs-12">
+        @endif
             <div class="btn-section row">
                 <a href="#" class="btn-section-link btn-maintenance-support">
                     <strong>Maintenance &amp; Support</strong>
@@ -41,9 +45,11 @@
                 </a>
             </div>
         </div>
+        @if(auth()->check() && auth()->user()->admin)
         <div class="col-sm-3 hidden-xs text-center">
             @include('includes.adverts')
         </div>
+        @endif
     </div>
 </div>
 @endsection

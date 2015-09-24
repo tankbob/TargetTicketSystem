@@ -16,8 +16,8 @@ if(elixir.config.babel) {
 
 elixir(function(mix) {
 	return mix
-		.stylesIn('resources/css', 'public/css/app.css')
-		.scriptsIn('resources/js', 'public/js/app.js')
-		.version(['css/app.css', 'js/app.js'])
+		.styles(['all.css'])
+		.scripts(['all.js'])
+		.version(['css/all.css', 'js/all.js'])
 		;
 });
