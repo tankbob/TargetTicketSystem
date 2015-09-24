@@ -2,7 +2,7 @@
 Ticketing system for Target Ink
 
 ## JIRA URL
-https://heliocentrix.atlassian.net/browse/TITS
+https://heliocentrix.atlassian.net/browse/TIM
 
 ## Features
 - User Management
