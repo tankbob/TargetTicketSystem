@@ -22,16 +22,16 @@
             {!! csrf_field() !!}
 
             <div class="form-group">
-                <input type="email" class="form-control" id="email" placeholder="Email" value="{{ old('email') }}">
+                <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="{{ old('email') }}">
             </div>
 
             <div class="form-group">
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password">
             </div>
 
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" name="remember"> Remember Me
+                    <input type="checkbox" name="remember" value="1"> Remember Me
                 </label>
             </div>
 
