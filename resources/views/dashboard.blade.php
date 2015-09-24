@@ -3,7 +3,12 @@
 @section('content')
 <div class="page-heading text-center">
     <h1>Choose a Service</h1>
+    
+    @if(auth()->user()->admin)
     <p>Welcome to Support Administration Hub, please choose a service</p>
+    @else
+    <p>Welcome to your Maintenance &amp; Support Hub, please choose a service</p>
+    @endif
 </div>
 
 <div class="page-content">
@@ -50,12 +55,12 @@
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
 
-                    <a href="{{ url('seo') }}" class="btn-section-link btn-clients">
+                    <a href="{{ url('seo') }}" class="btn-section-link btn-seo-reports">
                         <strong>SEO Documents</strong>
                         <p>Click here to view your current &amp; previous SEO Docs.</p>
                     </a>
 
-                    <a href="{{ url('docs') }}" class="btn-section-link btn-adverts">
+                    <a href="{{ url('docs') }}" class="btn-section-link btn-information-documents">
                         <strong>Information Documents</strong>
                         <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
                     </a>
