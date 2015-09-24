@@ -5,6 +5,7 @@ font-family: 'Open Sans', sans-serif;
 
 body {
 	padding-bottom:50px;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .nav-container {
@@ -202,4 +203,9 @@ body {
 
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary:active:hover {
 	background-color:#49A4A7 !important;
+}
+
+/* Alerts */
+.alert {
+	border-radius: 0px;
 }
