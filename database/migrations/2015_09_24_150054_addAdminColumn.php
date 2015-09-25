@@ -13,7 +13,8 @@ class AddAdminColumn extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('admin')->after('remember_token')->default(0);
+            $table->boolean('admin')->after('email')->default(0);
+            $table->string('company')->after('email');
         });
     }
 
@@ -26,6 +27,7 @@ class AddAdminColumn extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('admin');
+            $table->dropColumn('company');
         });
     }
 }

@@ -1,5 +1,9 @@
 @extends('includes.layout')
 
+@section('sectionTitle')
+    Your Services
+@stop
+
 @section('content')
 <div class="page-heading text-center">
     <h1>Choose a Service</h1>
@@ -55,12 +59,12 @@
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
 
-                    <a href="{{ url('seo') }}" class="btn-section-link btn-seo-reports">
+                    <a href="{{ url('documents/seo') }}" class="btn-section-link btn-seo-reports">
                         <strong>SEO Documents</strong>
                         <p>Click here to view your current &amp; previous SEO Docs.</p>
                     </a>
 
-                    <a href="{{ url('docs') }}" class="btn-section-link btn-information-documents">
+                    <a href="{{ url('documents/info') }}" class="btn-section-link btn-information-documents">
                         <strong>Information Documents</strong>
                         <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
                     </a>

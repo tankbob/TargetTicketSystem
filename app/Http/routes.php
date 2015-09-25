@@ -29,5 +29,4 @@ Route::any('home', function () {
 });
 
 Route::resource('/maintenance', 'MaintenanceController');
-Route::resource('/seo', 'SEOController');
-Route::resource('/docs', 'DocumentsController');
+Route::resource('/documents/{type}', 'DocumentsController');

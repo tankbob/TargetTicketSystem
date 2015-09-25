@@ -8,14 +8,27 @@ use TargetInk\Http\Controllers\Controller;
 
 class DocumentsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type)
     {
-        //
+        if($type == 'seo'){
+            $files = \Auth::user()->seoFiles;
+        }elseif($type == 'info'){
+            $files = \Auth::user()->infoFiles;
+        }else{
+            abort(404);
+        }
+        return view('documents', compact('files', 'type'));
     }
 
     /**

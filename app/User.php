@@ -28,7 +28,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'admin'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -36,4 +36,26 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public function scopeCompanies($query)
+    {
+        return $query->where('admin', '=', 0);
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('admin', '=', 1);
+    }
+
+    public function files(){
+        return $this->hasMany('TargetInk\File', 'client_id');
+    }
+
+    public function seoFiles(){
+        return $this->files()->seo()->orderBy('created_at', 'desc');
+    }
+
+    public function infoFiles(){
+        return $this->files()->Information()->orderBy('created_at', 'desc');
+    }
 }
