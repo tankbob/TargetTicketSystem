@@ -6,8 +6,15 @@ use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
-class MaintenanceController extends Controller
+use TargetInk\Ticket;
+
+class TicketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +22,14 @@ class MaintenanceController extends Controller
      */
     public function index()
     {
-        //
+        if(\Request::has('archived')){
+            $archived = 1;
+            $tickets = \Auth::user()->Tickets;
+        }else{
+            $archived = 0;
+            $tickets = \Auth::user()->Tickets;
+        }
+        return View('tickets.ticketList', compact('archived', 'tickets'));
     }
 
     /**
@@ -25,7 +39,7 @@ class MaintenanceController extends Controller
      */
     public function create()
     {
-        //
+        return View('tickets.ticketEdit');
     }
 
     /**
@@ -58,7 +72,8 @@ class MaintenanceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticket = Ticket::find($id);
+        return View('tickets.ticketEdit', compact('ticket'));
     }
 
     /**

@@ -28,5 +28,5 @@ Route::any('home', function () {
     return redirect('/');
 });
 
-Route::resource('/maintenance', 'MaintenanceController');
+Route::resource('/tickets', 'TicketController');
 Route::resource('/documents/{type}', 'DocumentsController');

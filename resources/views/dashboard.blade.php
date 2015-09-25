@@ -54,7 +54,7 @@
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
                 @else
-                    <a href="{{ url('maintenance') }}" class="btn-section-link btn-maintenance-support">
+                    <a href="{{ url('tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
