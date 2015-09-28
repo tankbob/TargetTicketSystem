@@ -13,10 +13,53 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <!--JQUERY INCLUDES-->
-        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <style type="text/css">
+        i.icon-move{
+            cursor: move;
+        }
 
-        @yield('scripts')
+        body.dragging, body.dragging * {
+          cursor: move !important;
+        }
+
+        .dragged {
+          position: absolute;
+          opacity: 0.5;
+          z-index: 2000;
+        }
+
+        ol.example li.placeholder {
+          position: relative;
+          /** More li styles **/
+        }
+        ol.example li.placeholder:before {
+          position: absolute;
+          /** Define arrowhead **/
+        }
+
+        .sorted_table tr.placeholder {
+            display: block;
+            background: red;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        .sorted_table tr.placeholder:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 5px solid transparent;
+            border-left-color: red;
+            margin-top: -5px;
+            left: -5px;
+            border-right: none;
+        }
+</style>
+
+        
     </head>
     <body>
         <div class="nav-container">
@@ -41,5 +84,6 @@
         </div>
         <script src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
         <script src="{{ elixir('js/all.js') }}"></script>
+        @yield('scripts')
     </body>
 </html>
