@@ -7,6 +7,7 @@ use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\Ticket;
+use TargetInk\Http\Requests\TicketRequest;
 
 class TicketController extends Controller
 {
@@ -48,9 +49,12 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketRequest $request)
     {
-        //
+        $ticket = new Ticket;
+        $ticket->fill($request->all());
+        $ticket->save();
+        return \Redirect::to('/ticketsuccess');
     }
 
     /**
@@ -83,9 +87,12 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketRequest $request, $id)
     {
-        //
+        $ticket = Ticket::find($id);
+        $ticket->fill($request->all());
+        $ticket->save();
+        return \Redirect::to('/tickets');
     }
 
     /**
@@ -97,5 +104,9 @@ class TicketController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function success(){
+        return View('tickets.ticketSuccess');
     }
 }

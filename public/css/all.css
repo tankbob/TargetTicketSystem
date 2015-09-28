@@ -5,6 +5,7 @@ font-family: 'Open Sans', sans-serif;
 
 body {
 	padding-bottom:50px;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .nav-container {
@@ -148,6 +149,15 @@ body {
 	font-size: 14px;
 }
 
+.auth-form {
+	margin-top:50px;
+}
+
+.target-logo img {
+	margin:40px;
+}
+
+/* Media Queries */
 @media screen and (max-width: 530px) {
 	.btn-section-link {
 		padding-left: 0px;
@@ -159,3 +169,44 @@ body {
 		margin-top: 50px;
 	}
 }
+
+/* Form Styles */
+
+.form-control {
+	border-radius:0px;
+	border:#d9d9d9 1px solid;
+	box-shadow: none;
+	height:53px;
+	color:#b2b2b2;
+}
+
+/* Button Styles */
+.btn {
+	text-transform: uppercase;
+	height:55px;
+	min-width:140px;
+	border:none;
+	border-radius: 0px;
+	font-weight:bold;
+	font-size:16px;
+}
+
+.btn:hover, .btn:active, .btn:focus, .btn:active:hover {
+	border-radius:0px;
+	outline: none;
+}
+
+.btn-primary {
+	background-color:#60d3d6;
+	color:#fff;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary:active:hover {
+	background-color:#49A4A7 !important;
+}
+
+/* Alerts */
+.alert {
+	border-radius: 0px;
+}
+/*# sourceMappingURL=all.css.map */

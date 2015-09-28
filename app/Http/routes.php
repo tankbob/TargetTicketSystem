@@ -29,4 +29,5 @@ Route::any('home', function () {
 });
 
 Route::resource('/tickets', 'TicketController');
+Route::get('ticketsuccess', 'TicketController@success');
 Route::resource('/documents/{type}', 'DocumentsController');

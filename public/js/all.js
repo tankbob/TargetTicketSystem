@@ -13,3 +13,4 @@ $(window).resize(function() {
     adaptMenu();
 });
 adaptMenu();
+//# sourceMappingURL=all.js.map

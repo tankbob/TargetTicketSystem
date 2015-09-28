@@ -19,7 +19,13 @@ class Ticket extends Model
         'type',
         'cost',
         'archived',
-        'order'
+        'order',
+        'schedule',
+        'published_at',
+        'author',
+        'categories',
+        'article_title',
+        'priority'
     ];
 
     public function Client(){
