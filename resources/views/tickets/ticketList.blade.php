@@ -35,7 +35,11 @@
 	            			<td>{{$ticket->type}}</td>
 	            			<td>{{$ticket->cost}}</td>
 	            			<td>@if(true) ICON @endif</td></td>
-	            			<td><a href="/tickets/{{$ticket->id}}/archive">ICON</a></td>
+	            			@if($archived)
+	            				<td><a href="/tickets/{{$ticket->id}}/unarchive">UNARCHIVE ICON</a></td>
+	            			@else
+	            				<td><a href="/tickets/{{$ticket->id}}/archive">ARCHIVE ICON</a></td>
+	            			@endif
 	            		</tr>
 	            	@endforeach            	
 	            </tbody>

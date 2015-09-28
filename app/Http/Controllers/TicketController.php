@@ -25,11 +25,10 @@ class TicketController extends Controller
     {
         if(\Request::has('archived')){
             $archived = 1;
-            $tickets = \Auth::user()->Tickets;
         }else{
             $archived = 0;
-            $tickets = \Auth::user()->Tickets;
         }
+        $tickets = \Auth::user()->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
         return View('tickets.ticketList', compact('archived', 'tickets'));
     }
 
@@ -53,6 +52,14 @@ class TicketController extends Controller
     {
         $ticket = new Ticket;
         $ticket->fill($request->all());
+        $ticket->client_id = \Auth::user()->id;
+        $order = Ticket::where('client_id', '=', \Auth::user()->id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        if($order){
+            $order = $order->order +1;
+        }else{
+            $order = 1;
+        }
+        $ticket->order = $order;
         $ticket->save();
         return \Redirect::to('/ticketsuccess');
     }
@@ -108,5 +115,33 @@ class TicketController extends Controller
 
     public function success(){
         return View('tickets.ticketSuccess');
+    }
+
+    public function archive($id){
+        $ticket = Ticket::find($id);
+        $ticket->archived = 1;
+        $order = Ticket::where('client_id', '=', \Auth::user()->id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
+        if($order){
+            $order = $order->order +1;
+        }else{
+            $order = 1;
+        }
+        $ticket->order = $order;
+        $ticket->save();
+        return \Redirect::back()->with('success', 'The ticket has been successfully archived');
+    }
+
+    public function unarchive($id){
+        $ticket = Ticket::find($id);
+        $ticket->archived = 0;
+        $order = Ticket::where('client_id', '=', \Auth::user()->id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        if($order){
+            $order = $order->order +1;
+        }else{
+            $order = 1;
+        }
+        $ticket->order = $order;
+        $ticket->save();
+        return \Redirect::back()->with('success', 'The ticket has been successfully unarchived');
     }
 }
