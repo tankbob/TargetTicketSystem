@@ -1,5 +1,5 @@
 @extends('includes.layout')
-
+<!-- I THINK THAT VIEW IS NEVER GOING TO BE ACCESSED TO EDIT BUT I JUST ADD THE CONDITIONS JUST IN CASE -->
 @section('scripts')
 	<script type="text/javascript">
 		var attachmentCounter = 1;
@@ -51,7 +51,7 @@
 					$('#content').attr('placeholder', 'How can we help...');
 					break;
 				default:
-					alert("default");
+					break;
 			}
 		}
 
@@ -60,9 +60,10 @@
 				attachmentCounter ++;
 				var html = '';
 				html += '<div>';
-		        	html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment['+attachmentCounter+']" type="file">';
+		        	html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment-'+attachmentCounter+'" type="file">';
 		        html += '</div>';
 		        $('#attachmentDiv').append(html);
+		        $('#attachment_count').val(attachmentCounter);
 			}
 		}
 
@@ -91,12 +92,8 @@
     <div class="row">
         <div class="col-xs-12">
 
-        	@if(isset($ticket))
-				{!! Form::model($ticket, ['url' => '/tickets/'.$ticket->id, 'method' => 'PUT', 'files' => true]) !!}
-			@else
-				{!! Form::open(['url' => '/tickets', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
-			@endif
-
+			{!! Form::open(['url' => '/tickets', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
+		
 			<div>
 				{!! Form::radio('type', '1', !isset($ticket) || @$ticket->type == 1, ['class' => 'type']) !!} 'Web Amends'
 				{!! Form::radio('type', '2', @$ticket->type == 2, ['class' => 'type']) !!} 'Add Content'
@@ -125,9 +122,11 @@
 
 	        <div id="attachmentDiv">
 		        <div>
-		        	{!! Form::file('attachment[1]', ['attachmentID' => 1, 'class' => 'fileInput']) !!}
+		        	{!! Form::file("attachment-1", ['attachmentID' => 1, 'class' => 'fileInput']) !!}
 		        </div>
 		    </div>
+
+		    <input type="hidden" name="attachment_count" id="attachment_count" value="1">
 
 	        <div id="publishedAtDiv">
 	        	<div>

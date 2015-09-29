@@ -52,6 +52,21 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $request)
     {
+        for($counter = 1; $counter <= $request->get('attachment_count'); $counter ++){
+            if(\Request::hasFile('attachment-'.$counter) && $request->file('attachment-'.$counter)->isValid()){
+                $file = $request->file('attachment-'.$counter);
+                $extension = $file->getClientOriginalExtension();
+                if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])){
+                    echo "IMAGE";
+                }else{
+                    echo "DOCUMENT";
+                }
+                echo "<br>";
+            }else{
+                echo "NO";
+            }
+        }
+        dd($request->get('attachment_count'));
         $ticket = new Ticket;
         $ticket->fill($request->all());
         $ticket->client_id = \Auth::user()->id;
@@ -103,12 +118,12 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TicketRequest $request, $id)
+    public function update(Request $request, $id)
     {
-    /*    $ticket = Ticket::find($id);
-        $ticket->fill($request->all());
+        $ticket = Ticket::find($id);
+        $ticket->type = ($request->get('type'));
         $ticket->save();
-        return \Redirect::to('/tickets');*/
+        return \Redirect::back()->with('success', 'The ticket type has been changed.');
     }
 
     /**

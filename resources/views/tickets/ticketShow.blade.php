@@ -52,31 +52,25 @@
            		</div>
             </div>
 
+           	@if(\Auth::user()->admin)
+           		{!! Form::model($ticket, ['url' => '/tickets/'.$ticket->id, 'method' => 'PUT', 'files' => true]) !!}
+           	@endif
+
             <div class="form-group">
            		{!! Form::label('type', 'Ticket Type', ['class' => 'col-xs-4 form-label']) !!}
            		<div class="col-xs-8">
-           			<input type="text" class="form-control" disabled 
-           				<?php switch ($ticket->type) {
-           					case 1:
-           						echo 'value="Web Amends"';
-           						break;
-           					case 1:
-           						echo 'value="Add Content"';
-           						break;
-           					case 1:
-           						echo 'value="Get Quote"';
-           						break;
-           					case 1:
-           						echo 'value="Ask Question"';
-           						break;
-           					
-           					default:
-           						break;
-           				}
-           				?>
-           			> 
+           			@if(\Auth::user()->admin)
+           				{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control']) !!}
+           			@else
+	           			{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control', 'disabled']) !!}
+	           		@endif 
            		</div>
             </div>
+           
+            @if(\Auth::user()->admin)
+            	{!! Form::submit() !!}
+            	{!! Form::close() !!}
+            @endif
 
 
             @foreach($ticket->responses as $response)
