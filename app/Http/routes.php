@@ -34,3 +34,5 @@ Route::get('/tickets/{id}/unarchive', 'TicketController@unarchive');
 Route::get('ticketsuccess', 'TicketController@success');
 
 Route::resource('/documents/{type}', 'DocumentsController');
+
+Route::post('/api/ticketsort', 'TicketController@setOrder');

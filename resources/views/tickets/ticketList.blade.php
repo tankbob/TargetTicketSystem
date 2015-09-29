@@ -11,17 +11,39 @@
 	<script src="js/jquery-sortable.js"></script>
 
 	<script type="text/javascript">
-$(document).ready(function(){
-	
-	  $('.sorted_table').sortable({
-  containerSelector: 'table',
-  handle: 'i.icon-move',
-  itemPath: '> tbody',
-  itemSelector: 'tr',
-  placeholder: '<tr class="placeholder"/>'
-});
-	
-});
+		$(document).ready(function(){
+			
+			$('.sorted_table').sortable({
+				containerSelector: 'table',
+				handle: 'i.icon-move',
+				itemPath: '> tbody',
+				itemSelector: 'tr',
+				placeholder: '<tr class="placeholder"/>',
+				onDrop: function ($item, container, _super, event) {
+
+					var new_order = [];
+					$("#ticket_table tbody").find("tr").each(function(){ new_order.push(this.id); });
+
+					$.ajax({
+		                type: "POST",
+		                url: '/api/ticketsort',
+		                data: {
+		                	'user_id': {{\Auth::user()->id}},
+		                	'archived': {{$archived}},
+		                	'new_order': new_order
+		                },
+		                success: function(response) {
+		                    
+		                }
+		            });
+
+
+					$item.removeClass(container.group.options.draggedClass).removeAttr("style")
+					$("body").removeClass(container.group.options.bodyClass)
+				}
+			});
+			
+		});
 </script>
 
 @stop
@@ -40,20 +62,22 @@ $(document).ready(function(){
 
 
 
-            <table class="table table-striped table-bordered sorted_table">
+            <table class="table table-striped table-bordered sorted_table" id="ticket_table">
 	            <thead>
-	            	<th>GOTO ICON</th>
-	            	<th>Ticket Title</th>
-	            	<th>Ref No.</th>
-	            	<th>Ticket Type</th>
-	            	<th>Cost</th>
-	            	<th>Response</th>
-	            	<th>Archive</th>
-	            	<th>MOVE ICON</th>
+	            	<tr>
+		            	<th>GOTO ICON</th>
+		            	<th>Ticket Title</th>
+		            	<th>Ref No.</th>
+		            	<th>Ticket Type</th>
+		            	<th>Cost</th>
+		            	<th>Response</th>
+		            	<th>Archive</th>
+		            	<th>MOVE ICON</th>
+		            </tr>
 	            </thead>
 	            <tbody>
 	            	@foreach($tickets as $ticket)
-	            		<tr>
+	            		<tr id="{{$ticket->id}}">
 	            			<td><a href="/tickets/{{$ticket->id}}">icon</a></td>
 	            			<td>{{$ticket->title}}</td>
 	            			<td>{{$ticket->ref_no}}</td>

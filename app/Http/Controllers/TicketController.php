@@ -144,4 +144,32 @@ class TicketController extends Controller
         $ticket->save();
         return \Redirect::back()->with('success', 'The ticket has been successfully unarchived');
     }
+
+    public function setOrder(){
+        $user_id = \Request::get('user_id');
+        $archived = \Request::get('archived');
+        $new_order = \Request::get('new_order');
+
+        $tickets = Ticket::where('client_id', '=', $user_id)->where('archived', '=', $archived)->whereIn('id', $new_order)->get();
+
+        $query = "UPDATE tickets SET tickets.order = CASE id ";
+
+        foreach($new_order as $order => $id){
+            //ORDER IS REVERSE CAUSE WHEN U ADD A NEW ONE IS MAX ORDER +1 AND SHOULD APPEAR FIRST
+            $query .= ' WHEN '.$id.' THEN '.(count($new_order)-$order);
+        }
+
+
+        $query .= " END WHERE id IN (";
+
+        foreach($new_order as $order => $id){
+            $query .= $id.',';
+        }
+
+        $query = rtrim($query, ",");
+
+        $query .= ")";
+
+        \DB::update($query);
+    }
 }
