@@ -36,3 +36,5 @@ Route::get('ticketsuccess', 'TicketController@success');
 Route::resource('/documents/{type}', 'DocumentsController');
 
 Route::post('/api/ticketsort', 'TicketController@setOrder');
+
+Route::resource('/responses', 'ResponseController');

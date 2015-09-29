@@ -7,6 +7,7 @@ use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\Ticket;
+use TargetInk\Response;
 use TargetInk\Http\Requests\TicketRequest;
 
 class TicketController extends Controller
@@ -28,8 +29,9 @@ class TicketController extends Controller
         }else{
             $archived = 0;
         }
+        $client_id = \Auth::user()->id;
         $tickets = \Auth::user()->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
-        return View('tickets.ticketList', compact('archived', 'tickets'));
+        return view('tickets.ticketList', compact('archived', 'tickets', 'client_id'));
     }
 
     /**
@@ -39,7 +41,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return View('tickets.ticketEdit');
+        return view('tickets.ticketEdit');
     }
 
     /**
@@ -61,6 +63,12 @@ class TicketController extends Controller
         }
         $ticket->order = $order;
         $ticket->save();
+
+        $response = new Response;
+        $response->fill($request->all());
+        $response->ticket_id = $ticket->id;
+        $response->admin = \Auth::user()->admin;
+        $response->save();
         return \Redirect::to('/ticketsuccess');
     }
 
@@ -72,7 +80,8 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        //
+        $ticket = Ticket::with('responses')->find($id);
+        return view('tickets.ticketShow', compact('ticket'));
     }
 
     /**
@@ -83,8 +92,8 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        $ticket = Ticket::find($id);
-        return View('tickets.ticketEdit', compact('ticket'));
+    /*    $ticket = Ticket::find($id);
+        return view('tickets.ticketEdit', compact('ticket')); */
     }
 
     /**
@@ -96,10 +105,10 @@ class TicketController extends Controller
      */
     public function update(TicketRequest $request, $id)
     {
-        $ticket = Ticket::find($id);
+    /*    $ticket = Ticket::find($id);
         $ticket->fill($request->all());
         $ticket->save();
-        return \Redirect::to('/tickets');
+        return \Redirect::to('/tickets');*/
     }
 
     /**

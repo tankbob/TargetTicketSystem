@@ -14,22 +14,19 @@ class Ticket extends Model
     protected $fillable = [
     	'ref_no',
         'title',
-        'content',
         'client_id',
         'type',
-        'cost',
         'archived',
         'order',
-        'schedule',
-        'published_at',
-        'author',
-        'categories',
-        'article_title',
         'priority'
     ];
 
     public function Client(){
     	return $this->BelongsTo('TargetInk\User', 'client_id');
+    }
+
+    public function responses(){
+        return $this->hasMany('TargetInk\Response', 'ticket_id');
     }
 
 }

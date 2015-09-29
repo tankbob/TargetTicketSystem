@@ -28,7 +28,7 @@
 		                type: "POST",
 		                url: '/api/ticketsort',
 		                data: {
-		                	'user_id': {{\Auth::user()->id}},
+		                	'user_id': {{$client_id}},
 		                	'archived': {{$archived}},
 		                	'new_order': new_order
 		                },
