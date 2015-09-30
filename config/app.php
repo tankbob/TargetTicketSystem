@@ -146,6 +146,7 @@ return [
         TargetInk\Providers\RouteServiceProvider::class,
 
         Illuminate\Html\HtmlServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -197,6 +198,7 @@ return [
 
         'Form'      => Illuminate\Html\FormFacade::class,
         'Html'      => Illuminate\Html\HtmlFacade::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
     ],
 
 ];

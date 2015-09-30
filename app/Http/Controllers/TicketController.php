@@ -8,7 +8,10 @@ use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\Ticket;
 use TargetInk\Response;
+use TargetInk\Attachment;
 use TargetInk\Http\Requests\TicketRequest;
+use TargetInk\Http\Requests\ResponseRequest;
+
 
 class TicketController extends Controller
 {
@@ -52,21 +55,6 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $request)
     {
-        for($counter = 1; $counter <= $request->get('attachment_count'); $counter ++){
-            if(\Request::hasFile('attachment-'.$counter) && $request->file('attachment-'.$counter)->isValid()){
-                $file = $request->file('attachment-'.$counter);
-                $extension = $file->getClientOriginalExtension();
-                if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])){
-                    echo "IMAGE";
-                }else{
-                    echo "DOCUMENT";
-                }
-                echo "<br>";
-            }else{
-                echo "NO";
-            }
-        }
-        dd($request->get('attachment_count'));
         $ticket = new Ticket;
         $ticket->fill($request->all());
         $ticket->client_id = \Auth::user()->id;
@@ -84,6 +72,9 @@ class TicketController extends Controller
         $response->ticket_id = $ticket->id;
         $response->admin = \Auth::user()->admin;
         $response->save();
+
+        self::processFileUpload($request, $response->id);
+        
         return \Redirect::to('/ticketsuccess');
     }
 
@@ -95,7 +86,7 @@ class TicketController extends Controller
      */
     public function show($id)
     {
-        $ticket = Ticket::with('responses')->find($id);
+        $ticket = Ticket::with('responses')->with('responses.attachments')->find($id);
         return view('tickets.ticketShow', compact('ticket'));
     }
 
@@ -195,5 +186,49 @@ class TicketController extends Controller
         $query .= ")";
 
         \DB::update($query);
+    }
+
+    public function addResponse($ticket_id, ResponseRequest $request){
+       $response = new Response;
+       $response->fill($request->all());
+       $response->admin = \Auth::user()->admin;
+       $response->ticket_id = $ticket_id;
+       $response->save();
+
+       self::processFileUpload($request, $response->id);
+       
+       return \Redirect::to('/ticketsuccess');
+    }
+
+    public function processFileUpload($request, $response_id){
+        for($counter = 1; $counter <= $request->get('attachment_count'); $counter ++){
+            if(\Request::hasFile('attachment-'.$counter) && $request->file('attachment-'.$counter)->isValid()){
+                $file = $request->file('attachment-'.$counter);
+                $extension = $file->getClientOriginalExtension();
+                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $filename .= '_'.time().'.'.$extension;
+                
+                if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])){
+                    $img = \Image::make($file);
+                    if($img->width() > 510){
+                        $img->resize(510, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    }
+                    $img->save(public_path().'/files/tickets/'.$filename);
+                    $doctype = 'I';
+                }else{
+                    $file->move(public_path().'/files/tickets', $filename);
+                    $doctype = 'D';
+                }
+                
+                $attachment = new Attachment;
+                $attachment->type = $doctype;
+                $attachment->original_filename = $file->getClientOriginalName();
+                $attachment->filename = $filename;
+                $attachment->response_id = $response_id;
+                $attachment->save();
+            }
+        }
     }
 }

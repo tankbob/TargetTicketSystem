@@ -28,4 +28,8 @@ class Response extends Model
     public function ticket(){
         return $this->belongsTo('TargetInk\Ticket', 'ticket_id');
     }
+
+    public function attachments(){
+        return $this->hasMany('TargetInk\Attachment', 'response_id');
+    }
 }

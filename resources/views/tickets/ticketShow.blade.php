@@ -7,7 +7,7 @@
 @section('scripts')
 	
 	<script type="text/javascript">
-	var attachmentCounter = 1;
+		var attachmentCounter = 1;
 
 		$(function() {
 			$("#attachmentDiv").on('change', '.fileInput', function (){
@@ -20,9 +20,10 @@
 				attachmentCounter ++;
 				var html = '';
 				html += '<div>';
-		        	html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment['+attachmentCounter+']" type="file">';
+		        	html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment-'+attachmentCounter+'" type="file">';
 		        html += '</div>';
 		        $('#attachmentDiv').append(html);
+		        $('#attachment_count').val(attachmentCounter);
 			}
 		}
 	</script>
@@ -101,7 +102,15 @@
 						@endif
 						@if($response->schedule)
 							<div class="response_data">Schedule: {{$response->schedule}}</div>
-						@endif						
+						@endif
+
+						@foreach($response->attachments as $attachment)
+							@if($attachment->type == 'I')
+								<img src="/files/tickets/{{$attachment->filename}}" alt="{{$attachment->original_filename}}">
+							@else
+								<a href="/files/tickets/{{$attachment->filename}}" target="#blank">DOWNLOAD ICON</a>
+							@endif
+						@endforeach
 					</div>
             	</div>
 
@@ -109,9 +118,7 @@
 
 
 
-            {!! Form::open(['url' => '/responses', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
-
-            	{!! Form::hidden('ticket_id', $ticket->id) !!}
+            {!! Form::open(['url' => '/ticket/'.$ticket->id.'/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
 
             	<div @if($errors->has('content')) has-error dark @endif>
 	           		@if($errors->has('content'))
@@ -122,9 +129,11 @@
 
             	<div id="attachmentDiv">
 			        <div>
-			        	{!! Form::file('attachment[1]', ['attachmentID' => 1, 'class' => 'fileInput']) !!}
+			        	{!! Form::file('attachment-1', ['attachmentID' => 1, 'class' => 'fileInput']) !!}
 			        </div>
 			    </div>
+
+		    	<input type="hidden" name="attachment_count" id="attachment_count" value="1">
 
 			    {!! Form::submit('Respond') !!}
 
