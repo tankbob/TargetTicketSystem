@@ -34,6 +34,7 @@ class TicketController extends Controller
         }
         $client_id = \Auth::user()->id;
         $tickets = \Auth::user()->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
+
         return view('tickets.ticketList', compact('archived', 'tickets', 'client_id'));
     }
 

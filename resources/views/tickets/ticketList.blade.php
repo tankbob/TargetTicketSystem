@@ -85,7 +85,7 @@
 	            			<td>{{$ticket->id}}</td>
 	            			<td>{{$ticket->type}}</td>
 	            			<td>{{$ticket->cost}}</td>
-	            			<td>@if(true) ICON @endif</td></td>
+	            			<td>@if(@$ticket->responses->last()->admin) ICON @endif</td></td>
 	            			@if($archived)
 	            				<td><a href="/tickets/{{$ticket->id}}/unarchive">UNARCHIVE ICON</a></td>
 	            			@else
