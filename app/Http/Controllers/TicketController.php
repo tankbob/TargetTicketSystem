@@ -87,7 +87,17 @@ class TicketController extends Controller
     public function show($id)
     {
         $ticket = Ticket::with('responses')->with('responses.attachments')->find($id);
-        return view('tickets.ticketShow', compact('ticket'));
+        $times = $ticket->responses->where('admin', 1)->lists('working_time');
+        $total_working_time = 0;
+        foreach($times as $t){
+            if($t){
+                $t = explode(':', $t);
+                $total_working_time += 60 * $t[0];
+                $total_working_time += $t[1];
+            }
+        }
+        $total_working_time = floor($total_working_time/60).':'.sprintf('%02d', $total_working_time%60);
+        return view('tickets.ticketShow', compact('ticket', 'total_working_time'));
     }
 
     /**
@@ -191,6 +201,7 @@ class TicketController extends Controller
     }
 
     public function addResponse($ticket_id, ResponseRequest $request){
+
         $response = new Response;
         $response->fill($request->all());
         $response->admin = \Auth::user()->admin;

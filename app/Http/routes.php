@@ -31,7 +31,7 @@ Route::any('home', function () {
 Route::resource('/tickets', 'TicketController');
 Route::get('/tickets/{id}/archive', 'TicketController@archive');
 Route::get('/tickets/{id}/unarchive', 'TicketController@unarchive');
-Route::post('/ticket/{id}/addresponse', 'TicketController@addResponse');
+Route::post('/tickets/{id}/addresponse', 'TicketController@addResponse');
 Route::get('ticketsuccess', 'TicketController@success');
 
 Route::resource('/documents/{type}', 'DocumentsController');

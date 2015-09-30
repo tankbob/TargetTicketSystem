@@ -13,6 +13,8 @@
 			$("#attachmentDiv").on('change', '.fileInput', function (){
 				addFileInput(this);
 			});
+
+			$('.hourInput').mask("99:99",{placeholder:"00:00"});
 		});
 
 		function addFileInput(fileinput){
@@ -68,12 +70,18 @@
 	           		@endif 
            		</div>
             </div>
+
+            <div class="form-group">
+           		{!! Form::label('total_working_time', 'Time', ['class' => 'col-xs-4 form-label']) !!}
+           		<div class="col-xs-8">
+           			{!! Form::text('total_working_time', $total_working_time, ['class' => 'form-control', 'disabled']) !!}
+           		</div>
+            </div>
            
             @if(\Auth::user()->admin)
             	{!! Form::submit() !!}
             	{!! Form::close() !!}
             @endif
-
 
             @foreach($ticket->responses as $response)
 
@@ -119,7 +127,7 @@
 
 
 
-            {!! Form::open(['url' => '/ticket/'.$ticket->id.'/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
+            {!! Form::open(['url' => '/tickets/'.$ticket->id.'/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
 
             	<div @if($errors->has('content')) has-error dark @endif>
 	           		@if($errors->has('content'))
@@ -135,6 +143,10 @@
 			    </div>
 
 		    	<input type="hidden" name="attachment_count" id="attachment_count" value="1">
+
+		    	@if(\Auth::user()->admin)
+		    		{!! Form::text('working_time', '', ['placeholder' => '00:00', 'class' => 'hourInput']) !!}
+		    	@endif
 
 			    {!! Form::submit('Respond') !!}
 
