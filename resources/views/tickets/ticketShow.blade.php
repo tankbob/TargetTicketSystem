@@ -52,7 +52,7 @@
             <div class="form-group">
            		{!! Form::label('ref_no', 'Reference No.', ['class' => 'col-xs-4 form-label']) !!}
            		<div class="col-xs-8">
-           			{!! Form::text('ref_no', $ticket->ref_no, ['class' => 'form-control', 'disabled']) !!}
+           			{!! Form::text('ref_no', $ticket->id, ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
 

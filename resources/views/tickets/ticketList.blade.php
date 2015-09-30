@@ -82,7 +82,7 @@
 	            		<tr id="{{$ticket->id}}">
 	            			<td><a href="/tickets/{{$ticket->id}}">icon</a></td>
 	            			<td>{{$ticket->title}}</td>
-	            			<td>{{$ticket->ref_no}}</td>
+	            			<td>{{$ticket->id}}</td>
 	            			<td>{{$ticket->type}}</td>
 	            			<td>{{$ticket->cost}}</td>
 	            			<td>@if(true) ICON @endif</td></td>
