@@ -53,6 +53,8 @@
     <a href="/tickets/create">CREATE A NEW TICKET</a>
 </div>
 
+@include('flash::message')
+
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">

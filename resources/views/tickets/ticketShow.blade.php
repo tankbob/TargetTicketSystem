@@ -34,6 +34,7 @@
     <h1>Ticket Details</h1>  
 </div>
 
+@include('flash::message')
 
 <div class="page-content">
     <div class="row">

@@ -143,7 +143,8 @@ class TicketController extends Controller
         }
         $ticket->order = $order;
         $ticket->save();
-        return \Redirect::back()->with('success', 'The ticket has been successfully archived');
+        flash()->success('The ticket has been successfully archived.');
+        return \Redirect::back();
     }
 
     public function unarchive($id){
@@ -157,7 +158,8 @@ class TicketController extends Controller
         }
         $ticket->order = $order;
         $ticket->save();
-        return \Redirect::back()->with('success', 'The ticket has been successfully unarchived');
+        flash()->success('The ticket has been successfully unarchived.');
+        return \Redirect::back();
     }
 
     public function setOrder(){
@@ -189,15 +191,15 @@ class TicketController extends Controller
     }
 
     public function addResponse($ticket_id, ResponseRequest $request){
-       $response = new Response;
-       $response->fill($request->all());
-       $response->admin = \Auth::user()->admin;
-       $response->ticket_id = $ticket_id;
-       $response->save();
+        $response = new Response;
+        $response->fill($request->all());
+        $response->admin = \Auth::user()->admin;
+        $response->ticket_id = $ticket_id;
+        $response->save();
 
-       self::processFileUpload($request, $response->id);
-       
-       return \Redirect::to('/ticketsuccess');
+        self::processFileUpload($request, $response->id);
+        flash()->success('The response has been sent.');
+        return \Redirect::back();
     }
 
     public function processFileUpload($request, $response_id){
