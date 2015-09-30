@@ -14,6 +14,8 @@
 			});
 
 			toggleFormFields($('.type:checked').val());
+
+			$('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
 		});
 
 		function toggleFormFields(typeValue){
@@ -133,7 +135,7 @@
 	        		@if(@$ticket->published_at)
 	        			{!! Form::text('published_at', date('d m Y', strtotime(@$ticket->published_at)), ['placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)']) !!}
 	        		@else
-	        			{!! Form::text('published_at', '', ['placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)']) !!}
+	        			{!! Form::text('published_at', '', ['placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)', 'class' => 'dateInput']) !!}
 	        		@endif
 	        	</div>
 	        </div>

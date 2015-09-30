@@ -55,6 +55,12 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $request)
     {
+        if($request->published_at){
+            $published_at_date = explode('/', $request->published_at);
+            $published_at_date = $published_at_date[2].'-'.$published_at_date[1].'-'.$published_at_date[0];
+        }else{
+            $published_at_date = '0000-00-00';
+        }
         $ticket = new Ticket;
         $ticket->fill($request->all());
         $ticket->client_id = \Auth::user()->id;
@@ -71,6 +77,7 @@ class TicketController extends Controller
         $response->fill($request->all());
         $response->ticket_id = $ticket->id;
         $response->admin = \Auth::user()->admin;
+        $response->published_at = $published_at_date;
         $response->save();
 
         self::processFileUpload($request, $response->id);
