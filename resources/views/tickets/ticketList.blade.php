@@ -8,7 +8,7 @@
 @section('scripts')
 
 	
-	<script src="js/jquery-sortable.js"></script>
+	<script src="/js/jquery-sortable.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -28,7 +28,7 @@
 		                type: "POST",
 		                url: '/api/ticketsort',
 		                data: {
-		                	'user_id': {{$client_id}},
+		                	'user_id': {{$client->id}},
 		                	'archived': {{$archived}},
 		                	'new_order': new_order
 		                },
@@ -36,8 +36,6 @@
 		                    
 		                }
 		            });
-
-
 					$item.removeClass(container.group.options.draggedClass).removeAttr("style")
 					$("body").removeClass(container.group.options.bodyClass)
 				}
@@ -50,7 +48,7 @@
 
 @section('content')
 <div class="page-heading text-center">
-    <a href="/tickets/create">CREATE A NEW TICKET</a>
+    <a href="/{{$client->company_slug}}/tickets/create">CREATE A NEW TICKET</a>
 </div>
 
 @include('flash::message')
@@ -58,9 +56,9 @@
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-        	<a href="/tickets" @if(!$archived) class="active" @endif>View Open Tickets</a>
+        	<a href="/{{$client->company_slug}}/tickets" @if(!$archived) class="active" @endif>View Open Tickets</a>
 
-        	<a href="/tickets?archived=1" @if($archived) class="active" @endif>View Archived Tickets</a>
+        	<a href="/{{$client->company_slug}}/tickets?archived=1" @if($archived) class="active" @endif>View Archived Tickets</a>
 
 
 
@@ -74,23 +72,43 @@
 		            	<th>Cost</th>
 		            	<th>Response</th>
 		            	<th>Archive</th>
+		            	@if(\Auth::user()->admin)
+		            		<th></th>
+		            	@endif
 		            	<th>MOVE ICON</th>
 		            </tr>
 	            </thead>
 	            <tbody>
 	            	@foreach($tickets as $ticket)
 	            		<tr id="{{$ticket->id}}">
-	            			<td><a href="/tickets/{{$ticket->id}}">icon</a></td>
+	            			<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}">icon</a></td>
 	            			<td>{{$ticket->title}}</td>
 	            			<td>{{$ticket->id}}</td>
-	            			<td>{{$ticket->type}}</td>
+	            			<td>
+	            				@if($ticket->type == 1)
+	            					Web Amends
+	            				@elseif($ticket->type == 2)
+	            					Add Content
+	            				@elseif($ticket->type == 3)
+	            					Get Quote
+	            				@elseif($ticket->type == 4)
+	            					Ask Question
+	            				@endif
+	            			</td>
 	            			<td>{{$ticket->cost}}</td>
 	            			<td>@if(@$ticket->responses->last()->admin) ICON @endif</td></td>
 	            			@if($archived)
-	            				<td><a href="/tickets/{{$ticket->id}}/unarchive">UNARCHIVE ICON</a></td>
+	            				<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive">UNARCHIVE ICON</a></td>
 	            			@else
-	            				<td><a href="/tickets/{{$ticket->id}}/archive">ARCHIVE ICON</a></td>
+	            				<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive">ARCHIVE ICON</a></td>
 	            			@endif
+	            			@if(\Auth::user()->admin)
+			            		<td>
+			            			{!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}
+			            				{!! Form::submit('Delete') !!}
+			            			{!! Form::close() !!}
+			            		</td>
+			            	@endif
 	            			<td><i class="icon-move">aa</i></td>
 	            		</tr>
 	            	@endforeach            	

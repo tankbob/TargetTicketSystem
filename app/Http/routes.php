@@ -28,11 +28,10 @@ Route::any('home', function () {
     return redirect('/');
 });
 
-Route::resource('/tickets', 'TicketController');
-Route::get('/tickets/{id}/archive', 'TicketController@archive');
-Route::get('/tickets/{id}/unarchive', 'TicketController@unarchive');
-Route::post('/tickets/{id}/addresponse', 'TicketController@addResponse');
-Route::get('ticketsuccess', 'TicketController@success');
+Route::resource('/{company_slug}/tickets', 'TicketController');
+Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
+Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
+Route::post('/{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
 
 Route::resource('/documents/{type}', 'DocumentsController');
 

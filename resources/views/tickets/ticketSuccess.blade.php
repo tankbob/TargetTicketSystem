@@ -12,7 +12,7 @@
 
     <a href="/">Your Services</a>
 
-    <a href="/tickets">Your Tickets</a>
+    <a href="/{{$company_slug}}/tickets">Your Tickets</a>
   
 </div>
 

@@ -12,7 +12,6 @@ class Ticket extends Model
     protected $table = 'tickets';
 
     protected $fillable = [
-    	'ref_no',
         'title',
         'client_id',
         'type',

@@ -94,7 +94,7 @@
     <div class="row">
         <div class="col-xs-12">
 
-			{!! Form::open(['url' => '/tickets', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
+			{!! Form::open(['url' => $company_slug.'/tickets', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
 		
 			<div>
 				{!! Form::radio('type', '1', !isset($ticket) || @$ticket->type == 1, ['class' => 'type']) !!} 'Web Amends'

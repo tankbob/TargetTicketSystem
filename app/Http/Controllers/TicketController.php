@@ -9,6 +9,7 @@ use TargetInk\Http\Controllers\Controller;
 use TargetInk\Ticket;
 use TargetInk\Response;
 use TargetInk\Attachment;
+use TargetInk\User;
 use TargetInk\Http\Requests\TicketRequest;
 use TargetInk\Http\Requests\ResponseRequest;
 
@@ -25,17 +26,17 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($company_slug)
     {
         if(\Request::has('archived')){
             $archived = 1;
         }else{
             $archived = 0;
         }
-        $client_id = \Auth::user()->id;
-        $tickets = \Auth::user()->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
+        $client = User::where('company_slug', $company_slug)->first();
+        $tickets = $client->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
 
-        return view('tickets.ticketList', compact('archived', 'tickets', 'client_id'));
+        return view('tickets.ticketList', compact('archived', 'tickets', 'client'));
     }
 
     /**
@@ -43,9 +44,9 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($company_slug)
     {
-        return view('tickets.ticketEdit');
+        return view('tickets.ticketEdit', compact('company_slug'));
     }
 
     /**
@@ -54,8 +55,9 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TicketRequest $request)
+    public function store($company_slug, TicketRequest $request)
     {
+        $client_id = User::where('company_slug', $company_slug)->first()->id;
         if($request->published_at){
             $published_at_date = explode('/', $request->published_at);
             $published_at_date = $published_at_date[2].'-'.$published_at_date[1].'-'.$published_at_date[0];
@@ -64,8 +66,8 @@ class TicketController extends Controller
         }
         $ticket = new Ticket;
         $ticket->fill($request->all());
-        $ticket->client_id = \Auth::user()->id;
-        $order = Ticket::where('client_id', '=', \Auth::user()->id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        $ticket->client_id = $client_id;
+        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
         if($order){
             $order = $order->order +1;
         }else{
@@ -83,7 +85,7 @@ class TicketController extends Controller
 
         self::processFileUpload($request, $response->id);
         
-        return \Redirect::to('/ticketsuccess');
+        return View('tickets.ticketSuccess', compact('company_slug'));
     }
 
     /**
@@ -92,9 +94,9 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($company_slug, $ticket_id)
     {
-        $ticket = Ticket::with('responses')->with('responses.attachments')->find($id);
+        $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
         $times = $ticket->responses->where('admin', 1)->lists('working_time');
         $total_working_time = 0;
         foreach($times as $t){
@@ -105,7 +107,7 @@ class TicketController extends Controller
             }
         }
         $total_working_time = floor($total_working_time/60).':'.sprintf('%02d', $total_working_time%60);
-        return view('tickets.ticketShow', compact('ticket', 'total_working_time'));
+        return view('tickets.ticketShow', compact('ticket', 'total_working_time', 'company_slug'));
     }
 
     /**
@@ -127,12 +129,13 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $company_slug, $id)
     {
         $ticket = Ticket::find($id);
         $ticket->type = ($request->get('type'));
         $ticket->save();
-        return \Redirect::back()->with('success', 'The ticket type has been changed.');
+        flash()->success('The ticket type has been changed.');
+        return \Redirect::back();
     }
 
     /**
@@ -141,19 +144,19 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($company_slug, $id)
     {
-        //
-    }
-
-    public function success(){
-        return View('tickets.ticketSuccess');
-    }
-
-    public function archive($id){
         $ticket = Ticket::find($id);
+        $ticket->delete();
+        flash()->success('The ticket type has been deleted.');
+        return \Redirect::back();
+    }
+
+    public function archive($company_slug, $ticket_id){
+        $ticket = Ticket::find($ticket_id);
+        $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->archived = 1;
-        $order = Ticket::where('client_id', '=', \Auth::user()->id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
+        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
         if($order){
             $order = $order->order +1;
         }else{
@@ -165,10 +168,11 @@ class TicketController extends Controller
         return \Redirect::back();
     }
 
-    public function unarchive($id){
-        $ticket = Ticket::find($id);
+    public function unarchive($company_slug, $ticket_id){
+        $ticket = Ticket::find($ticket_id);
+        $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->archived = 0;
-        $order = Ticket::where('client_id', '=', \Auth::user()->id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
         if($order){
             $order = $order->order +1;
         }else{
@@ -208,8 +212,8 @@ class TicketController extends Controller
         \DB::update($query);
     }
 
-    public function addResponse($ticket_id, ResponseRequest $request){
-
+    public function addResponse($company_slug, $ticket_id, ResponseRequest $request)
+    {
         $response = new Response;
         $response->fill($request->all());
         $response->admin = \Auth::user()->admin;

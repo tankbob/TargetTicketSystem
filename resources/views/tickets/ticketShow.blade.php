@@ -57,7 +57,7 @@
             </div>
 
            	@if(\Auth::user()->admin)
-           		{!! Form::model($ticket, ['url' => '/tickets/'.$ticket->id, 'method' => 'PUT', 'files' => true]) !!}
+           		{!! Form::model($ticket, ['url' => '/'.$company_slug.'/tickets/'.$ticket->id, 'method' => 'PUT']) !!}
            	@endif
 
             <div class="form-group">
@@ -127,7 +127,7 @@
 
 
 
-            {!! Form::open(['url' => '/tickets/'.$ticket->id.'/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
+            {!! Form::open(['url' => '/'.$company_slug.'/tickets/'.$ticket->id.'/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
 
             	<div @if($errors->has('content')) has-error dark @endif>
 	           		@if($errors->has('content'))
