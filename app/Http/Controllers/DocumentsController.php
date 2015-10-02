@@ -3,6 +3,7 @@
 namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TargetInk\User;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
@@ -19,12 +20,13 @@ class DocumentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($type)
+    public function index($company_slug, $type)
     {
+        $client = User::where('company_slug', '=', $company_slug)->first();
         if($type == 'seo'){
-            $files = \Auth::user()->seoFiles;
+            $files = $client->seoFiles;
         }elseif($type == 'info'){
-            $files = \Auth::user()->infoFiles;
+            $files = $client->infoFiles;
         }else{
             abort(404);
         }
@@ -36,7 +38,7 @@ class DocumentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($company_slug, $type)
     {
         //
     }
@@ -47,7 +49,7 @@ class DocumentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($company_slug, $type, Request $request)
     {
         //
     }
@@ -58,7 +60,7 @@ class DocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($company_slug, $type, $id)
     {
         //
     }
@@ -69,7 +71,7 @@ class DocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($company_slug, $type, $id)
     {
         //
     }
@@ -81,7 +83,7 @@ class DocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($company_slug, $type, Request $request, $id)
     {
         //
     }
@@ -92,7 +94,7 @@ class DocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($company_slug, $type, $id)
     {
         //
     }

@@ -23,8 +23,24 @@ class ResponseRequest extends Request
      */
     public function rules()
     {
-        return [
+        $rules = [
             'content' => 'required'
         ];
+
+        for($i = 1; $i <= $this->get('attachment_count'); $i++){
+            $rules['attachment-'.$i] = 'mimes:pdf,doc,docx,doc,csv,jpeg,jpg,gif,png,txt';
+        }
+
+        return $rules;
+    }
+
+    public function messages(){
+        $messages = [];
+
+        for($i = 1; $i <= $this->get('attachment_count'); $i++){
+            $messages['attachment-'.$i.'.mimes'] = 'Please add attachment in the following file formats: pdf,docx,doc,csv,jpeg,gif,png,txt';
+        }
+
+        return $messages;
     }
 }

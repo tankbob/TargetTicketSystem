@@ -121,6 +121,15 @@
 				{!! Form::textarea('content', @$ticket->content, ['placeholder' => 'Your Text', 'id' => 'content']) !!}
 	        </div>
 
+	        <!-- Only Retrieve one file error if there is more than one-->
+	        @if(old('attachment_count'))
+	        	@for($i = 1; $i <= old('attachment_count'); $i ++)
+	        		@if($errors->has('attachment-'.$i))
+	        			<span class="alert-danger"> {{ $errors->first('attachment-'.$i) }} </span>
+	        			<?php $i = old('attachment_count'); ?>
+	        		@endif
+	        	@endfor
+			@endif
 
 	        <div id="attachmentDiv">
 		        <div>

@@ -33,7 +33,7 @@ Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
 Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
 Route::post('/{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
 
-Route::resource('/documents/{type}', 'DocumentsController');
+Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
 
 Route::post('/api/ticketsort', 'TicketController@setOrder');
 
