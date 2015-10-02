@@ -7,14 +7,10 @@ use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
+use TargetInk\Libraries\Slug;
 
-class AppController extends Controller
+class ClientsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +22,7 @@ class AppController extends Controller
         if(auth()->user()->admin){
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
-        return view('dashboard', compact('clients'));
+        return view('dashboard.clientList', compact('clients'));
     }
 
     /**
@@ -36,7 +32,7 @@ class AppController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.clientEdit');
     }
 
     /**
@@ -47,7 +43,12 @@ class AppController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = new User;
+        $client->fill($request->all());
+        $client->password = bcrypt($request->get('password'));
+        $client->company_slug = Slug::make($request->get('company'), 'users', 'company_slug');
+        $client->save();
+        return json_encode(['success' => 'The Client has been created.']);
     }
 
     /**
@@ -69,7 +70,8 @@ class AppController extends Controller
      */
     public function edit($id)
     {
-        //
+        $client = User::where('admin', 0)->find($id);
+        return view('dashboard.clientEdit', compact('client'));
     }
 
     /**
@@ -81,7 +83,10 @@ class AppController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $client = User::find($id);
+        $client->fill($request);
+        $client->save();
+        return 1;
     }
 
     /**
@@ -93,13 +98,5 @@ class AppController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function showMaintenance(){
-        $clients = null;
-        if(auth()->user()->admin){
-            $clients = User::where('admin', 0)->orderBy('company')->get();
-        }
-        return view('dashboard.tickets', compact('clients'));
     }
 }

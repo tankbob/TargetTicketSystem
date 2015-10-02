@@ -4,6 +4,48 @@
     Your Services
 @stop
 
+@section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.btn-maintenance-support').on('click', function(event){
+                event.preventDefault;
+                $( "#maintenance-support-div" ).load( "/dashboard/maintenance" );
+            });
+
+            $('.btn-clients').on('click', function(event){
+                event.preventDefault();
+                $( "#clients-div" ).load( "/clients" );
+            });
+
+
+            $('#clients-div').on('click', '.clientFormToggler', function(event){
+                event.preventDefault();
+                if($(this).attr('clientId') == 0){
+                    $("#clientFormDiv").load("/clients/create");
+                }else{
+                    $("#clientFormDiv").load("/clients/"+$(this).attr('clientId')+"/edit");
+                }
+            });
+
+            $('#clients-div').on('submit', '#clientForm', function(event){
+                event.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        var res = $.parseJSON(response);
+                        
+                    }
+                });
+
+                alert('done');
+            });
+        });
+    </script>
+@stop
+
 @section('content')
 <div class="page-heading text-center">
     <h1>Choose a Service</h1>
@@ -29,10 +71,16 @@
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
 
+                    <div id="maintenance-support-div"></div>
+
+
+
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
                         <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond</p>
                     </a>
+
+                    <div href="#" id="clients-div"></div>
 
                     <a href="#" class="btn-section-link btn-adverts">
                         <strong>Adverts</strong>

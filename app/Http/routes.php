@@ -28,6 +28,9 @@ Route::any('home', function () {
     return redirect('/');
 });
 
+Route::get('/dashboard/maintenance', 'AppController@showMaintenance');
+Route::resource('/clients', 'ClientsController');
+
 Route::resource('/{company_slug}/tickets', 'TicketController');
 Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
 Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
@@ -35,6 +38,8 @@ Route::post('/{company_slug}/tickets/{id}/addresponse', 'TicketController@addRes
 
 Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
 
+
 Route::post('/api/ticketsort', 'TicketController@setOrder');
+Route::post('/api/getclientinfo', 'UserController@getInfo');
 
 Route::resource('/responses', 'ResponseController');

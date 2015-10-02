@@ -8,13 +8,8 @@ use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
 
-class AppController extends Controller
+class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,11 +17,7 @@ class AppController extends Controller
      */
     public function index()
     {
-        $clients = null;
-        if(auth()->user()->admin){
-            $clients = User::where('admin', 0)->orderBy('company')->get();
-        }
-        return view('dashboard', compact('clients'));
+        //
     }
 
     /**
@@ -95,11 +86,9 @@ class AppController extends Controller
         //
     }
 
-    public function showMaintenance(){
-        $clients = null;
-        if(auth()->user()->admin){
-            $clients = User::where('admin', 0)->orderBy('company')->get();
-        }
-        return view('dashboard.tickets', compact('clients'));
+    public function getInfo(){
+        $client_id = \Request::get('client_id');
+        $client = User::where('admin', 0)->find($client_id)->toArray();
+        echo json_encode($client);
     }
 }
