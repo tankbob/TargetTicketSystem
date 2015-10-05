@@ -31,16 +31,20 @@
                 event.preventDefault();
 
                 $.ajax({
-                    type: "POST",
+                    type: $(this).attr('method'),
                     url: $(this).attr('action'),
                     data: $(this).serialize(),
                     success: function(response) {
                         var res = $.parseJSON(response);
-                        
+                        $("#clientFormDiv").html('<div class="alert-success">'+res.success+'</div>');
+                        if(res.method == 'create'){
+                            $('#client-table tbody').append('<tr><td><a href="#" class="clientFormToggler" clientId="'+res.id+'">GOTOICON</a></td><td>'+res.email+'</td><td>'+res.name+'</td><td></td><td>DELETE ICON</td></tr>');
+                        }else{
+                            $("#client-name-"+res.id).html(res.name);
+                            $("#client-email-"+res.id).html(res.email);
+                        }
                     }
                 });
-
-                alert('done');
             });
         });
     </script>

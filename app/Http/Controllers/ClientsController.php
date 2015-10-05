@@ -44,11 +44,17 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $client = new User;
-        $client->fill($request->all());
+        $client->fill($request->except(['password']));
         $client->password = bcrypt($request->get('password'));
         $client->company_slug = Slug::make($request->get('company'), 'users', 'company_slug');
         $client->save();
-        return json_encode(['success' => 'The Client has been created.']);
+        return json_encode([
+            'success'   =>  'The Client has been created.',
+            'method'    =>  'create',
+            'id'        =>  $client->id,
+            'email'     =>  $client->email,
+            'name'      =>  $client->name
+        ]);
     }
 
     /**
@@ -84,9 +90,18 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $client = User::find($id);
-        $client->fill($request);
+        $client->fill($request->except(['password']));
+        if($request->has('password')){
+           $client->password = bcrypt($request->get('password'));
+        }
         $client->save();
-        return 1;
+        return json_encode([
+            'success'   =>  'The Client has been updated.',
+            'method'    =>  'update',
+            'id'        =>  $client->id,
+            'email'     =>  $client->email,
+            'name'      =>  $client->name
+        ]);
     }
 
     /**
