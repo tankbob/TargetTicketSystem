@@ -38,13 +38,28 @@
                         var res = $.parseJSON(response);
                         $("#clientFormDiv").html('<div class="alert-success">'+res.success+'</div>');
                         if(res.method == 'create'){
-                            $('#client-table tbody').append('<tr><td><a href="#" class="clientFormToggler" clientId="'+res.id+'">GOTOICON</a></td><td>'+res.email+'</td><td>'+res.name+'</td><td></td><td>DELETE ICON</td></tr>');
+                            $('#client-table tbody').append('<tr id="client-row-'+res.id+'"><td><a href="#" class="clientFormToggler" clientId="'+res.id+'">GOTOICON</a></td><td>'+res.email+'</td><td>'+res.name+'</td><td></td><td><a href="#" class="clientDelete" clientId="'+res.id+'">DELETE ICON</a></td></tr>');
                         }else{
                             $("#client-name-"+res.id).html(res.name);
                             $("#client-email-"+res.id).html(res.email);
                         }
                     }
                 });
+            });
+
+            $('#clients-div').on('click', '.clientDelete', function(event){
+                event.preventDefault();
+                if(window.confirm("Are you sure you want to delete this user permanently?")){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/clients/'+$(this).attr('clientId'),
+                        success: function(response) {
+                            var res = $.parseJSON(response);
+                            $("#client-row-"+res.id).remove();
+                            $("#clientFormDiv").html('<div class="alert-success">'+res.success+'</div>');
+                        }
+                    });
+                }
             });
         });
     </script>

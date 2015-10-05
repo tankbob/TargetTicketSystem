@@ -41,5 +41,3 @@ Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
 
 Route::post('/api/ticketsort', 'TicketController@setOrder');
 Route::post('/api/getclientinfo', 'UserController@getInfo');
-
-Route::resource('/responses', 'ResponseController');

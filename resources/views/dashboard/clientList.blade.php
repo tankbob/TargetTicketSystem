@@ -10,12 +10,12 @@ Choose a client <a href="#" class="clientFormToggler" clientId="0">NEW CLIENT IC
     </thead>
     <tbody>
         @foreach($clients as $client)
-            <tr>
+            <tr id="client-row-{{$client->id}}">
                 <td><a href="#" class="clientFormToggler" clientId="{{$client->id}}">GOTOICON</a></td>
                 <td id="client-email-{{$client->id}}">{{$client->email}}</td>
                 <td id="client-name-{{$client->id}}">{{$client->name}}</td>
                 <td></td>
-                <td>DELETE ICON</td>
+                <td><a href="#" class="clientDelete" clientId="{{$client->id}}">DELETE ICON</a></td>
             </tr>
         @endforeach
     </tbody>

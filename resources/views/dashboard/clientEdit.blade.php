@@ -1,7 +1,7 @@
 @if(isset($client))
 	{!! Form::model($client, ['url' => '/clients/'.$client->id, 'method' => 'PUT', 'id' => 'clientForm']) !!}
 @else
-	{!! Form::open(['url' => '/clients', 'method' => 'POST', 'files' => true, 'id' => 'clientForm']) !!}
+	{!! Form::open(['url' => '/clients', 'method' => 'POST', 'id' => 'clientForm']) !!}
 @endif
 
 

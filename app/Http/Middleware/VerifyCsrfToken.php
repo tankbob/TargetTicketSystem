@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'api/ticketsort',
-        'api/getclientinfo'
+        'api/getclientinfo',
+        'clients/*'
     ];
 }
