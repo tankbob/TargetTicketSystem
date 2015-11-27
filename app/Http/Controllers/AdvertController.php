@@ -7,13 +7,16 @@ use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
+use TargetInk\Advert;
 
-class AppController extends Controller
+class AdvertController extends Controller
 {
+    //should be admin
     public function __construct()
     {
         $this->middleware('auth');
     }
+
 
     /**
      * Display a listing of the resource.
@@ -24,9 +27,9 @@ class AppController extends Controller
     {
         $clients = null;
         if(auth()->user()->admin){
-            $clients = User::where('admin', 0)->orderBy('company')->get();
+            $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
         }
-        return view('dashboard', compact('clients'));
+        return View('dashboard.advertList', compact('clients'));
     }
 
     /**
@@ -36,7 +39,7 @@ class AppController extends Controller
      */
     public function create()
     {
-        return view('dashboard.advertEdit');
+        return View('dashboard.advertEdit');
     }
 
     /**
@@ -47,7 +50,26 @@ class AppController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $advert = new Advert;
+        $advert->fill($request->all());
+        if(\Request::hasFile('image') && \Request::file('image')->isValid()){
+            $file = \Request::file('image');
+            $image = \Image::make($file);
+            $image->resize(null, 400, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $destinationPath = public_path().'/files/banners';
+            $counter = 1;
+            $filename = $file->getClientOriginalName();
+            while(file_exists($destinationPath.'/'.$filename)){
+                $filename = $counter.'-'.$file->getClientOriginalName();
+                $counter++;
+            }
+            $image->save($destinationPath.'/'.$filename);
+            $advert->image = $filename;
+        }
+        $advert->save();
+        return \Redirect::to('/?advert='.$request->get('client_id').'#advertDiv');
     }
 
     /**
@@ -58,7 +80,11 @@ class AppController extends Controller
      */
     public function show($id)
     {
-        //
+        $client = null;
+        if(auth()->user()->admin && $id){
+            $client = User::with('adverts')->find($id);
+        }
+        return View('dashboard.advertShow', compact('client'));
     }
 
     /**
@@ -92,14 +118,12 @@ class AppController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    public function showMaintenance(){
-        $clients = null;
-        if(auth()->user()->admin){
-            $clients = User::where('admin', 0)->orderBy('company')->get();
-        }
-        return view('dashboard.tickets', compact('clients'));
+        $advert = Advert::find($id);
+        $advert->delete();
+        return json_encode([
+            'success'   =>  'The Advert has been deleted.',
+            'method'    =>  'delete',
+            'id'        =>  $advert->id
+        ]);
     }
 }

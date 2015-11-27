@@ -3,7 +3,7 @@
 	<div class="col-sm-10">
 
 	@if($type == 'text')
-	{!! Form::$type($name, $default, ['class' => 'form-control', 'id' => $name]) !!}
+	{!! Form::$type($name, $default, ['class' => 'form-control', 'id' => $name, 'placeholder' => $placeholder]) !!}
 	@endif
 
 	@if($type == 'number')

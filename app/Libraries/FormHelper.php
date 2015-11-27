@@ -1,8 +1,8 @@
 <?php
 
 class FormHelper {
-	static function bs($type = 'text', $name = '', $text = '', $default = null, $data = null) {
-		return View::make('includes.bsblock')->with(['type' => $type, 'name' => $name, 'text' => $text, 'data' => $data, 'default' => $default]);
+	static function bs($type = 'text', $name = '', $text = '', $default = null, $data = null, $placeholder = null) {
+		return View::make('includes.bsblock')->with(['type' => $type, 'name' => $name, 'text' => $text, 'data' => $data, 'default' => $default, 'placeholder' => $placeholder]);
 	}
 
 	static function dataGet($dataList = null, $formList = false)

@@ -30,6 +30,7 @@ Route::any('home', function () {
 
 Route::get('/dashboard/maintenance', 'AppController@showMaintenance');
 Route::resource('/clients', 'ClientsController');
+Route::resource('/banners', 'AdvertController');
 
 Route::resource('/{company_slug}/tickets', 'TicketController');
 Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');

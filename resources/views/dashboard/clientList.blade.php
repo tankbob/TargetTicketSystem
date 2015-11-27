@@ -1,4 +1,8 @@
-Choose a client <a href="#" class="clientFormToggler" clientId="0">NEW CLIENT ICON</a>
+<div class="col-sm-12">
+    <div class="col-sm-6">
+        Choose a client <a href="#" class="clientFormToggler" clientId="0">NEW CLIENT ICON</a>
+    </div>
+</div>
 
 <table class="table table-stripped" id="client-table">
     <thead>

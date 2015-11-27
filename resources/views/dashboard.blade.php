@@ -5,8 +5,19 @@
 @stop
 
 @section('scripts')
+    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <link rel="stylesheet" href="http://jqueryvalidation.org/files/demo/site-demos.css">
+
     <script type="text/javascript">
         $(document).ready(function(){
+            // Set up the csrf token for all ajax requests
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            }); 
+
             $('.btn-maintenance-support').on('click', function(event){
                 event.preventDefault;
                 $( "#maintenance-support-div" ).load( "/dashboard/maintenance" );
@@ -17,6 +28,10 @@
                 $( "#clients-div" ).load( "/clients" );
             });
 
+            $('.btn-banners').on('click', function(event){
+                event.preventDefault();
+                $("#banners-div").load("/banners");
+            });
 
             $('#clients-div').on('click', '.clientFormToggler', function(event){
                 event.preventDefault();
@@ -25,6 +40,36 @@
                 }else{
                     $("#clientFormDiv").load("/clients/"+$(this).attr('clientId')+"/edit");
                 }
+            });
+
+            $("#banners-div").on('change', '#banner-customer-select', function(event){
+                event.preventDefault();
+                if($(this).val() != ''){
+                    $("#banner-table-div").load("/banners/"+$(this).val());
+                }else{
+                    $("#banner-table-div").html('');
+                }
+            });
+
+            $('#banners-div').on('click', '.bannerDelete', function(event){
+                event.preventDefault();
+                if(window.confirm("Are you sure you want to delete this advert permanently?")){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/banners/'+$(this).attr('bannerId'),
+                        success: function(response) {
+                            var res = $.parseJSON(response);
+                            $("#banner-row-"+res.id).remove();
+                            $("#bannerFormDiv").html('<div class="alert-success">'+res.success+'</div>');
+                        }
+                    });
+                }
+            });
+
+             $('#banners-div').on('click', '.bannerFormToggler', function(event){
+                event.preventDefault();
+                $("#bannerFormDiv").load("/banners/create");
+                //Validation     
             });
 
             $('#clients-div').on('submit', '#clientForm', function(event){
@@ -61,12 +106,40 @@
                     });
                 }
             });
+
+            //Validate
+            jQuery.validator.setDefaults({
+            });
+
+            $('#newBannerForm').validate({
+                rules:{
+                    client_id: {
+                        required: true
+                    }, image:{
+                        required: true
+                    }, url: {
+                        required: true,
+                        url: true
+                    }, name: {
+                        required: true
+                    },
+                }, messages:{
+                    category_id: "Please choose an option",
+                }
+            });
+
+            @if(Request::get('advert'))
+                $("#banners-div").load("/banners");
+                $("#banner-table-div").load("/banners/"+{{Request::get('advert')}});
+                $("#bannerFormDiv").html("<div class='alert alert-success'>The Advert has been uploaded successfully</div>");
+            @endif
         });
     </script>
 @stop
 
 @section('content')
 <div class="page-heading text-center">
+
     <h1>Choose a Service</h1>
     
     @if(auth()->user()->admin)
@@ -101,10 +174,15 @@
 
                     <div href="#" id="clients-div"></div>
 
-                    <a href="#" class="btn-section-link btn-adverts">
+                    <a href="#" class="btn-section-link btn-banners" id="advertDiv">
                         <strong>Adverts</strong>
                         <p>Click here to manage adverts displayed to clients</p>
                     </a>
+                    {!! Form::open(['url' => '/banners', 'method' => 'POST', 'id' => 'newBannerForm', 'files' => true]) !!}
+                        <div id="banners-div"></div>
+                        <div id="banner-table-div"></div>
+                        <div id="bannerFormDiv"></div>
+                    {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-services">
                         <strong>Services</strong>
@@ -140,7 +218,7 @@
         </div>
         @if(!auth()->user()->admin)
         <div class="col-sm-3 hidden-xs text-center">
-            @include('includes.adverts')
+            @include('includes.banners')
         </div>
         @endif
     </div>

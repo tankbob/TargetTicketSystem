@@ -63,4 +63,8 @@ class User extends Model implements AuthenticatableContract,
     public function infoFiles(){
         return $this->files()->Information()->orderBy('created_at', 'desc');
     }
+
+    public function adverts(){
+        return $this->hasMany('TargetInk\Advert', 'client_id');
+    }
 }
