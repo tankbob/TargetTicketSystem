@@ -3,33 +3,27 @@
 namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
-use TargetInk\Advert;
+use TargetInk\File;
 
-class AdvertController extends Controller
+class AdminDocumentsController extends Controller
 {
-    //should be admin
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type)
     {
         $clients = null;
         if(auth()->user()->admin){
             $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
         }
-        return View('dashboard.adverts.advertList', compact('clients'));
+        return View('dashboard.documents.documentList', compact('clients', 'type'));
     }
 
     /**
@@ -37,9 +31,9 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        return View('dashboard.adverts.advertEdit');
+        return View('dashboard.documents.documentEdit', compact('type'));
     }
 
     /**
@@ -48,28 +42,30 @@ class AdvertController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($type, Request $request)
     {
-        $advert = new Advert;
-        $advert->fill($request->all());
-        if(\Request::hasFile('image') && \Request::file('image')->isValid()){
-            $file = \Request::file('image');
-            $image = \Image::make($file);
-            $image->resize(null, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $destinationPath = public_path().'/files/banners';
+        $file = new File;
+        $file->fill($request->all());
+        if($type == 'seo'){
+            $file->type = 0;
+        }else{
+            $file->type = 1;
+        }
+        if(\Request::hasFile('file') && \Request::file('file')->isValid()){
+            $tempfile = \Request::file('file');        
+            $destinationPath = public_path().'/files/documents';
+
             $counter = 1;
-            $filename = $file->getClientOriginalName();
+            $filename = $tempfile->getClientOriginalName();
             while(file_exists($destinationPath.'/'.$filename)){
-                $filename = $counter.'-'.$file->getClientOriginalName();
+                $filename = $counter.'-'.$tempfile->getClientOriginalName();
                 $counter++;
             }
-            $image->save($destinationPath.'/'.$filename);
-            $advert->image = $filename;
+            $tempfile->move($destinationPath, $filename);
+            $file->filepath = $filename;
         }
-        $advert->save();
-        return \Redirect::to('/?advert='.$request->get('client_id').'#advertDiv');
+        $file->save();
+        return \Redirect::to('/?'.$type.'='.$request->get('client_id').'#'.$type.'-div');
     }
 
     /**
@@ -78,13 +74,13 @@ class AdvertController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($type, $id)
     {
         $client = null;
         if(auth()->user()->admin && $id){
-            $client = User::with('adverts')->find($id);
+            $client = User::find($id);
         }
-        return View('dashboard.adverts.advertShow', compact('client'));
+        return View('dashboard.documents.documentShow', compact('client', 'type'));
     }
 
     /**
@@ -118,12 +114,6 @@ class AdvertController extends Controller
      */
     public function destroy($id)
     {
-        $advert = Advert::find($id);
-        $advert->delete();
-        return json_encode([
-            'success'   =>  'The Advert has been deleted.',
-            'method'    =>  'delete',
-            'id'        =>  $advert->id
-        ]);
+        //
     }
 }

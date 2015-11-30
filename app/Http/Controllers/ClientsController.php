@@ -22,7 +22,7 @@ class ClientsController extends Controller
         if(auth()->user()->admin){
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
-        return view('dashboard.clientList', compact('clients'));
+        return view('dashboard.clients.clientList', compact('clients'));
     }
 
     /**
@@ -32,7 +32,7 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        return view('dashboard.clientEdit');
+        return view('dashboard.clients.clientEdit');
     }
 
     /**
@@ -77,7 +77,7 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = User::where('admin', 0)->find($id);
-        return view('dashboard.clientEdit', compact('client'));
+        return view('dashboard.clients.clientEdit', compact('client'));
     }
 
     /**

@@ -100,6 +100,6 @@ class AppController extends Controller
         if(auth()->user()->admin){
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
-        return view('dashboard.tickets', compact('clients'));
+        return view('dashboard.tickets.tickets', compact('clients'));
     }
 }

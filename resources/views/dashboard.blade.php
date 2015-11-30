@@ -60,7 +60,7 @@
                         success: function(response) {
                             var res = $.parseJSON(response);
                             $("#banner-row-"+res.id).remove();
-                            $("#bannerFormDiv").html('<div class="alert-success">'+res.success+'</div>');
+                            $("#banner-form-div").html('<div class="alert-success">'+res.success+'</div>');
                         }
                     });
                 }
@@ -68,7 +68,7 @@
 
              $('#banners-div').on('click', '.bannerFormToggler', function(event){
                 event.preventDefault();
-                $("#bannerFormDiv").load("/banners/create");
+                $("#banner-form-div").load("/banners/create");
                 //Validation     
             });
 
@@ -107,6 +107,44 @@
                 }
             });
 
+            $('.btn-seo-reports').on('click', function(event){
+                event.preventDefault();
+                $('#seo-div').load("/documents/seo");
+            });
+
+            $('#seo-div').on('change', '#seo-customer-select', function(event){
+                event.preventDefault();
+                if($(this).val() != ''){
+                    $("#seo-table-div").load("/documents/seo/"+$(this).val());
+                }else{
+                    $("#seo-table-div").html('');
+                }
+            });
+
+            $('#seo-div').on('click', '.seo-form-toggler',  function(event){
+                event.preventDefault();
+                $('#seo-form-div').load("/documents/seo/create");
+            });
+
+            $('.btn-information-documents').on('click', function(event){
+                event.preventDefault();
+                $('#info-div').load("/documents/info");
+            });
+
+            $('#info-div').on('change', '#info-customer-select', function(event){
+                event.preventDefault();
+                if($(this).val() != ''){
+                    $("#info-table-div").load("/documents/info/"+$(this).val());
+                }else{
+                    $("#info-table-div").html('');
+                }
+            });
+
+            $('#info-div').on('click', '.info-form-toggler',  function(event){
+                event.preventDefault();
+                $('#info-form-div').load("/documents/info/create");
+            });
+
             //Validate
             jQuery.validator.setDefaults({
             });
@@ -128,10 +166,42 @@
                 }
             });
 
+            $('#new-seo-form').validate({
+                rules:{
+                    client_id: {
+                        required: true
+                    }, filename: {
+                        required: true
+                    }, file: {
+                        required: true
+                    }
+                },
+            });
+
+            $('#new-info-form').validate({
+                rules:{
+                    client_id: {
+                        required: true
+                    }, filename: {
+                        required: true
+                    }, file: {
+                        required: true
+                    }
+                },
+            });
+
             @if(Request::get('advert'))
                 $("#banners-div").load("/banners");
                 $("#banner-table-div").load("/banners/"+{{Request::get('advert')}});
-                $("#bannerFormDiv").html("<div class='alert alert-success'>The Advert has been uploaded successfully</div>");
+                $("#banner-form-div").html("<div class='alert alert-success'>The Advert has been uploaded successfully</div>");
+            @elseif(Request::get('seo'))
+                $("#seo-div").load("/documents/seo");
+                $("#seo-table-div").load("/documents/seo/"+{{Request::get('seo')}});
+                $("#seo-form-div").html("<div class='alert alert-success'>The SEO Document has been uploaded successfully</div>");
+            @elseif(Request::get('info'))
+                $("#info-div").load("/documents/info");
+                $("#info-table-div").load("/documents/info/"+{{Request::get('info')}});
+                $("#info-form-div").html("<div class='alert alert-success'>The info Document has been uploaded successfully</div>");
             @endif
         });
     </script>
@@ -172,7 +242,7 @@
                         <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond</p>
                     </a>
 
-                    <div href="#" id="clients-div"></div>
+                    <div id="clients-div"></div>
 
                     <a href="#" class="btn-section-link btn-banners" id="advertDiv">
                         <strong>Adverts</strong>
@@ -181,7 +251,7 @@
                     {!! Form::open(['url' => '/banners', 'method' => 'POST', 'id' => 'newBannerForm', 'files' => true]) !!}
                         <div id="banners-div"></div>
                         <div id="banner-table-div"></div>
-                        <div id="bannerFormDiv"></div>
+                        <div id="banner-form-div"></div>
                     {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-services">
@@ -193,11 +263,21 @@
                         <strong>Upload SEO Reports</strong>
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
+                    {!! Form::open(['url' => '/documents/seo', 'method' => 'POST', 'id' => 'new-seo-form', 'files' => true]) !!}
+                        <div id="seo-div"></div>
+                        <div id="seo-table-div"></div>
+                        <div id="seo-form-div"></div>
+                    {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-information-documents">
                         <strong>Upload Information Documents</strong>
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
+                    {!! Form::open(['url' => '/documents/info', 'method' => 'POST', 'id' => 'new-info-form', 'files' => true]) !!}
+                        <div id="info-div"></div>
+                        <div id="info-table-div"></div>
+                        <div id="info-form-div"></div>
+                    {!! Form::close() !!}
                 @else
                     <a href="{{ url(auth()->user()->company_slug.'/tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>

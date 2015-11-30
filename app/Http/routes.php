@@ -32,13 +32,17 @@ Route::get('/dashboard/maintenance', 'AppController@showMaintenance');
 Route::resource('/clients', 'ClientsController');
 Route::resource('/banners', 'AdvertController');
 
+Route::get('/documents/{type}', 'AdminDocumentsController@index');
+Route::get('/documents/{type}/create', 'AdminDocumentsController@create');
+Route::post('/documents/{type}', 'AdminDocumentsController@store');
+Route::get('/documents/{type}/{id}', 'AdminDocumentsController@show');
+
 Route::resource('/{company_slug}/tickets', 'TicketController');
 Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
 Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
 Route::post('/{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
 
 Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
-
 
 Route::post('/api/ticketsort', 'TicketController@setOrder');
 Route::post('/api/getclientinfo', 'UserController@getInfo');
