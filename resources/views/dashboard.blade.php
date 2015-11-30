@@ -126,6 +126,37 @@
                 $('#seo-form-div').load("/documents/seo/create");
             });
 
+             $('#seo-table-div').on('click', '.seoDelete', function(event){
+                event.preventDefault();
+                if(window.confirm("Are you sure you want to delete this document permanently?")){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/documents/seo/'+$(this).attr('fileId'),
+                        success: function(response) {
+                            var res = $.parseJSON(response);
+                            $("#seo-row-"+res.id).remove();
+                            $("#seo-form-div").html('<div class="alert-success">'+res.success+'</div>');
+                        }
+                    });
+                }
+            });
+
+
+             $('#info-table-div').on('click', '.infoDelete', function(event){
+                event.preventDefault();
+                if(window.confirm("Are you sure you want to delete this document permanently?")){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/documents/info/'+$(this).attr('fileId'),
+                        success: function(response) {
+                            var res = $.parseJSON(response);
+                            $("#info-row-"+res.id).remove();
+                            $("#info-form-div").html('<div class="alert-success">'+res.success+'</div>');
+                        }
+                    });
+                }
+            });
+
             $('.btn-information-documents').on('click', function(event){
                 event.preventDefault();
                 $('#info-div').load("/documents/info");

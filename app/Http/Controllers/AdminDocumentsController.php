@@ -112,8 +112,14 @@ class AdminDocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($type, $id)
     {
-        //
+        $file = File::find($id);
+        $file->delete();
+        return json_encode([
+            'success'   =>  'The '.$type.' document has been deleted.',
+            'method'    =>  'delete',
+            'id'        =>  $id
+        ]);
     }
 }

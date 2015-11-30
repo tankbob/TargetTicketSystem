@@ -36,6 +36,7 @@ Route::get('/documents/{type}', 'AdminDocumentsController@index');
 Route::get('/documents/{type}/create', 'AdminDocumentsController@create');
 Route::post('/documents/{type}', 'AdminDocumentsController@store');
 Route::get('/documents/{type}/{id}', 'AdminDocumentsController@show');
+Route::delete('/documents/{type}/{id}', 'AdminDocumentsController@destroy');
 
 Route::resource('/{company_slug}/tickets', 'TicketController');
 Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
