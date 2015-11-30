@@ -52,6 +52,10 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany('TargetInk\File', 'client_id');
     }
 
+    public function services(){
+        return $this->hasMany('TargetInk\Service', 'client_id');
+    }
+
     public function tickets(){
         return $this->hasMany('TargetInk\Ticket', 'client_id');
     }

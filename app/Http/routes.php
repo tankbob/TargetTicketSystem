@@ -31,6 +31,7 @@ Route::any('home', function () {
 Route::get('/dashboard/maintenance', 'AppController@showMaintenance');
 Route::resource('/clients', 'ClientsController');
 Route::resource('/banners', 'AdvertController');
+Route::resource('/services', 'ServicesController');
 
 Route::get('/documents/{type}', 'AdminDocumentsController@index');
 Route::get('/documents/{type}/create', 'AdminDocumentsController@create');

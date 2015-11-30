@@ -33,6 +33,11 @@
                 $("#banners-div").load("/banners");
             });
 
+            $('.btn-services').on('click', function(event){
+                event.preventDefault();
+                $("#services-div").load("/services");
+            });
+
             $('#clients-div').on('click', '.clientFormToggler', function(event){
                 event.preventDefault();
                 if($(this).attr('clientId') == 0){
@@ -106,6 +111,44 @@
                     });
                 }
             });
+
+
+            $('.btn-services').on('click', function(event){
+                event.preventDefault();
+                $("#services-div").load("/services");
+            });
+
+            $("#services-div").on('change', '#service-customer-select', function(event){
+                event.preventDefault();
+                if($(this).val() != ''){
+                    $("#services-table-div").load("/services/"+$(this).val());
+                }else{
+                    $("#services-table-div").html('');
+                }
+            });
+
+            $('#services-div').on('click', '.services-form-toggler',  function(event){
+                event.preventDefault();
+                $('#services-form-div').load("/services/create");
+            });
+
+            $('#services-table-div').on('click', '.serviceDelete', function(event){
+                event.preventDefault();
+                if(window.confirm("Are you sure you want to delete this document permanently?")){
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/services/'+$(this).attr('serviceId'),
+                        success: function(response) {
+                            var res = $.parseJSON(response);
+                            $("#service-row-"+res.id).remove();
+                            $("#services-form-div").html('<div class="alert-success">'+res.success+'</div>');
+                        }
+                    });
+                }
+            });
+
+
+
 
             $('.btn-seo-reports').on('click', function(event){
                 event.preventDefault();
@@ -221,6 +264,25 @@
                 },
             });
 
+            $('#new-services-form').validate({
+                rules:{
+                    client_id: {
+                        required: true
+                    }, icon: {
+                        required: true
+                    }, icon_rollover: {
+                        required: true
+                    }, heading: {
+                        required: true
+                    }, link: {
+                        required: true,
+                        url: true
+                    }, text: {
+                        required: true
+                    }
+                },
+            });
+
             @if(Request::get('advert'))
                 $("#banners-div").load("/banners");
                 $("#banner-table-div").load("/banners/"+{{Request::get('advert')}});
@@ -233,6 +295,10 @@
                 $("#info-div").load("/documents/info");
                 $("#info-table-div").load("/documents/info/"+{{Request::get('info')}});
                 $("#info-form-div").html("<div class='alert alert-success'>The info Document has been uploaded successfully</div>");
+            @elseif(Request::get('service'))
+                $("#services-div").load("/services");
+                $("#services-table-div").load("/services/"+{{Request::get('service')}});
+                $("#services-form-div").html("<div class='alert alert-success'>The service has been added successfully</div>");
             @endif
         });
     </script>
@@ -289,6 +355,11 @@
                         <strong>Services</strong>
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
                     </a>
+                    {!! Form::open(['url' => '/services', 'method' => 'POST', 'id' => 'new-services-form', 'files' => true]) !!}
+                        <div id="services-div"></div>
+                        <div id="services-table-div"></div>
+                        <div id="services-form-div"></div>
+                    {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-seo-reports">
                         <strong>Upload SEO Reports</strong>
