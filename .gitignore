@@ -1,9 +1,4 @@
-/public/js/all.js
-/public/js/all.js.map
-/public/css/all.css
-/public/css/all.css.map
-/public/build
-/public/files/tickets/
+/public
 /vendor
 /node_modules
 Homestead.yaml
