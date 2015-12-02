@@ -148,6 +148,7 @@ return [
         Illuminate\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
+        rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
     ],
 
     /*

@@ -10,7 +10,8 @@
         "illuminate/html": "5.*",
         "intervention/image": "2.3.2",
         "laracasts/flash": "~1.3",
-        "doctrine/dbal": "*"
+        "doctrine/dbal": "*",
+        "rigor789/airbrake-laravel": "^1.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
