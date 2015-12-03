@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>@section('title') @if(isset($title)) {{ $title }} @else Target Ink @endif @show</title>
+        <title>@yield('title') @if(isset($title)) {{ $title }} @else Target Ink @endif @show</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Montserrat" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
@@ -58,9 +58,11 @@
             left: -5px;
             border-right: none;
         }
+
 </style>
 
         
+        @yield('styles')
     </head>
     <body>
         <div class="nav-container">

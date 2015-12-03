@@ -395,6 +395,15 @@
                         <strong>Information Documents</strong>
                         <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
                     </a>
+
+                    @if(count(Auth::user()->Services))
+                        @foreach(Auth::user()->Services as $service)
+                             <a href="{{ $service->link }}" target="#blank" class="btn-section-link btn-section-{{$service->id}}">
+                                <strong>{{$service->heading}}</strong>
+                                <p>{!!nl2br($service->text)!!}</p>
+                            </a>
+                        @endforeach
+                    @endif
                 @endif
             </div>
         </div>
@@ -406,3 +415,20 @@
     </div>
 </div>
 @endsection
+
+@section('styles')
+    @if(count(Auth::user()->Services))
+        <style type="text/css">
+            @foreach(Auth::user()->Services as $service)
+                .btn-section-{{$service->id}} {
+                    background-image: url('/files/services/{{$service->icon}}') !important; 
+                    background-position-y: top; 
+                    background-repeat: no-repeat;
+                }
+                .btn-section-{{$service->id}}:hover {
+                    background-image: url('/files/services/{{$service->icon_rollover}}') !important; 
+                }
+            @endforeach
+        </style>
+    @endif
+@stop
