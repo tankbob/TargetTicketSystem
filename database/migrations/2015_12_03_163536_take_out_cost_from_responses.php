@@ -13,7 +13,7 @@ class TakeOutCostFromResponses extends Migration
     public function up()
     {
         Schema::table('responses', function (Blueprint $table) {
-            //
+            $table->dropColumn('cost');
         });
     }
 
@@ -25,7 +25,7 @@ class TakeOutCostFromResponses extends Migration
     public function down()
     {
         Schema::table('responses', function (Blueprint $table) {
-            //
+            $table->string('cost');
         });
     }
 }
