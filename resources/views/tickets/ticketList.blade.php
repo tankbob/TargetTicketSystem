@@ -95,7 +95,7 @@
 	            					Ask Question
 	            				@endif
 	            			</td>
-	            			<td>{{$ticket->cost}}</td>
+	            			<td>@if($ticket->cost) &pound;{{$ticket->cost}} @else N/A @endif</td>
 	            			<td>@if(@$ticket->responses->last()->admin) ICON @endif</td></td>
 	            			@if($archived)
 	            				<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive">UNARCHIVE ICON</a></td>

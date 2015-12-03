@@ -79,6 +79,22 @@
             </div>
            
             @if(\Auth::user()->admin)
+          		<div class="form-group">
+	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
+	           		<div class="col-xs-8">
+	           			{!! Form::text('cost', $ticket->cost, ['class' => 'form-control']) !!}
+	           		</div>
+	            </div>
+           	@elseif($ticket->cost)
+           		<div class="form-group">
+	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
+	           		<div class="col-xs-8">
+	           			{!! Form::text('cost', $ticket->cost, ['class' => 'form-control', 'disabled']) !!}
+	           		</div>
+	            </div>
+           	@endif
+
+            @if(\Auth::user()->admin)
             	{!! Form::submit() !!}
             	{!! Form::close() !!}
             @endif

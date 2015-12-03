@@ -136,6 +136,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
         $ticket->type = ($request->get('type'));
+        $ticket->cost = ($request->get('cost'));
         $ticket->save();
         flash()->success('The ticket has been changed.');
         return \Redirect::back();

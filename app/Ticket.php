@@ -17,7 +17,8 @@ class Ticket extends Model
         'type',
         'archived',
         'order',
-        'priority'
+        'priority',
+        'cost'
     ];
 
     public function Client(){
