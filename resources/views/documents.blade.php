@@ -19,7 +19,7 @@
            
             @foreach($files as $file)
             	<div>
-            		<a href="/{{$file->filepath}}">ICON</a> {{$file->filename}} {{date('d/m/y', strtotime($file->created_at))}}
+            		<a href="/files/documents/{{$file->filepath}}">ICON</a> {{$file->filename}} {{date('d/m/y', strtotime($file->created_at))}}
             	</div>
             @endforeach
 

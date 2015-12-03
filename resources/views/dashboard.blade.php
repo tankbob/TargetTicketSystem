@@ -150,7 +150,7 @@
 
 
 
-            $('.btn-seo-reports').on('click', function(event){
+            $('.btn-seo-reports-admin').on('click', function(event){
                 event.preventDefault();
                 $('#seo-div').load("/documents/seo");
             });
@@ -200,7 +200,7 @@
                 }
             });
 
-            $('.btn-information-documents').on('click', function(event){
+            $('.btn-information-documents-admin').on('click', function(event){
                 event.preventDefault();
                 $('#info-div').load("/documents/info");
             });
@@ -361,7 +361,7 @@
                         <div id="services-form-div"></div>
                     {!! Form::close() !!}
 
-                    <a href="#" class="btn-section-link btn-seo-reports">
+                    <a href="#" class="btn-section-link btn-seo-reports-admin">
                         <strong>Upload SEO Reports</strong>
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
@@ -371,7 +371,7 @@
                         <div id="seo-form-div"></div>
                     {!! Form::close() !!}
 
-                    <a href="#" class="btn-section-link btn-information-documents">
+                    <a href="#" class="btn-section-link btn-information-documents-admin">
                         <strong>Upload Information Documents</strong>
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
