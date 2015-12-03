@@ -72,6 +72,7 @@
 		            	<th>Cost</th>
 		            	<th>Response</th>
 		            	<th>Archive</th>
+		       			<th>Time</th>
 		            	@if(\Auth::user()->admin)
 		            		<th></th>
 		            	@endif
@@ -102,6 +103,7 @@
 	            			@else
 	            				<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive">ARCHIVE ICON</a></td>
 	            			@endif
+		       				<th>{{$ticket->totalTime()}}</th>
 	            			@if(\Auth::user()->admin)
 			            		<td>
 			            			{!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}

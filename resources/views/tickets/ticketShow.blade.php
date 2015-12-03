@@ -74,7 +74,7 @@
             <div class="form-group">
            		{!! Form::label('total_working_time', 'Time', ['class' => 'col-xs-4 form-label']) !!}
            		<div class="col-xs-8">
-           			{!! Form::text('total_working_time', $total_working_time, ['class' => 'form-control', 'disabled']) !!}
+           			{!! Form::text('total_working_time', $ticket->totalTime(), ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
            
@@ -106,7 +106,7 @@
 					@if($response->admin) Support: Response @else Client: Response @endif
 					Date: {{date('d/m/y', strtotime($response->created_at))}}
 					Time: {{date('H:i', strtotime($response->created_at))}}
-					@if($response->admin) ({{date('H:i', strtotime($response->working_time))}}) @endif
+					@if($response->admin) ({{$response->formatWorkingTime()}}) @endif
 					</div>
 					<div class="panel-body">
 						{{$response->content}}

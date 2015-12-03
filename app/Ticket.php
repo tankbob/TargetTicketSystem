@@ -21,12 +21,17 @@ class Ticket extends Model
         'cost'
     ];
 
-    public function Client(){
+    public function client(){
     	return $this->BelongsTo('TargetInk\User', 'client_id');
     }
 
     public function responses(){
         return $this->hasMany('TargetInk\Response', 'ticket_id');
+    }
+
+    public function totalTime(){
+        $totalTime = $this->responses->sum('working_time');
+        return str_pad(floor($totalTime/60), 2, 0, STR_PAD_LEFT).':'.str_pad($totalTime%60, 2, 0, STR_PAD_LEFT);
     }
 
 }

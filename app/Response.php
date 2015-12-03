@@ -32,4 +32,8 @@ class Response extends Model
     public function attachments(){
         return $this->hasMany('TargetInk\Attachment', 'response_id');
     }
+
+    public function formatWorkingTime(){
+        return str_pad(floor($this->working_time/60), 2, 0, STR_PAD_LEFT).':'.str_pad($this->working_time%60, 2, 0, STR_PAD_LEFT);
+    }
 }

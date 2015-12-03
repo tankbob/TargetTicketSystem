@@ -38,7 +38,6 @@ class TicketController extends Controller
         }
         $client = User::where('company_slug', $company_slug)->first();
         $tickets = $client->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
-
         return view('tickets.ticketList', compact('archived', 'tickets', 'client'));
     }
 
@@ -100,17 +99,7 @@ class TicketController extends Controller
     public function show($company_slug, $ticket_id)
     {
         $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
-        $times = $ticket->responses->where('admin', 1)->lists('working_time');
-        $total_working_time = 0;
-        foreach($times as $t){
-            if($t){
-                $t = explode(':', $t);
-                $total_working_time += 60 * $t[0];
-                $total_working_time += $t[1];
-            }
-        }
-        $total_working_time = floor($total_working_time/60).':'.sprintf('%02d', $total_working_time%60);
-        return view('tickets.ticketShow', compact('ticket', 'total_working_time', 'company_slug'));
+        return view('tickets.ticketShow', compact('ticket', 'company_slug'));
     }
 
     /**
@@ -220,6 +209,10 @@ class TicketController extends Controller
     {
         $response = new Response;
         $response->fill($request->all());
+        if($request->has('working_time')){
+            $wt = explode(':', $request->get('working_time'));
+            $response->working_time = 60*$wt[0]+$wt[1];
+        }
         $response->admin = \Auth::user()->admin;
         $response->ticket_id = $ticket_id;
         $response->save();
