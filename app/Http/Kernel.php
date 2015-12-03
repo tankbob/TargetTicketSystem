@@ -30,5 +30,6 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \TargetInk\Http\Middleware\RedirectIfAuthenticated::class,
         'ownCompany' => \TargetInk\Http\Middleware\OwnCompany::class,
+        'admin' => \TargetInk\Http\Middleware\Admin::class,
     ];
 }

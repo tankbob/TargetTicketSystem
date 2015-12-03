@@ -29,6 +29,8 @@ Route::any('home', function () {
 });
 
 Route::get('/dashboard/maintenance', 'AppController@showMaintenance');
+
+//Backend
 Route::resource('/clients', 'ClientsController');
 Route::resource('/banners', 'AdvertController');
 Route::resource('/services', 'ServicesController');
@@ -39,6 +41,7 @@ Route::post('/documents/{type}', 'AdminDocumentsController@store');
 Route::get('/documents/{type}/{id}', 'AdminDocumentsController@show');
 Route::delete('/documents/{type}/{id}', 'AdminDocumentsController@destroy');
 
+//Frontend
 Route::resource('/{company_slug}/tickets', 'TicketController');
 Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
 Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
@@ -47,5 +50,6 @@ Route::post('/{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'Ticke
 
 Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
 
+//Api
 Route::post('/api/ticketsort', 'TicketController@setOrder');
 Route::post('/api/getclientinfo', 'UserController@getInfo');
