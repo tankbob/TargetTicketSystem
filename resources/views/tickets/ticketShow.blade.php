@@ -106,13 +106,19 @@
 					@if($response->admin) Support: Response @else Client: Response @endif
 					Date: {{date('d/m/y', strtotime($response->created_at))}}
 					Time: {{date('H:i', strtotime($response->created_at))}}
-					@if($response->admin) ({{$response->formatWorkingTime()}}) @endif
+					@if($response->admin) 
+						@if(Auth::user()->admin)
+							{!! Form::open(['url' => '/'.$company_slug.'/tickets/'.$ticket->id.'/'.$response->id.'/edittime', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
+									{!! Form::text('working_time', $response->formatWorkingTime(), ['class' => 'hourInput']) !!}
+								{!!Form::submit('save')!!}
+							{!! Form::close() !!}
+						@else
+							({{$response->formatWorkingTime()}})
+						@endif
+					@endif
 					</div>
 					<div class="panel-body">
 						{{$response->content}}
-						@if($response->cost)
-							<div class="response_data">Cost: {{$response->cost}}</div>
-						@endif
 						@if($response->article_title)
 							<div class="response_data">Article Title: {{$response->article_title}}</div>
 						@endif

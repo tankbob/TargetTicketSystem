@@ -269,4 +269,23 @@ class TicketController extends Controller
             }
         }
     }
+
+    public function editResponseTime(Request $request, $company_slug, $ticket_id, $response_id){
+        $ticket = Ticket::find($ticket_id);
+        if($ticket->Client->company_slug != $company_slug){
+            return \Redirect::to('/');
+        }
+        $response = Response::find($response_id);
+        if($response->ticket_id != $ticket_id){
+            return \Redirect::to('/');
+        }
+        if($request->has('working_time')){
+            $wt = explode(':', $request->get('working_time'));
+            $response->working_time = 60*$wt[0]+$wt[1];
+        }
+        $response->save();
+
+        flash()->success('The response has been updated.');
+        return \Redirect::back();
+    }
 }

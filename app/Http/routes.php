@@ -43,6 +43,7 @@ Route::resource('/{company_slug}/tickets', 'TicketController');
 Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
 Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
 Route::post('/{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
+Route::post('/{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
 
 Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
 
