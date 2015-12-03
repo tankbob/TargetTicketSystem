@@ -32,7 +32,7 @@
 		                	'archived': {{$archived}},
 		                	'new_order': new_order
 		                },
-		                success: function(response) {
+					success: function(response) {
 		                    
 		                }
 		            });

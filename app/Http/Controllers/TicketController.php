@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
+use TargetInk\Http\Middleware\OwnCompany;
+
 use TargetInk\Ticket;
 use TargetInk\Response;
 use TargetInk\Attachment;
@@ -19,6 +21,7 @@ class TicketController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('ownCompany');
     }
 
     /**
@@ -134,7 +137,7 @@ class TicketController extends Controller
         $ticket = Ticket::find($id);
         $ticket->type = ($request->get('type'));
         $ticket->save();
-        flash()->success('The ticket type has been changed.');
+        flash()->success('The ticket has been changed.');
         return \Redirect::back();
     }
 
@@ -148,7 +151,7 @@ class TicketController extends Controller
     {
         $ticket = Ticket::find($id);
         $ticket->delete();
-        flash()->success('The ticket type has been deleted.');
+        flash()->success('The ticket has been deleted.');
         return \Redirect::back();
     }
 
