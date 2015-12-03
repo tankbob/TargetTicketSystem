@@ -97,9 +97,13 @@ class TicketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($company_slug, $ticket_id)
-    {
+    {  
+
         $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
-        return view('tickets.ticketShow', compact('ticket', 'company_slug'));
+        if($ticket->Client->company_slug != $company_slug){
+            return \Redirect::to('/');
+        }
+         return view('tickets.ticketShow', compact('ticket', 'company_slug'));
     }
 
     /**
@@ -124,6 +128,9 @@ class TicketController extends Controller
     public function update(Request $request, $company_slug, $id)
     {
         $ticket = Ticket::find($id);
+        if($ticket->Client->company_slug != $company_slug){
+            return \Redirect::to('/');
+        }
         $ticket->type = ($request->get('type'));
         $ticket->cost = ($request->get('cost'));
         $ticket->save();
@@ -140,6 +147,9 @@ class TicketController extends Controller
     public function destroy($company_slug, $id)
     {
         $ticket = Ticket::find($id);
+        if($ticket->Client->company_slug != $company_slug){
+            return \Redirect::to('/');
+        }
         $ticket->delete();
         flash()->success('The ticket has been deleted.');
         return \Redirect::back();
@@ -147,6 +157,9 @@ class TicketController extends Controller
 
     public function archive($company_slug, $ticket_id){
         $ticket = Ticket::find($ticket_id);
+        if($ticket->Client->company_slug != $company_slug){
+            return \Redirect::to('/');
+        }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->archived = 1;
         $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
@@ -163,6 +176,9 @@ class TicketController extends Controller
 
     public function unarchive($company_slug, $ticket_id){
         $ticket = Ticket::find($ticket_id);
+        if($ticket->Client->company_slug != $company_slug){
+            return \Redirect::to('/');
+        }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->archived = 0;
         $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
