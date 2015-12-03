@@ -17,7 +17,6 @@ class Response extends Model
 		'admin',
 		'working_time',
 		'content',
-        'cost',
         'schedule',
         'published_at',
         'author',
