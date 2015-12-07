@@ -18,7 +18,6 @@ elixir(function(mix) {
 	return mix
 		.styles([
 			'plugins/bootstrap.min.css',
-			'plugins/jquery-validate.css',
 			'all.css'
 		])
 		.scripts([
