@@ -24,7 +24,7 @@ class Service extends Model
 
 	public function client()
 	{
-        return $this->BelongsTo('TargetInk\User', 'client_id');
+        return $this->belongsTo('TargetInk\User', 'client_id');
     }
 
 }

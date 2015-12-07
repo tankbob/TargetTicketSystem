@@ -289,16 +289,8 @@ $(document).ready(function () {
                 type: "POST",
                 url: '/api/ticketsort',
                 data: {
-                    'user_id': {
-                        {
-                            $client_id
-                        }
-                    },
-                    'archived': {
-                        {
-                            $archived
-                        }
-                    },
+                    'user_id': $client_id,
+                    'archived': $archived,
                     'new_order': new_order
                 },
                 success: function (response) {

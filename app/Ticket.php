@@ -23,7 +23,7 @@ class Ticket extends Model
 
     public function client()
     {
-    	return $this->BelongsTo('TargetInk\User', 'client_id');
+    	return $this->belongsTo('TargetInk\User', 'client_id');
     }
 
     public function responses()
@@ -35,6 +35,11 @@ class Ticket extends Model
     {
         $totalTime = $this->responses->sum('working_time');
         return str_pad(floor($totalTime / 60), 2, 0, STR_PAD_LEFT) . ':' . str_pad($totalTime % 60, 2, 0, STR_PAD_LEFT);
+    }
+
+    public function getRef()
+    {
+        return str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
 
 }
