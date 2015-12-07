@@ -264,4 +264,32 @@ $(document).ready(function() {
             }
         },
     });
+
+    $('.sorted_table').sortable({
+        containerSelector: 'table',
+        handle: 'i.icon-move',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>',
+        onDrop: function ($item, container, _super, event) {
+
+            var new_order = [];
+            $("#ticket_table tbody").find("tr").each(function(){ new_order.push(this.id); });
+
+            $.ajax({
+                type: "POST",
+                url: '/api/ticketsort',
+                data: {
+                    'user_id': {{$client->id}},
+                    'archived': {{$archived}},
+                    'new_order': new_order
+                },
+            success: function(response) {
+
+                }
+            });
+            $item.removeClass(container.group.options.draggedClass).removeAttr("style")
+            $("body").removeClass(container.group.options.bodyClass)
+        }
+    });
 });

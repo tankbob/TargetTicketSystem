@@ -140,6 +140,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Barryvdh\Debugbar\ServiceProvider::class,
         TargetInk\Providers\AppServiceProvider::class,
         TargetInk\Providers\AuthServiceProvider::class,
         TargetInk\Providers\EventServiceProvider::class,
@@ -149,6 +150,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
+
     ],
 
     /*
@@ -202,6 +204,7 @@ return [
         'Html'      => Illuminate\Html\HtmlFacade::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Flash'     => Laracasts\Flash\Flash::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

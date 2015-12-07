@@ -4,48 +4,6 @@
     Your Tickets
 @stop
 
-
-@section('scripts')
-
-	
-	<script src="/js/jquery-sortable.js"></script>
-
-	<script type="text/javascript">
-		$(document).ready(function(){
-			
-			$('.sorted_table').sortable({
-				containerSelector: 'table',
-				handle: 'i.icon-move',
-				itemPath: '> tbody',
-				itemSelector: 'tr',
-				placeholder: '<tr class="placeholder"/>',
-				onDrop: function ($item, container, _super, event) {
-
-					var new_order = [];
-					$("#ticket_table tbody").find("tr").each(function(){ new_order.push(this.id); });
-
-					$.ajax({
-		                type: "POST",
-		                url: '/api/ticketsort',
-		                data: {
-		                	'user_id': {{$client->id}},
-		                	'archived': {{$archived}},
-		                	'new_order': new_order
-		                },
-					success: function(response) {
-		                    
-		                }
-		            });
-					$item.removeClass(container.group.options.draggedClass).removeAttr("style")
-					$("body").removeClass(container.group.options.bodyClass)
-				}
-			});
-			
-		});
-</script>
-
-@stop
-
 @section('content')
 <div class="page-heading text-center">
     <a href="/{{$client->company_slug}}/tickets/create">CREATE A NEW TICKET</a>
@@ -57,10 +15,7 @@
     <div class="row">
         <div class="col-xs-12">
         	<a href="/{{$client->company_slug}}/tickets" @if(!$archived) class="active" @endif>View Open Tickets</a>
-
         	<a href="/{{$client->company_slug}}/tickets?archived=1" @if($archived) class="active" @endif>View Archived Tickets</a>
-
-
 
             <table class="table table-striped table-bordered sorted_table" id="ticket_table">
 	            <thead>
@@ -113,13 +68,10 @@
 			            	@endif
 	            			<td><i class="icon-move">aa</i></td>
 	            		</tr>
-	            	@endforeach            	
+	            	@endforeach
 	            </tbody>
             </table>
         </div>
     </div>
 </div>
-
-
-
 @stop

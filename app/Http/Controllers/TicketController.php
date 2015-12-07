@@ -137,7 +137,7 @@ class TicketController extends Controller
         $ticket->cost = ($request->get('cost'));
         $ticket->save();
         flash()->success('The ticket has been changed.');
-        return redirect->back();
+        return redirect()->back();
     }
 
     /**
@@ -154,7 +154,7 @@ class TicketController extends Controller
         }
         $ticket->delete();
         flash()->success('The ticket has been deleted.');
-        return redirect->back();
+        return redirect()->back();
     }
 
     public function archive($company_slug, $ticket_id) {
@@ -173,7 +173,7 @@ class TicketController extends Controller
         $ticket->order = $order;
         $ticket->save();
         flash()->success('The ticket has been successfully archived.');
-        return redirect->back();
+        return redirect()->back();
     }
 
     public function unarchive($company_slug, $ticket_id) {
@@ -192,7 +192,7 @@ class TicketController extends Controller
         $ticket->order = $order;
         $ticket->save();
         flash()->success('The ticket has been successfully unarchived.');
-        return redirect->back();
+        return redirect()->back();
     }
 
     public function setOrder(Request $request) {
@@ -237,7 +237,7 @@ class TicketController extends Controller
 
         self::processFileUpload($request, $response->id);
         flash()->success('The response has been sent. ');
-        return redirect->back();
+        return redirect()->back();
     }
 
     public function processFileUpload($request, $response_id) {
@@ -288,6 +288,6 @@ class TicketController extends Controller
         $response->save();
 
         flash()->success('The response has been updated.');
-        return redirect->back();
+        return redirect()->back();
     }
 }
