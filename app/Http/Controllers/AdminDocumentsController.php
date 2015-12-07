@@ -18,6 +18,7 @@ class AdminDocumentsController extends Controller
         $this->middleware('auth');
         $this->middleware('admin');
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -64,14 +65,14 @@ class AdminDocumentsController extends Controller
             $counter = 1;
             $filename = $tempfile->getClientOriginalName();
             while(file_exists($destinationPath . '/' . $filename)) {
-                $filename = $counter.'-'.$tempfile->getClientOriginalName();
+                $filename = $counter. '-' . $tempfile->getClientOriginalName();
                 $counter++;
             }
             $tempfile->move($destinationPath, $filename);
             $file->filepath = $filename;
         }
         $file->save();
-        return redirect('/?'.$type.'='.$request->get('client_id').'#'.$type.'-div');
+        return redirect('/?' . $type . '=' . $request->get('client_id') . '#' . $type . '-div');
     }
 
     /**

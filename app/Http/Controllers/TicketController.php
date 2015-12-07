@@ -62,7 +62,7 @@ class TicketController extends Controller
         $client_id = User::where('company_slug', $company_slug)->first()->id;
         if($request->published_at) {
             $published_at_date = explode('/', $request->published_at);
-            $published_at_date = $published_at_date[2].'-'.$published_at_date[1].'-'.$published_at_date[0];
+            $published_at_date = $published_at_date[2]. '-' . $published_at_date[1]. '-' . $published_at_date[0];
         } else {
             $published_at_date = '0000-00-00';
         }
@@ -204,7 +204,7 @@ class TicketController extends Controller
 
         foreach($new_order as $order => $id) {
             //ORDER IS REVERSE CAUSE WHEN U ADD A NEW ONE IS MAX ORDER +1 AND SHOULD APPEAR FIRST
-            $query .= ' WHEN '.$id.' THEN '.(count($new_order)-$order);
+            $query .= ' WHEN ' . $id.' THEN ' .(count($new_order)-$order);
         }
 
 
@@ -234,17 +234,17 @@ class TicketController extends Controller
         $response->save();
 
         self::processFileUpload($request, $response->id);
-        flash()->success('The response has been sent.');
+        flash()->success('The response has been sent. ');
         return redirect->back();
     }
 
     public function processFileUpload($request, $response_id) {
         for($counter = 1; $counter <= $request->get('attachment_count'); $counter ++) {
-            if($request->hasFile('attachment-'.$counter) && $request->file('attachment-'.$counter)->isValid()) {
-                $file = $request->file('attachment-'.$counter);
+            if($request->hasFile('attachment-' . $counter) && $request->file('attachment-' . $counter)->isValid()) {
+                $file = $request->file('attachment-' . $counter);
                 $extension = $file->getClientOriginalExtension();
                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename .= '_'.time().'.'.$extension;
+                $filename .= '_' .time() . ' . ' . $extension;
 
                 if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
                     $img = \Image::make($file);
@@ -253,10 +253,10 @@ class TicketController extends Controller
                             $constraint->aspectRatio();
                         });
                     }
-                    $img->save(public_path().'/files/tickets/'.$filename);
+                    $img->save(public_path() . '/files/tickets/' . $filename);
                     $doctype = 'I';
                 } else {
-                    $file->move(public_path().'/files/tickets', $filename);
+                    $file->move(public_path() . '/files/tickets', $filename);
                     $doctype = 'D';
                 }
 

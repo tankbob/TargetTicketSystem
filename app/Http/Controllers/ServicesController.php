@@ -58,14 +58,14 @@ class ServicesController extends Controller
             $file = $request->file('icon');
             $image = \Image::make($file);
             $image->fit(146, 146);
-            $destinationPath = public_path().'/files/services';
+            $destinationPath = public_path() . '/files/services';
             $counter = 1;
             $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)) {
-                $filename = $counter.'-'.$file->getClientOriginalName();
+            while(file_exists($destinationPath. '/' . $filename)) {
+                $filename = $counter. '-' . $file->getClientOriginalName();
                 $counter++;
             }
-            $image->save($destinationPath.'/'.$filename);
+            $image->save($destinationPath. '/' . $filename);
             $service->icon = $filename;
         }
 
@@ -73,18 +73,18 @@ class ServicesController extends Controller
             $file = $request->file('icon_rollover');
             $image = \Image::make($file);
             $image->fit(146, 146);
-            $destinationPath = public_path().'/files/services';
+            $destinationPath = public_path() . '/files/services';
             $counter = 1;
             $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)) {
-                $filename = $counter.'-'.$file->getClientOriginalName();
+            while(file_exists($destinationPath. '/' . $filename)) {
+                $filename = $counter. '-' . $file->getClientOriginalName();
                 $counter++;
             }
-            $image->save($destinationPath.'/'.$filename);
+            $image->save($destinationPath. '/' . $filename);
             $service->icon_rollover = $filename;
         }
         $service->save();
-        return redirect('/?service='.$request->get('client_id').'#services-div');
+        return redirect('/?service=' . $request->get('client_id') . '#services-div');
     }
 
     /**

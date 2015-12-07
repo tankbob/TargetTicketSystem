@@ -18,7 +18,6 @@ class AdvertController extends Controller
         $this->middleware('admin');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -59,18 +58,18 @@ class AdvertController extends Controller
             $image->resize(null, 400, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $destinationPath = public_path().'/files/banners';
+            $destinationPath = public_path() . '/files/banners';
             $counter = 1;
             $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)) {
-                $filename = $counter.'-'.$file->getClientOriginalName();
+            while(file_exists($destinationPath . '/' . $filename)) {
+                $filename = $counter . '-' . $file->getClientOriginalName();
                 $counter++;
             }
-            $image->save($destinationPath.'/'.$filename);
+            $image->save($destinationPath . '/' . $filename);
             $advert->image = $filename;
         }
         $advert->save();
-        return redirect('/?advert='.$request->get('client_id').'#advertDiv');
+        return redirect('/?advert=' . $request->get('client_id') . '#advertDiv');
     }
 
     /**
@@ -89,29 +88,6 @@ class AdvertController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -122,9 +98,9 @@ class AdvertController extends Controller
         $advert = Advert::find($id);
         $advert->delete();
         return json_encode([
-            'success'   =>  'The Advert has been deleted.',
-            'method'    =>  'delete',
-            'id'        =>  $advert->id
+            'success'   => 'The Advert has been deleted.',
+            'method'    => 'delete',
+            'id'        => $advert->id,
         ]);
     }
 }
