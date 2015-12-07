@@ -12,7 +12,7 @@ use TargetInk\File;
 
 class AdminDocumentsController extends Controller
 {
-    //should be admin
+    // Should be admin
     public function __construct()
     {
         $this->middleware('auth');
@@ -26,10 +26,10 @@ class AdminDocumentsController extends Controller
     public function index($type)
     {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
         }
-        return View('dashboard.documents.documentList', compact('clients', 'type'));
+        return view('dashboard.documents.documentList', compact('clients', 'type'));
     }
 
     /**
@@ -39,7 +39,7 @@ class AdminDocumentsController extends Controller
      */
     public function create($type)
     {
-        return View('dashboard.documents.documentEdit', compact('type'));
+        return view('dashboard.documents.documentEdit', compact('type'));
     }
 
     /**
@@ -52,18 +52,18 @@ class AdminDocumentsController extends Controller
     {
         $file = new File;
         $file->fill($request->all());
-        if($type == 'seo'){
+        if($type == 'seo') {
             $file->type = 0;
-        }else{
+        } else {
             $file->type = 1;
         }
-        if(\Request::hasFile('file') && \Request::file('file')->isValid()){
-            $tempfile = \Request::file('file');        
-            $destinationPath = public_path().'/files/documents';
+        if($request->hasFile('file') && $request->file('file')->isValid()) {
+            $tempfile = $request->file('file');
+            $destinationPath = public_path() . '/files/documents';
 
             $counter = 1;
             $filename = $tempfile->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)){
+            while(file_exists($destinationPath . '/' . $filename)) {
                 $filename = $counter.'-'.$tempfile->getClientOriginalName();
                 $counter++;
             }
@@ -71,7 +71,7 @@ class AdminDocumentsController extends Controller
             $file->filepath = $filename;
         }
         $file->save();
-        return \Redirect::to('/?'.$type.'='.$request->get('client_id').'#'.$type.'-div');
+        return redirect('/?'.$type.'='.$request->get('client_id').'#'.$type.'-div');
     }
 
     /**
@@ -83,33 +83,12 @@ class AdminDocumentsController extends Controller
     public function show($type, $id)
     {
         $client = null;
-        if(auth()->user()->admin && $id){
+
+        if(auth()->user()->admin && $id) {
             $client = User::find($id);
         }
-        return View('dashboard.documents.documentShow', compact('client', 'type'));
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return view('dashboard.documents.documentShow', compact('client', 'type'));
     }
 
     /**
@@ -122,10 +101,11 @@ class AdminDocumentsController extends Controller
     {
         $file = File::find($id);
         $file->delete();
+
         return json_encode([
-            'success'   =>  'The '.$type.' document has been deleted.',
-            'method'    =>  'delete',
-            'id'        =>  $id
+            'success'   => 'The ' . $type . ' document has been deleted.',
+            'method'    => 'delete',
+            'id'        => $id,
         ]);
     }
 }

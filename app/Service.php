@@ -11,7 +11,7 @@ class Service extends Model
 	use SoftDeletes;
 
     protected $table = 'services';
-   
+
 	protected $fillable = [
 		'id',
 		'client_id',
@@ -22,7 +22,8 @@ class Service extends Model
 		'icon_rollover'
 	];
 
-	public function Client(){
+	public function client()
+	{
         return $this->BelongsTo('TargetInk\User', 'client_id');
     }
 

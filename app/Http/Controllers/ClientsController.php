@@ -26,7 +26,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
         return view('dashboard.clients.clientList', compact('clients'));
@@ -98,7 +98,7 @@ class ClientsController extends Controller
     {
         $client = User::find($id);
         $client->fill($request->except(['password']));
-        if($request->has('password')){
+        if($request->has('password')) {
            $client->password = bcrypt($request->get('password'));
         }
         $client->save();

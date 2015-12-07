@@ -27,10 +27,10 @@ class AdvertController extends Controller
     public function index()
     {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
         }
-        return View('dashboard.adverts.advertList', compact('clients'));
+        return view('dashboard.adverts.advertList', compact('clients'));
     }
 
     /**
@@ -40,7 +40,7 @@ class AdvertController extends Controller
      */
     public function create()
     {
-        return View('dashboard.adverts.advertEdit');
+        return view('dashboard.adverts.advertEdit');
     }
 
     /**
@@ -53,8 +53,8 @@ class AdvertController extends Controller
     {
         $advert = new Advert;
         $advert->fill($request->all());
-        if(\Request::hasFile('image') && \Request::file('image')->isValid()){
-            $file = \Request::file('image');
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
+            $file = $request->file('image');
             $image = \Image::make($file);
             $image->resize(null, 400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -62,7 +62,7 @@ class AdvertController extends Controller
             $destinationPath = public_path().'/files/banners';
             $counter = 1;
             $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)){
+            while(file_exists($destinationPath.'/'.$filename)) {
                 $filename = $counter.'-'.$file->getClientOriginalName();
                 $counter++;
             }
@@ -70,7 +70,7 @@ class AdvertController extends Controller
             $advert->image = $filename;
         }
         $advert->save();
-        return \Redirect::to('/?advert='.$request->get('client_id').'#advertDiv');
+        return redirect('/?advert='.$request->get('client_id').'#advertDiv');
     }
 
     /**
@@ -82,10 +82,10 @@ class AdvertController extends Controller
     public function show($id)
     {
         $client = null;
-        if(auth()->user()->admin && $id){
+        if(auth()->user()->admin && $id) {
             $client = User::with('adverts')->find($id);
         }
-        return View('dashboard.adverts.advertShow', compact('client'));
+        return view('dashboard.adverts.advertShow', compact('client'));
     }
 
     /**

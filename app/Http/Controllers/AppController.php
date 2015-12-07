@@ -23,7 +23,7 @@ class AppController extends Controller
     public function index()
     {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
         return view('dashboard', compact('clients'));
@@ -95,9 +95,9 @@ class AppController extends Controller
         //
     }
 
-    public function showMaintenance(){
+    public function showMaintenance() {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
         return view('dashboard.tickets.tickets', compact('clients'));

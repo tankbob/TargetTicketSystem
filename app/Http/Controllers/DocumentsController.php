@@ -24,11 +24,11 @@ class DocumentsController extends Controller
     public function index($company_slug, $type)
     {
         $client = User::where('company_slug', '=', $company_slug)->first();
-        if($type == 'seo'){
+        if($type == 'seo') {
             $files = $client->seoFiles;
-        }elseif($type == 'info'){
+        }elseif($type == 'info') {
             $files = $client->infoFiles;
-        }else{
+        } else {
             abort(404);
         }
         return view('documents', compact('files', 'type'));

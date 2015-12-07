@@ -28,10 +28,10 @@ class ServicesController extends Controller
     public function index()
     {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
         }
-        return View('dashboard.services.serviceList', compact('clients'));
+        return view('dashboard.services.serviceList', compact('clients'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        return View('dashboard.services.serviceEdit');
+        return view('dashboard.services.serviceEdit');
     }
 
     /**
@@ -54,14 +54,14 @@ class ServicesController extends Controller
     {
         $service = new Service;
         $service->fill($request->all());
-        if(\Request::hasFile('icon') && \Request::file('icon')->isValid()){
-            $file = \Request::file('icon');
+        if($request->hasFile('icon') && $request->file('icon')->isValid()) {
+            $file = $request->file('icon');
             $image = \Image::make($file);
             $image->fit(146, 146);
             $destinationPath = public_path().'/files/services';
             $counter = 1;
             $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)){
+            while(file_exists($destinationPath.'/'.$filename)) {
                 $filename = $counter.'-'.$file->getClientOriginalName();
                 $counter++;
             }
@@ -69,14 +69,14 @@ class ServicesController extends Controller
             $service->icon = $filename;
         }
 
-        if(\Request::hasFile('icon_rollover') && \Request::file('icon_rollover')->isValid()){
-            $file = \Request::file('icon_rollover');
+        if($request->hasFile('icon_rollover') && $request->file('icon_rollover')->isValid()) {
+            $file = $request->file('icon_rollover');
             $image = \Image::make($file);
             $image->fit(146, 146);
             $destinationPath = public_path().'/files/services';
             $counter = 1;
             $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath.'/'.$filename)){
+            while(file_exists($destinationPath.'/'.$filename)) {
                 $filename = $counter.'-'.$file->getClientOriginalName();
                 $counter++;
             }
@@ -84,7 +84,7 @@ class ServicesController extends Controller
             $service->icon_rollover = $filename;
         }
         $service->save();
-        return \Redirect::to('/?service='.$request->get('client_id').'#services-div');
+        return redirect('/?service='.$request->get('client_id').'#services-div');
     }
 
     /**
@@ -96,10 +96,10 @@ class ServicesController extends Controller
     public function show($id)
     {
         $client = null;
-        if(auth()->user()->admin && $id){
+        if(auth()->user()->admin && $id) {
             $client = User::with('services')->find($id);
         }
-        return View('dashboard.services.serviceShow', compact('client'));
+        return view('dashboard.services.serviceShow', compact('client'));
     }
 
     /**
