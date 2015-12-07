@@ -28,28 +28,28 @@ Route::any('home', function () {
     return redirect('/');
 });
 
-Route::get('/dashboard/maintenance', 'AppController@showMaintenance');
+Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 
-//Backend
-Route::resource('/clients', 'ClientsController');
-Route::resource('/banners', 'AdvertController');
-Route::resource('/services', 'ServicesController');
+// Backend
+Route::resource('clients', 'ClientsController');
+Route::resource('banners', 'AdvertController');
+Route::resource('services', 'ServicesController');
 
-Route::get('/documents/{type}', 'AdminDocumentsController@index');
-Route::get('/documents/{type}/create', 'AdminDocumentsController@create');
-Route::post('/documents/{type}', 'AdminDocumentsController@store');
-Route::get('/documents/{type}/{id}', 'AdminDocumentsController@show');
-Route::delete('/documents/{type}/{id}', 'AdminDocumentsController@destroy');
+Route::get('documents/{type}', 'AdminDocumentsController@index');
+Route::get('documents/{type}/create', 'AdminDocumentsController@create');
+Route::post('documents/{type}', 'AdminDocumentsController@store');
+Route::get('documents/{type}/{id}', 'AdminDocumentsController@show');
+Route::delete('documents/{type}/{id}', 'AdminDocumentsController@destroy');
 
-//Frontend
-Route::resource('/{company_slug}/tickets', 'TicketController');
-Route::get('/{company_slug}/tickets/{id}/archive', 'TicketController@archive');
-Route::get('/{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
-Route::post('/{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
-Route::post('/{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
+// Frontend
+Route::resource('{company_slug}/tickets', 'TicketController');
+Route::get('{company_slug}/tickets/{id}/archive', 'TicketController@archive');
+Route::get('{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
+Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
+Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
 
-Route::resource('/{company_slug}/documents/{type}', 'DocumentsController');
+Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
 
-//Api
-Route::post('/api/ticketsort', 'TicketController@setOrder');
-Route::post('/api/getclientinfo', 'UserController@getInfo');
+// Api
+Route::post('api/ticketsort', 'TicketController@setOrder');
+Route::post('api/getclientinfo', 'UserController@getInfo');
