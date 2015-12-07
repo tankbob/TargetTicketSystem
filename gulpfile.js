@@ -16,8 +16,19 @@ if(elixir.config.babel) {
 
 elixir(function(mix) {
 	return mix
-		.styles(['all.css'])
-		.scripts(['all.js'])
-		.version(['css/all.css', 'js/all.js'])
-		;
+		.styles([
+			'plugins/bootstrap.min.css',
+			'plugins/jquery-validate.css',
+			'all.css'
+		])
+		.scripts([
+			'plugins/jquery-1.11.3.min.js',
+			'plugins/bootstrap.min.js',
+			'plugins/jquery-sortable.js',
+			'plugins/jquery.maskedinput.min.js',
+			'plugins/jquery.validate.min.js',
+			'plugins/additional-methods.min.js',
+			'all.js'
+		])
+		.version(['css/all.css', 'js/all.js']);
 });

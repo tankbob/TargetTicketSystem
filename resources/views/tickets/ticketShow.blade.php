@@ -56,14 +56,14 @@
            		</div>
             </div>
 
-           	@if(\Auth::user()->admin)
+           	@if(auth()->user()->admin)
            		{!! Form::model($ticket, ['url' => '/'.$company_slug.'/tickets/'.$ticket->id, 'method' => 'PUT']) !!}
            	@endif
 
             <div class="form-group">
            		{!! Form::label('type', 'Ticket Type', ['class' => 'col-xs-4 form-label']) !!}
            		<div class="col-xs-8">
-           			@if(\Auth::user()->admin)
+           			@if(auth()->user()->admin)
            				{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control']) !!}
            			@else
 	           			{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control', 'disabled']) !!}
@@ -78,7 +78,7 @@
            		</div>
             </div>
            
-            @if(\Auth::user()->admin)
+            @if(auth()->user()->admin)
           		<div class="form-group">
 	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
 	           		<div class="col-xs-8">
@@ -94,7 +94,7 @@
 	            </div>
            	@endif
 
-            @if(\Auth::user()->admin)
+            @if(auth()->user()->admin)
             	{!! Form::submit() !!}
             	{!! Form::close() !!}
             @endif
@@ -107,7 +107,7 @@
 					Date: {{date('d/m/y', strtotime($response->created_at))}}
 					Time: {{date('H:i', strtotime($response->created_at))}}
 					@if($response->admin) 
-						@if(Auth::user()->admin)
+						@if(auth()->user()->admin)
 							{!! Form::open(['url' => '/'.$company_slug.'/tickets/'.$ticket->id.'/'.$response->id.'/edittime', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
 									{!! Form::text('working_time', $response->formatWorkingTime(), ['class' => 'hourInput']) !!}
 								{!!Form::submit('save')!!}
@@ -176,7 +176,7 @@
 
 		    	<input type="hidden" name="attachment_count" id="attachment_count" value="1">
 
-		    	@if(\Auth::user()->admin)
+		    	@if(auth()->user()->admin)
 		    		{!! Form::text('working_time', '', ['placeholder' => '00:00', 'class' => 'hourInput']) !!}
 		    	@endif
 

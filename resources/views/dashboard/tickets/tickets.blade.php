@@ -9,9 +9,9 @@ Choose a client
     <tbody>
         @foreach($clients as $client)
             <tr>
-                <td><a href="/{{$client->company_slug}}/tickets/">GOTOICON</a></td>
-                <td>{{$client->company}}</td>
-                <td>{{$client->name}}</td>
+                <td><a href="{{ url($client->company_slug . '/tickets') }}">GOTOICON</a></td>
+                <td>{{ $client->company }}</td>
+                <td>{{ $client->name }}</td>
             </tr>
         @endforeach
     </tbody>

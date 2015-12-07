@@ -8,12 +8,12 @@
     </thead>
     <tbody>
     	@foreach($client->services as $service)
-    		<tr id="service-row-{{$service->id}}">
-                <td><img src="/files/services/{{$service->icon}}"></td>
-                <td>{{$service->heading}}</td>
-                <td>{{$client->email}}</td>
-                <td><a href="{{$service->link}}">{{$service->link}}</a></td>
-                <td><a href="#" class="serviceDelete" serviceId="{{$service->id}}">DELETE ICON</a></td>
+    		<tr id="service-row-{{ $service->id }}">
+                <td><img src="{{ url('files/services/' . $service->icon) }}"></td>
+                <td>{{ $service->heading }}</td>
+                <td>{{ $client->email }}</td>
+                <td><a href="{{ $service->link }}">{{ $service->link }}</a></td>
+                <td><a href="#" class="serviceDelete" serviceId="{{ $service->id }}">DELETE ICON</a></td>
             </tr>
     	@endforeach
     </tbody>

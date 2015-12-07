@@ -8,12 +8,12 @@
     </thead>
     <tbody>
     	@foreach($client->adverts as $advert)
-    		<tr id="banner-row-{{$advert->id}}">
-                <td><img src="/files/banners/{{$advert->image}}"></td>
-                <td>{{$advert->name}}</td>
-                <td>{{$client->email}}</td>
-                <td>{{date('d/m/y', strtotime($advert->created_at))}}</td>
-                <td><a href="#" class="bannerDelete" bannerId="{{$advert->id}}">DELETE ICON</a></td>
+    		<tr id="banner-row-{{ $advert->id }}">
+                <td><img src="{{ url('files/banners/' . $advert->image) }}"></td>
+                <td>{{ $advert->name }}</td>
+                <td>{{ $client->email }}</td>
+                <td>{{ date('d/m/y', strtotime($advert->created_at)) }}</td>
+                <td><a href="#" class="bannerDelete" bannerId="{{ $advert->id }}">DELETE ICON</a></td>
             </tr>
     	@endforeach
     </tbody>

@@ -2,210 +2,252 @@
 font-family: 'Montserrat', sans-serif;
 font-family: 'Open Sans', sans-serif;
 */
-
 body {
-	padding-bottom:50px;
-	font-family: 'Open Sans', sans-serif;
+    padding-bottom: 50px;
+    font-family: 'Open Sans',sans-serif;
 }
 
 .nav-container {
-	border-bottom:#ccc 1px solid;
+    border-bottom: #ccc 1px solid;
 }
 
 .main-nav .btn {
-	text-transform: uppercase;
-	font-family: 'Montserrat', sans-serif;
-	font-size: 14px;
-	color:#B3B3B3;
-	height:69px;
-	border-radius: 0px;
-	border:0;
+    text-transform: uppercase;
+    font-family: 'Montserrat',sans-serif;
+    font-size: 14px;
+    color: #B3B3B3;
+    height: 69px;
+    border-radius: 0;
+    border: 0;
 }
 
 .main-nav .btn:hover {
-	background:transparent;
-	color:#000;
+    background: transparent;
+    color: #000;
 }
 
 .main-nav .btn.active {
-	border-bottom:#ccc 5px solid;
-	background:transparent;
-	box-shadow: none;
+    border-bottom: #ccc 5px solid;
+    background: transparent;
+    box-shadow: none;
 }
 
 .btn-logout {
-	color:#000 !important;
+    color: #000 !important;
 }
 
 .page-heading {
-	margin-top:120px;
+    margin-top: 120px;
 }
 
 .page-heading h1 {
-	font-family: 'Montserrat', sans-serif;
-	font-size:48px;
-	color:#1A1A1A;
-	text-transform: uppercase;
-	margin:0 0 48px 0;
-	padding:0px;
+    font-family: 'Montserrat',sans-serif;
+    font-size: 48px;
+    color: #1A1A1A;
+    text-transform: uppercase;
+    margin: 0 0 48px;
+    padding: 0;
 }
 
 .page-heading p {
-	font-family: 'Open Sans', sans-serif;
-	font-weight:300;
-	color:#4D4D4D;
-	font-size:20px;
-	margin:0 0 50px 0;
-	padding:0px;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 300;
+    color: #4D4D4D;
+    font-size: 20px;
+    margin: 0 0 50px;
+    padding: 0;
 }
 
 .btn-section-link {
-	display: block;
-	border-top:#ccc 1px solid;
-	padding: 55px 30px;
-	min-height: 200px;
+    display: block;
+    border-top: #ccc 1px solid;
+    padding: 55px 30px;
+    min-height: 200px;
 }
 
 .btn-section-link:before {
-	content: '';
-	position: absolute;
-	z-index: -1;
-	width: 146px;
-	height: 146px;
-	background-image: url('/images/admin-icons.png');
-	background-position-y:top;
-	background-repeat:no-repeat;
-	margin-top:-30px;
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 146px;
+    height: 146px;
+    background-image: url(/images/admin-icons.png);
+    background-position-y: top;
+    background-repeat: no-repeat;
+    margin-top: -30px;
 }
 
 .btn-section-link:last-child {
-	border-bottom:#ccc 1px solid;
+    border-bottom: #ccc 1px solid;
 }
 
 .btn-section-link:hover:before {
-	background-position-y:bottom;
+    background-position-y: bottom;
 }
 
 .btn-section-link:hover {
-	text-decoration: none;	
+    text-decoration: none;
 }
 
 .btn-section-link:hover * {
-	color:#000;
+    color: #000;
 }
 
 .btn-section-link strong {
-	font-weight:400;
+    font-weight: 400;
 }
 
 .btn-section-link p {
-	font-weight:300;
+    font-weight: 300;
 }
 
-.btn-section-link strong, .btn-section-link p {
-	margin-left:146px;
-	color:#4D4D4D;
-	font-size:16px;
-	font-family: 'Open Sans', sans-serif;
-	display: block;
+.btn-section-link strong,.btn-section-link p {
+    margin-left: 146px;
+    color: #4D4D4D;
+    font-size: 16px;
+    font-family: 'Open Sans',sans-serif;
+    display: block;
 }
 
 .btn-maintenance-support:before {
-	background-position-x:0px;
+    background-position-x: 0;
 }
 
 .btn-clients:before {
-	background-position-x:-584px;
+    background-position-x: -584px;
 }
 
-
 .btn-adverts:before {
-	background-position-x:-438px;
+    background-position-x: -438px;
 }
 
 .btn-services:before {
-	background-position-x:-292px;
+    background-position-x: -292px;
 }
 
 .btn-seo-reports:before {
-	background-position-x:-146px;
+    background-position-x: -146px;
 }
 
 .btn-information-documents:before {
-	background-position-x:-730px;
+    background-position-x: -730px;
 }
 
 .btn-group-vertical .btn {
-	line-height: 56px;
+    line-height: 56px;
 }
 
 .sponsor {
-	margin-bottom:11px;
+    margin-bottom: 11px;
 }
 
 .sponsor-title {
-	text-transform: uppercase;
-	color:#ccc;
-	font-size: 14px;
+    text-transform: uppercase;
+    color: #ccc;
+    font-size: 14px;
 }
 
 .auth-form {
-	margin-top:50px;
+    margin-top: 50px;
 }
 
 .target-logo img {
-	margin:40px;
+    margin: 40px;
 }
 
 /* Media Queries */
 @media screen and (max-width: 530px) {
-	.btn-section-link {
-		padding-left: 0px;
-	}
+.btn-section-link {
+    padding-left: 0;
+}
 }
 
 @media screen and (max-width: 736px) {
-	.page-heading {
-		margin-top: 50px;
-	}
+.page-heading {
+    margin-top: 50px;
+}
 }
 
 /* Form Styles */
-
 .form-control {
-	border-radius:0px;
-	border:#d9d9d9 1px solid;
-	box-shadow: none;
-	height:53px;
-	color:#b2b2b2;
+    border-radius: 0;
+    border: #d9d9d9 1px solid;
+    box-shadow: none;
+    height: 53px;
+    color: #b2b2b2;
 }
 
 /* Button Styles */
 .btn {
-	text-transform: uppercase;
-	height:55px;
-	min-width:140px;
-	border:none;
-	border-radius: 0px;
-	font-weight:bold;
-	font-size:16px;
+    text-transform: uppercase;
+    height: 55px;
+    min-width: 140px;
+    border: none;
+    border-radius: 0;
+    font-weight: 700;
+    font-size: 16px;
 }
 
-.btn:hover, .btn:active, .btn:focus, .btn:active:hover {
-	border-radius:0px;
-	outline: none;
+.btn:hover,.btn:active,.btn:focus,.btn:active:hover {
+    border-radius: 0;
+    outline: none;
 }
 
 .btn-primary {
-	background-color:#60d3d6;
-	color:#fff;
+    background-color: #60d3d6;
+    color: #fff;
 }
 
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary:active:hover {
-	background-color:#49A4A7 !important;
+.btn-primary:hover,.btn-primary:active,.btn-primary:focus,.btn-primary:active:hover {
+    background-color: #49A4A7 !important;
 }
 
 /* Alerts */
 .alert {
-	border-radius: 0px;
+    border-radius: 0;
+}
+
+i.icon-move {
+    cursor: move;
+}
+
+body.dragging,body.dragging * {
+    cursor: move !important;
+}
+
+.dragged {
+    position: absolute;
+    opacity: .5;
+    z-index: 2000;
+}
+
+ol.example li.placeholder {
+    position: relative;
+/** More li styles **/
+}
+
+ol.example li.placeholder:before {
+    position: absolute;
+/** Define arrowhead **/
+}
+
+.sorted_table tr.placeholder {
+    display: block;
+    background: red;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.sorted_table tr.placeholder:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-left-color: red;
+    margin-top: -5px;
+    left: -5px;
+    border-right: none;
 }

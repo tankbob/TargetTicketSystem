@@ -11,7 +11,8 @@
         "intervention/image": "2.3.2",
         "laracasts/flash": "~1.3",
         "doctrine/dbal": "*",
-        "rigor789/airbrake-laravel": "^1.2"
+        "rigor789/airbrake-laravel": "^1.2",
+        "twbs/bootstrap": "3.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -36,13 +37,17 @@
     "scripts": {
         "post-install-cmd": [
             "php artisan clear-compiled",
-            "php artisan optimize"
+            "php artisan optimize",
+            "cp -R vendor/twbs/bootstrap/dist/css/* resources/assets/css/plugins",
+            "cp -R vendor/twbs/bootstrap/dist/js/* resources/assets/js/plugins"
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
-            "php artisan optimize"
+            "php artisan optimize",
+            "cp -R vendor/twbs/bootstrap/dist/css/* resources/assets/css/plugins",
+            "cp -R vendor/twbs/bootstrap/dist/js/* resources/assets/js/plugins"
         ],
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
