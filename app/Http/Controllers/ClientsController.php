@@ -11,13 +11,13 @@ use TargetInk\Libraries\Slug;
 
 class ClientsController extends Controller
 {
-
-    //should be admin
+    // Should be admin
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -62,17 +62,6 @@ class ClientsController extends Controller
             'email'     =>  $client->email,
             'name'      =>  $client->name
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -122,9 +111,9 @@ class ClientsController extends Controller
         $client = User::find($id);
         $client->delete();
         return json_encode([
-            'success'   =>  'The Client has been deleted.',
-            'method'    =>  'delete',
-            'id'        =>  $client->id
+            'success'   => 'The Client has been deleted.',
+            'method'    => 'delete',
+            'id'        => $client->id,
         ]);
     }
 }
