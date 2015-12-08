@@ -4,6 +4,8 @@
 */
 "use strict";
 
+var attachmentCounter = 1;
+
 function adaptMenu() {
 
     if ($(window).width() < 720) {
@@ -302,4 +304,68 @@ $(document).ready(function () {
             $("body").removeClass(container.group.options.bodyClass)
         }
     });
+
+    // Ticket creation
+    $("#attachmentDiv").on('change', '.fileInput', function (){
+        addFileInput(this);
+    });
+
+    $('.type').on('change', function(){
+        toggleFormFields($('.type:checked').val());
+    });
+
+    toggleFormFields($('.type:checked').val());
+
+    $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
 });
+
+function toggleFormFields(typeValue){
+    switch(typeValue) {
+        case '1':
+            $('#publishedAtDiv').addClass('hidden');
+            $('#authorDiv').addClass('hidden');
+            $('#categoriesDiv').addClass('hidden');
+            $('#artitcleTitleDiv').addClass('hidden');
+            $('#scheduleDiv').addClass('hidden');
+            $('#content').attr('placeholder', 'Your Text');
+            break;
+        case '2':
+            $('#publishedAtDiv').removeClass('hidden');
+            $('#authorDiv').removeClass('hidden');
+            $('#categoriesDiv').removeClass('hidden');
+            $('#artitcleTitleDiv').removeClass('hidden');
+            $('#scheduleDiv').addClass('hidden');
+            $('#content').attr('placeholder', 'Notes (For content ideally please submit a word or text doc. below)');
+            break;
+        case '3':
+            $('#publishedAtDiv').addClass('hidden');
+            $('#authorDiv').addClass('hidden');
+            $('#categoriesDiv').addClass('hidden');
+            $('#artitcleTitleDiv').addClass('hidden');
+            $('#scheduleDiv').removeClass('hidden');
+            $('#content').attr('placeholder', 'Your Text');
+            break;
+        case '4':
+            $('#publishedAtDiv').addClass('hidden');
+            $('#authorDiv').addClass('hidden');
+            $('#categoriesDiv').addClass('hidden');
+            $('#artitcleTitleDiv').addClass('hidden');
+            $('#scheduleDiv').addClass('hidden');
+            $('#content').attr('placeholder', 'How can we help...');
+            break;
+        default:
+            break;
+    }
+}
+
+function addFileInput(fileinput){
+    if($(fileinput).val() && $(fileinput).attr('attachmentID') == attachmentCounter){
+        attachmentCounter ++;
+        var html = '';
+        html += '<div>';
+            html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment-'+attachmentCounter+'" type="file">';
+        html += '</div>';
+        $('#attachmentDiv').append(html);
+        $('#attachment_count').val(attachmentCounter);
+    }
+}

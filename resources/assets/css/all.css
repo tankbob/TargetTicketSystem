@@ -443,3 +443,59 @@ tr:hover .show-on-hover {
     line-height: 1em;
     color: transparent;
 }
+
+.btn-web-amends,
+.btn-add-content,
+.btn-get-quote,
+.btn-ask-question {
+    width: 146px;
+    height: 146px;
+    background-image: url(/images/user-icons.png);
+    background-position-y: top;
+    background-repeat: no-repeat;
+}
+
+.btn-web-amends:hover,
+.btn-add-content:hover,
+.btn-get-quote:hover,
+.btn-ask-question:hover {
+    background-position-y: bottom;
+    cursor:pointer;
+}
+
+input[type="radio"].type:checked+label{
+    background-position-y: bottom;
+}
+
+input[type="radio"].type {
+    visibility: hidden;
+}
+
+.btn-web-amends {
+    background-position-x: 0px;
+}
+
+.btn-add-content {
+    background-position-x: -146px;
+}
+
+.btn-get-quote {
+    background-position-x: -292px;
+}
+
+.btn-ask-question {
+    background-position-x: -438px;
+}
+
+.ticket-form input:not(.btn), .ticket-form textarea {
+    display:block;
+    width:100%;
+    height:57px;
+    border:#ccc 1px solid;
+    padding:17px !important;
+    margin-bottom:15px;
+}
+
+.ticket-form input[type=file] {
+    border:#ccc 1px dashed;
+}
