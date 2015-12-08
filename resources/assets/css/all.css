@@ -242,8 +242,8 @@ ol.example li.placeholder:before {
 .sorted_table tr.placeholder:before {
     content: "";
     position: absolute;
-    width: 0;
-    height: 0;
+    width: 0 !important;
+    height: 0 !important;
     border: 5px solid transparent;
     border-left-color: red;
     margin-top: -5px;
@@ -285,12 +285,23 @@ ol.example li.placeholder:before {
     opacity:0.5;
 }
 
+.icon-download {
+    background:url('/images/icon-download.png');
+    width:36px;
+    height:36px;
+    display:inline-block;
+}
+
 .table-no-borders, .table-no-borders tr, .table-no-borders tr td, .table-no-borders tr th {
     border:none !important;
 }
 
 .table-muted * {
     color:#ccc;
+}
+
+.table-ti-border {
+    border:#ccc 1px solid;
 }
 
 .btn-open-tickets i, .btn-archived-tickets i {
@@ -338,11 +349,15 @@ ol.example li.placeholder:before {
     width:36px;
     height:36px;
     display:inline-block;
-    background-position: top right;
+    background-position: bottom left;
 }
 
 .btn-archive:hover {
     background-position: top right;
+}
+
+.btn-unarchive:hover {
+    background-position: top left;
 }
 
 .btn-new-ticket {
@@ -398,6 +413,10 @@ ol.example li.placeholder:before {
     visibility:visible;
 }
 
+tr:hover .show-on-hover {
+    visibility:visible;
+}
+
 .td-adjust, .ticket-table thead th {
     padding-top: 18px !important;
     font-weight: bold;
@@ -413,7 +432,7 @@ ol.example li.placeholder:before {
     border-bottom: #cbcbcb 1px solid;
 }
 
-.ticket-table thead, .ticket-table tr {
+.ticket-table thead, .ticket-table tr:not(.placeholder) {
     border:#cbcbcb 1px solid;
     height:54px;
 }

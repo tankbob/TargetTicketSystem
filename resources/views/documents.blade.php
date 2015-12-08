@@ -13,11 +13,27 @@
 <div class="page-content">
     <div class="row">
         <div class="col-xs-12">
-            @foreach($files as $file)
-            	<div>
-            		<a href="/files/documents/{{$file->filepath}}">ICON</a> {{$file->filename}} {{date('d/m/y', strtotime($file->created_at))}}
-            	</div>
-            @endforeach
+			@if(count($files))
+				<table class="table table-ti-border">
+	            @foreach($files as $file)
+	            	<tr>
+						<td width="75">
+							<a href="{{ url('files/documents/' . $file->filepath) }}" class="show-on-hover icon-download" target="_blank"></a>
+						</td>
+						<td class="td-adjust text-left">
+	            			{{ $file->filename }}
+						</td>
+						<td class="td-adjust text-center">
+							{{ date('d/m/y', strtotime($file->created_at)) }}
+						</td>
+					</tr>
+	            @endforeach
+				</table>
+			@else
+				<div class="alert alert-warning">
+					There are no documents to view
+				</div>
+			@endif
 		</div>
     </div>
 </div>

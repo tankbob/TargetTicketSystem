@@ -57,13 +57,15 @@
 		            	<th>Ticket Type</th>
 		            	<th>Cost</th>
 		            	<th class="text-center">Response</th>
-		            	<th class="text-center">Archive</th>
-
+                        @if($archived)
+		            	<th class="text-center">Unarchive</th>
+                        @else
+                        <th class="text-center">Archive</th>
+                        @endif
                         @if(auth()->user()->admin)
 		       			    <th>Time</th>
 		            		<th></th>
 		            	@endif
-
 		            	<th width="36"></th>
 		            </tr>
 	            </thead>
@@ -84,15 +86,12 @@
 	            					Ask Question
 	            				@endif
 	            			</td>
-
 	            			<td class="td-adjust">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
-
 	            			<td class="text-center">
                                 @if(@$ticket->responses->last()->admin)
                                 <i class="icon-response"></i>
                                 @endif
                             </td>
-
 	            			@if($archived)
             				<td class="text-center">
                                 <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive"></a>
@@ -102,7 +101,6 @@
                                 <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive"></a>
                             </td>
 	            			@endif
-
                             @if(auth()->user()->admin)
 		       				    <th>{{$ticket->totalTime()}}</th>
 			            		<td>
