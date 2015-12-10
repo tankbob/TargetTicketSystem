@@ -103,23 +103,23 @@
                         <div id="info-form-div"></div>
                     {!! Form::close() !!}
                 @else
-                    <a href="{{  url(auth()->user()->company_slug.'/tickets') }}" class="btn-section-link btn-maintenance-support">
+                    <a href="{{ url(auth()->user()->company_slug.'/tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
 
-                    <a href="{{  url(auth()->user()->company_slug.'/documents/seo') }}" class="btn-section-link btn-seo-reports">
+                    <a href="{{ url(auth()->user()->company_slug.'/documents/seo') }}" class="btn-section-link btn-seo-reports">
                         <strong>SEO Documents</strong>
                         <p>Click here to view your current &amp; previous SEO Docs.</p>
                     </a>
 
-                    <a href="{{  url(auth()->user()->company_slug.'/documents/info') }}" class="btn-section-link btn-information-documents">
+                    <a href="{{ url(auth()->user()->company_slug.'/documents/info') }}" class="btn-section-link btn-information-documents">
                         <strong>Information Documents</strong>
                         <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
                     </a>
 
-                    @if(count(auth()->user()->Services))
-                        @foreach(auth()->user()->Services as $service)
+                    @if(count(auth()->user()->services))
+                        @foreach(auth()->user()->services as $service)
                              <a href="{{  $service->link }}" target="#blank" class="btn-section-link btn-section-{{ $service->id }}">
                                 <strong>{{ $service->heading }}</strong>
                                 <p>{!! nl2br($service->text) !!}</p>
@@ -139,9 +139,9 @@
 @endsection
 
 @section('styles')
-    @if(count(auth()->user()->Services))
+    @if(count(auth()->user()->services))
         <style type="text/css">
-            @foreach(auth()->user()->Services as $service)
+            @foreach(auth()->user()->services as $service)
                 .btn-section-{{ $service->id }} {
                     background-image: url('/files/services/{{ $service->icon }}') !important;
                     background-position-y: top;

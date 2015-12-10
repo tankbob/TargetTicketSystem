@@ -1,5 +1,6 @@
 Choose a client
 
+@if($clients)
 <table class="table table-stripped">
     <thead>
         <th></th>
@@ -16,3 +17,6 @@ Choose a client
         @endforeach
     </tbody>
 </table>
+@else
+<div class="alert alert-warning">There are no clients</div>
+@endif
