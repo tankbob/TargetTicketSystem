@@ -487,7 +487,7 @@ input[type="radio"].type {
     background-position-x: -438px;
 }
 
-.ticket-form input:not(.btn), .ticket-form textarea {
+.ticket-form .form-control, .ticket-form textarea {
     display:block;
     width:100%;
     height:57px;
@@ -498,4 +498,78 @@ input[type="radio"].type {
 
 .ticket-form input[type=file] {
     border:#ccc 1px dashed;
+}
+
+.icon-container {
+    margin-bottom:60px;
+}
+
+.ticket-content {
+    min-height:300px;
+}
+
+label.file-label input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+.file-label {
+    display:block;
+    width:100%;
+    height:57px;
+    padding:17px !important;
+    margin-bottom:15px;
+    border:#ccc 1px dashed;
+    cursor: pointer;
+}
+
+.file-label:hover {
+    background: #eee;
+}
+
+.file-label:active {
+    background: #ccc;
+}
+
+.file-label :invalid + span {
+    color: #A44;
+}
+
+.btn-submit-ticket {
+    width:139px;
+    height:53px;
+    background: #5cd1d8;
+}
+
+.btn-submit-ticket:hover {
+    background: #347e81;
+}
+
+.ticket-check {
+    margin-top:15px;
+}
+
+.ticket-check label {
+    margin-left: 23px;
+    position: relative;
+    margin-top: -22px;
+    color: #2ac7cc;
+}
+
+.page-content {
+    margin-bottom:25px;
+}
+
+.icon-upload {
+    background:url('/images/ticket-icons.png');
+    width:36px;
+    height:36px;
+}
+
+.file-label span .icon-upload {
+    margin-top: -8px;
+}
+
+.file-label span def {
+    color:#cdcdcd;
 }

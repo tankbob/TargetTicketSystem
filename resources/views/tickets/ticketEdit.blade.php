@@ -13,40 +13,34 @@
     <h1>Choose a ticket</h1>
     <p>Choose wich kind of request to submit from the following:</p>
 </div>
-
 <div class="page-content">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
 			{!! Form::open(['url' => $company_slug.'/tickets', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
-
-			<div class="text-center">
+			<div class="text-center icon-container">
 				{!! Form::radio('type', '1', !isset($ticket) || @$ticket->type == 1, ['class' => 'type', 'id' => 'web-amends']) !!} <label for="web-amends" class="btn-web-amends"></label>
 				{!! Form::radio('type', '2', @$ticket->type == 2, ['class' => 'type', 'id' => 'add-content']) !!} <label for="add-content" class="btn-add-content"></label>
 				{!! Form::radio('type', '3', @$ticket->type == 3, ['class' => 'type', 'id' => 'get-quote']) !!} <label for="get-quote" class="btn-get-quote"></label>
 				{!! Form::radio('type', '4', @$ticket->type == 4, ['class' => 'type', 'id' => 'ask-question']) !!} <label for="ask-question" class="btn-ask-question"></label>
 			</div>
-
 			<div class="ticket-form">
-
 	           	<div @if($errors->has('title')) has-error dark @endif>
 	           		@if($errors->has('title'))
 	           			 <span class="alert-danger"> {{ $errors->first('title') }} </span>
 	           		@endif
-					{!! Form::text('title', @$ticket->title, ['placeholder' => 'Ticket Title']) !!}
+					{!! Form::text('title', @$ticket->title, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
 		        </div>
-
 		        <div id="scheduleDiv">
-		        	{!! Form::text('schedule', @$ticket->schedule, ['placeholder' => 'What\'s your schedule']) !!}
+		        	{!! Form::text('schedule', @$ticket->schedule, ['class' => 'form-control', 'placeholder' => 'What\'s your schedule']) !!}
 		        </div>
-
 	           	<div @if($errors->has('content')) has-error dark @endif>
 	           		@if($errors->has('content'))
 	           			<span class="alert-danger"> {{ $errors->first('content') }} </span>
 	           		@endif
-					{!! Form::textarea('content', @$ticket->content, ['placeholder' => 'Your Text', 'id' => 'content']) !!}
+					{!! Form::textarea('content', @$ticket->content, ['placeholder' => 'Your Text', 'id' => 'content', 'class' => 'ticket-content']) !!}
 		        </div>
 
-		        <!-- Only Retrieve one file error if there is more than one-->
+		        {{-- Only Retrieve one file error if there is more than one --}}
 		        @if(old('attachment_count'))
 		        	@for($i = 1; $i <= old('attachment_count'); $i ++)
 		        		@if($errors->has('attachment-'.$i))
@@ -55,49 +49,50 @@
 		        		@endif
 		        	@endfor
 				@endif
-
 		        <div id="attachmentDiv">
 			        <div>
-			        	{!! Form::file("attachment-1", ['attachmentID' => 1, 'class' => 'fileInput']) !!}
+						<label class="file-label">
+							{!! Form::file("attachment-1", ['attachmentID' => 1, 'class' => 'fileInput', 'multiple' => 'multiple']) !!}
+							<span>
+								<def>Attachments, click to add file or drop file here</def>
+								<i class="icon-upload pull-right"></i>
+							</span>
+						</label>
 			        </div>
 			    </div>
-
 			    <input type="hidden" name="attachment_count" id="attachment_count" value="1">
-
 		        <div id="publishedAtDiv">
 		        	<div>
 		        		@if(@$ticket->published_at)
-		        			{!! Form::text('published_at', date('d m Y', strtotime(@$ticket->published_at)), ['placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)']) !!}
+		        			{!! Form::text('published_at', date('d m Y', strtotime(@$ticket->published_at)), ['class' => 'form-control', 'placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)']) !!}
 		        		@else
-		        			{!! Form::text('published_at', '', ['placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)', 'class' => 'dateInput']) !!}
+		        			{!! Form::text('published_at', '', ['class' => 'form-control dateInput', 'placeholder' => 'Date To Be Published (Please use format: DD/MM/YYYY)']) !!}
 		        		@endif
 		        	</div>
 		        </div>
-
 		        <div id="authorDiv">
 		        	<div>
-		        		{!! Form::text('author', @$ticket->author, ['placeholder' => 'Author, Google Plus Account if required']) !!}
+		        		{!! Form::text('author', @$ticket->author, ['class' => 'form-control', 'placeholder' => 'Author, Google Plus Account if required']) !!}
 		        	</div>
 		        </div>
-
 		        <div id="categoriesDiv">
 		        	<div>
-		        		{!! Form::text('categories', @$ticket->categories, ['placeholder' => 'Categories']) !!}
+		        		{!! Form::text('categories', @$ticket->categories, ['class' => 'form-control', 'placeholder' => 'Categories']) !!}
 		        	</div>
 		        </div>
-
 		        <div id="artitcleTitleDiv">
 		        	<div>
-		        		{!! Form::text('article_title', @$ticket->article_title, ['placeholder' => 'Article Or Event Title']) !!}
+		        		{!! Form::text('article_title', @$ticket->article_title, ['class' => 'form-control', 'placeholder' => 'Article Or Event Title']) !!}
 		        	</div>
 		        </div>
-
 			    <div>
-			    	{!! Form::submit('submit', ['class' => 'btn btn-success']) !!}
+			    	{!! Form::submit('submit', ['class' => 'btn btn-info btn-submit-ticket']) !!}
 			    </div>
 
-			    {!! Form::checkbox('priority', '1', @$ticket->priority) !!}
-			    {!! Form::label('priority', 'Priority Request? All priority request will be invoiced! <br> Clients with a maintenance contract will only be invoiced should the time exceed your monthly allowance. PLEASE NOTE you will not be informed if the time runs over your allowance and you will be charged by the hour until the job is completed. If you have any questions or querties please get in touch on 01892 800 400') !!}
+				<div class="ticket-check">
+				    {!! Form::checkbox('priority', '1', @$ticket->priority) !!}
+					<label for="priority">Priority Request? All priority request will be invoiced!<br>Clients with a maintenance contract will only be invoiced should the time exceed your monthly allowance. PLEASE NOTE you will not be informed if the time runs over your allowance and you will be charged by the hour until the job is completed. If you have any questions or querties please get in touch on 01892 800 400</label>
+				</div>
 			</div>
 		    {!! Form::close() !!}
 		</div>
