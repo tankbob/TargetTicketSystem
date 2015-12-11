@@ -7,7 +7,6 @@
 var attachmentCounter = 1;
 
 function adaptMenu() {
-
     if ($(window).width() < 720) {
         $('.main-nav').removeClass('btn-group-justified');
         $('.main-nav').addClass('btn-group-vertical');
@@ -18,10 +17,47 @@ function adaptMenu() {
         $('.main-nav').removeClass('btn-block');
     }
 }
+
+function togglePage($element, $ajaxUri, $slug) {
+    console.log('Clicked');
+
+    if ($element.is(":visible") == true) {
+        // Hide all open windows
+        $('.ajaxable').slideUp();
+
+        // Change history
+        window.history.pushState("", "", "/");
+    } else {
+        console.log('Element is hidden so we are loading in the content');
+
+        // Start nprogress
+        NProgress.start();
+        $('body').addClass('loading');
+
+        // Change the history
+        window.history.pushState("", "", "/?" + $slug);
+
+        // Hide all open windows
+        $('.ajaxable').slideUp();
+
+        $.ajax({
+            url: $ajaxUri,
+            cache: false
+        })
+        .done(function(html) {
+            $element.html(html).slideDown();
+            NProgress.done();
+            $('body').removeClass('loading');
+        });
+    }
+}
+
+// Adapt the menu so mobile devices
 $(window).resize(function () {
     adaptMenu();
 });
 adaptMenu();
+
 $(document).ready(function () {
     // Set up the csrf token for all ajax requests
     $.ajaxSetup({
@@ -29,22 +65,32 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('.btn-maintenance-support').on('click', function (event) {
-        event.preventDefault;
-        $("#maintenance-support-div").load("/dashboard/maintenance");
+
+    // Maintenance Button
+    $('.btn-maintenance-support').on('click', function (e) {
+        togglePage($("#maintenance-support-div"), '/dashboard/maintenance', 'maintenance');
+        e.preventDefault();
     });
-    $('.btn-clients').on('click', function (event) {
-        event.preventDefault();
-        $("#clients-div").load("/clients");
+
+    // Clients Button
+    $('.btn-clients').on('click', function (e) {
+        togglePage($("#clients-div"), '/clients', 'clients');
+        e.preventDefault();
     });
-    $('.btn-banners').on('click', function (event) {
-        event.preventDefault();
-        $("#banners-div").load("/banners");
+
+    // Banners
+    $('.btn-banners').on('click', function (e) {
+        togglePage($("#banners-div"), '/banners', 'banners');
+        e.preventDefault();
     });
-    $('.btn-services').on('click', function (event) {
-        event.preventDefault();
-        $("#services-div").load("/services");
+
+    // Services
+    $("#services-div").hide();
+    $('.btn-services').on('click', function (e) {
+        togglePage($("#services-div"), '/services');
+        e.preventDefault();
     });
+
     $('#clients-div').on('click', '.clientFormToggler', function (event) {
         event.preventDefault();
         if ($(this).attr('clientId') == 0) {
@@ -70,7 +116,7 @@ $(document).ready(function () {
                 success: function (response) {
                     var res = $.parseJSON(response);
                     $("#banner-row-" + res.id).remove();
-                    $("#banner-form-div").html('<div class="alert-success">' + res.success + '</div>');
+                    $("#banner-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 }
             });
         }
@@ -88,9 +134,9 @@ $(document).ready(function () {
             data: $(this).serialize(),
             success: function (response) {
                 var res = $.parseJSON(response);
-                $("#clientFormDiv").html('<div class="alert-success">' + res.success + '</div>');
+                $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 if (res.method == 'create') {
-                    $('#client-table tbody').append('<tr id="client-row-' + res.id + '"><td><a href="#" class="clientFormToggler" clientId="' + res.id + '">GOTOICON</a></td><td>' + res.email + '</td><td>' + res.name + '</td><td></td><td><a href="#" class="clientDelete" clientId="' + res.id + '">DELETE ICON</a></td></tr>');
+                    $('#client-table tbody').append('<tr id="client-row-' + res.id + '"><td><a href="#" class="clientFormToggler show-on-hover icon-goto" clientId="' + res.id + '"></a></td><td class="td-adjust">' + res.email + '</td><td class="td-adjust">' + res.name + '</td><td></td><td><a href="#" class="clientDelete icon-delete" clientId="' + res.id + '"></a></td></tr>');
                 } else {
                     $("#client-name-" + res.id).html(res.name);
                     $("#client-email-" + res.id).html(res.email);
@@ -107,7 +153,7 @@ $(document).ready(function () {
                 success: function (response) {
                     var res = $.parseJSON(response);
                     $("#client-row-" + res.id).remove();
-                    $("#clientFormDiv").html('<div class="alert-success">' + res.success + '</div>');
+                    $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 }
             });
         }
@@ -137,7 +183,7 @@ $(document).ready(function () {
                 success: function (response) {
                     var res = $.parseJSON(response);
                     $("#service-row-" + res.id).remove();
-                    $("#services-form-div").html('<div class="alert-success">' + res.success + '</div>');
+                    $("#services-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 }
             });
         }
@@ -167,7 +213,7 @@ $(document).ready(function () {
                 success: function (response) {
                     var res = $.parseJSON(response);
                     $("#seo-row-" + res.id).remove();
-                    $("#seo-form-div").html('<div class="alert-success">' + res.success + '</div>');
+                    $("#seo-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 }
             });
         }
@@ -181,7 +227,7 @@ $(document).ready(function () {
                 success: function (response) {
                     var res = $.parseJSON(response);
                     $("#info-row-" + res.id).remove();
-                    $("#info-form-div").html('<div class="alert-success">' + res.success + '</div>');
+                    $("#info-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 }
             });
         }

@@ -405,6 +405,14 @@ ol.example li.placeholder:before {
     display:inline-block;
 }
 
+.icon-delete {
+    background:url('/images/ticket-delete.png');
+    width:36px;
+    height:36px;
+    display:block;
+    margin:0 auto;
+}
+
 .show-on-hover {
     visibility:hidden;
 }
@@ -566,10 +574,129 @@ label.file-label input[type="file"] {
     height:36px;
 }
 
+.icon-new-client {
+    background:url('/images/new-client-icon.png');
+    width:60px;
+    height:60px;
+    background-position: top;
+    display:block;
+    margin-top: -4px;
+    margin-left: 15px;
+}
+
+.icon-new-client:hover {
+    background-position: bottom;
+}
+
 .file-label span .icon-upload {
     margin-top: -8px;
 }
 
 .file-label span def {
     color:#cdcdcd;
+}
+
+
+
+
+/* Make clicks pass-through */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #29d;
+
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  opacity: 1.0;
+
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+      -ms-transform: rotate(3deg) translate(0px, -4px);
+          transform: rotate(3deg) translate(0px, -4px);
+}
+
+/* Remove these to get rid of the spinner */
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 1031;
+  top: 15px;
+  right: 15px;
+}
+
+#nprogress .spinner-icon {
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+
+  border: solid 2px transparent;
+  border-top-color: #29d;
+  border-left-color: #29d;
+  border-radius: 50%;
+
+  -webkit-animation: nprogress-spinner 400ms linear infinite;
+          animation: nprogress-spinner 400ms linear infinite;
+}
+
+.nprogress-custom-parent {
+  overflow: hidden;
+  position: relative;
+}
+
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
+  position: absolute;
+}
+
+@-webkit-keyframes nprogress-spinner {
+  0%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes nprogress-spinner {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+body.loading, body.loading * {
+    cursor: progress;
+}
+
+.maintenance-title {
+    font-size: 16px;
+    color: #b0b0b0;
+    font-weight: bold;
+    margin-bottom: 42px;
+}
+
+.update-client-btn {
+    width:283px;
+    height:54px;
+    color:#fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: #60d3d6;
+}
+
+.update-client-btn:hover {
+    background: #2f777b;
+}
+
+#clientFormDiv {
+    margin-bottom:25px;
 }

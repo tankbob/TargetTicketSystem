@@ -27,6 +27,7 @@ elixir(function(mix) {
 			'plugins/jquery.maskedinput.min.js',
 			'plugins/jquery.validate.min.js',
 			'plugins/additional-methods.min.js',
+			'plugins/nprogress.js',
 			'all.js'
 		])
 		.version(['css/all.css', 'js/all.js']);

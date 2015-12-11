@@ -4,33 +4,8 @@
     Your Services
 @stop
 
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function(){
-            @if(Request::get('advert'))
-                $("#banners-div").load("/banners");
-                $("#banner-table-div").load("/banners/" + {{ Request::get('advert') }});
-                $("#banner-form-div").html("<div class='alert alert-success'>The Advert has been uploaded successfully</div>");
-            @elseif(Request::get('seo'))
-                $("#seo-div").load("/documents/seo");
-                $("#seo-table-div").load("/documents/seo/" + {{ Request::get('seo') }});
-                $("#seo-form-div").html("<div class='alert alert-success'>The SEO Document has been uploaded successfully</div>");
-            @elseif(Request::get('info'))
-                $("#info-div").load("/documents/info");
-                $("#info-table-div").load("/documents/info/" + {{ Request::get('info') }});
-                $("#info-form-div").html("<div class='alert alert-success'>The info Document has been uploaded successfully</div>");
-            @elseif(Request::get('service'))
-                $("#services-div").load("/services");
-                $("#services-table-div").load("/services/" + {{ Request::get('service') }});
-                $("#services-form-div").html("<div class='alert alert-success'>The service has been added successfully</div>");
-            @endif
-        });
-    </script>
-@stop
-
 @section('content')
 <div class="page-heading text-center">
-
     <h1>Choose a Service</h1>
 
     @if(auth()->user()->admin)
@@ -53,24 +28,32 @@
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
-
-                    <div id="maintenance-support-div"></div>
+                    <div class="ajaxable" id="maintenance-support-div" @if(!isset($_GET['maintenance'])) style="display:none;" @endif>
+                        @if(isset($_GET['maintenance']))
+                        <?php $c = new TargetInk\Http\Controllers\AppController; ?>
+                        {!! $c->showMaintenance() !!}
+                        @endif
+                    </div>
 
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
                         <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond</p>
                     </a>
-
-                    <div id="clients-div"></div>
+                    <div class="ajaxable" id="clients-div" @if(!isset($_GET['clients'])) style="display:none;" @endif>
+                        @if(isset($_GET['clients']))
+                        <?php $c = new TargetInk\Http\Controllers\ClientsController; ?>
+                        {!! $c->index() !!}
+                        @endif
+                    </div>
 
                     <a href="#" class="btn-section-link btn-banners" id="advertDiv">
                         <strong>Adverts</strong>
                         <p>Click here to manage adverts displayed to clients</p>
                     </a>
                     {!! Form::open(['url' => '/banners', 'method' => 'POST', 'id' => 'newBannerForm', 'files' => true]) !!}
-                        <div id="banners-div"></div>
-                        <div id="banner-table-div"></div>
-                        <div id="banner-form-div"></div>
+                        <div class="ajaxable" id="banners-div"></div>
+                        <div class="ajaxable" id="banner-table-div"></div>
+                        <div class="ajaxable" id="banner-form-div"></div>
                     {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-services">
@@ -78,9 +61,9 @@
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
                     </a>
                     {!! Form::open(['url' => '/services', 'method' => 'POST', 'id' => 'new-services-form', 'files' => true]) !!}
-                        <div id="services-div"></div>
-                        <div id="services-table-div"></div>
-                        <div id="services-form-div"></div>
+                        <div class="ajaxable" id="services-div"></div>
+                        <div class="ajaxable" id="services-table-div"></div>
+                        <div class="ajaxable" id="services-form-div"></div>
                     {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-seo-reports-admin">
@@ -88,9 +71,9 @@
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
                     {!! Form::open(['url' => '/documents/seo', 'method' => 'POST', 'id' => 'new-seo-form', 'files' => true]) !!}
-                        <div id="seo-div"></div>
-                        <div id="seo-table-div"></div>
-                        <div id="seo-form-div"></div>
+                        <div class="ajaxable" id="seo-div"></div>
+                        <div class="ajaxable" id="seo-table-div"></div>
+                        <div class="ajaxable" id="seo-form-div"></div>
                     {!! Form::close() !!}
 
                     <a href="#" class="btn-section-link btn-information-documents-admin">
@@ -98,22 +81,22 @@
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
                     {!! Form::open(['url' => '/documents/info', 'method' => 'POST', 'id' => 'new-info-form', 'files' => true]) !!}
-                        <div id="info-div"></div>
-                        <div id="info-table-div"></div>
-                        <div id="info-form-div"></div>
+                        <div class="ajaxable" id="info-div"></div>
+                        <div class="ajaxable" id="info-table-div"></div>
+                        <div class="ajaxable" id="info-form-div"></div>
                     {!! Form::close() !!}
                 @else
-                    <a href="{{ url(auth()->user()->company_slug.'/tickets') }}" class="btn-section-link btn-maintenance-support">
+                    <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
                     </a>
 
-                    <a href="{{ url(auth()->user()->company_slug.'/documents/seo') }}" class="btn-section-link btn-seo-reports">
+                    <a href="{{ url(auth()->user()->company_slug . '/documents/seo') }}" class="btn-section-link btn-seo-reports">
                         <strong>SEO Documents</strong>
                         <p>Click here to view your current &amp; previous SEO Docs.</p>
                     </a>
 
-                    <a href="{{ url(auth()->user()->company_slug.'/documents/info') }}" class="btn-section-link btn-information-documents">
+                    <a href="{{ url(auth()->user()->company_slug . '/documents/info') }}" class="btn-section-link btn-information-documents">
                         <strong>Information Documents</strong>
                         <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
                     </a>
