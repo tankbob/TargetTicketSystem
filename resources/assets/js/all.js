@@ -98,6 +98,11 @@ $(document).ready(function () {
         } else {
             $("#clientFormDiv").load("/clients/" + $(this).attr('clientId') + "/edit");
         }
+
+        // Scroll to the form
+        $.smoothScroll({
+            scrollTarget: '#clientFormDiv'
+        });
     });
     $("#banners-div").on('change', '#banner-customer-select', function (event) {
         event.preventDefault();

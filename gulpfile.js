@@ -28,6 +28,7 @@ elixir(function(mix) {
 			'plugins/jquery.validate.min.js',
 			'plugins/additional-methods.min.js',
 			'plugins/nprogress.js',
+			'plugins/jquery.smooth-scroll.js',
 			'all.js'
 		])
 		.version(['css/all.css', 'js/all.js']);
