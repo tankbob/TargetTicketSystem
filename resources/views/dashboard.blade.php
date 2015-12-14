@@ -50,8 +50,13 @@
                         <strong>Adverts</strong>
                         <p>Click here to manage adverts displayed to clients</p>
                     </a>
-                    {!! Form::open(['url' => '/banners', 'method' => 'POST', 'id' => 'newBannerForm', 'files' => true]) !!}
-                        <div class="ajaxable" id="banners-div"></div>
+                    {!! Form::open(['url' => 'banners', 'method' => 'POST', 'id' => 'newBannerForm', 'files' => true]) !!}
+                        <div class="ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
+                            @if(isset($_GET['banners']))
+                            <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
+                            {!! $c->index() !!}
+                            @endif
+                        </div>
                         <div class="ajaxable" id="banner-table-div"></div>
                         <div class="ajaxable" id="banner-form-div"></div>
                     {!! Form::close() !!}
