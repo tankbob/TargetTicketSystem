@@ -1,6 +1,4 @@
-
 <h2 class="maintenance-title pull-left">Clients</h2> <a href="#" class="clientFormToggler icon-new-client pull-left" clientId="0"></a>
-
 
 <table class="table ticket-table" id="client-table">
     <thead>

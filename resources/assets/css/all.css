@@ -426,13 +426,16 @@ tr:hover .show-on-hover {
 }
 
 .td-adjust, .ticket-table thead th {
-    padding-top: 18px !important;
     font-weight: bold;
     white-space: nowrap;
     word-break: break-all;
     overflow: hidden;
     max-width: 200px;
-    vertical-align: initial !important;
+    vertical-align: middle !important;
+}
+
+.ticket-table thead th {
+    padding-top: 18px !important;
 }
 
 .ticket-table>thead>tr>th {
@@ -588,6 +591,19 @@ label.file-label input[type="file"] {
     background-position: bottom;
 }
 
+.icon-new-advert {
+    background:url('/images/new-advert-icon.png');
+    width:60px;
+    height:60px;
+    background-position: top;
+    display:block;
+    margin-left: 15px;
+}
+
+.icon-new-advert:hover {
+    background-position: bottom;
+}
+
 .file-label span .icon-upload {
     margin-top: -8px;
 }
@@ -699,4 +715,23 @@ body.loading, body.loading * {
 
 #clientFormDiv {
     margin-bottom:25px;
+}
+
+.client-chooser {
+    color:#b2b2b2;
+    font-size:18px;
+}
+
+.client-chooser label {
+
+}
+
+.client-chooser select {
+    padding:7px 20% 7px 7px;
+    border: #cccccc 1px solid;
+    margin-left:15px;
+}
+
+.banners-container {
+    margin-bottom:15px;
 }

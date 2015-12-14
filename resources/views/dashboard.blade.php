@@ -24,6 +24,7 @@
         @endif
             <div class="btn-section row">
                 @if(auth()->user()->admin)
+                    {{-- Tickets Section --}}
                     <a href="#" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
@@ -35,6 +36,7 @@
                         @endif
                     </div>
 
+                    {{-- Clients Section --}}
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
                         <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond</p>
@@ -46,21 +48,23 @@
                         @endif
                     </div>
 
+                    {{-- Banners Section --}}
                     <a href="#" class="btn-section-link btn-banners" id="advertDiv">
                         <strong>Adverts</strong>
                         <p>Click here to manage adverts displayed to clients</p>
                     </a>
-                    {!! Form::open(['url' => 'banners', 'method' => 'POST', 'id' => 'newBannerForm', 'files' => true]) !!}
-                        <div class="ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
+                    <div class="row banners-container">
+                        <div class="col-md-12 ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
                             @if(isset($_GET['banners']))
                             <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
                             {!! $c->index() !!}
                             @endif
                         </div>
-                        <div class="ajaxable" id="banner-table-div"></div>
-                        <div class="ajaxable" id="banner-form-div"></div>
-                    {!! Form::close() !!}
+                        <div class="col-md-12 ajaxable" id="banner-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="banner-form-div"></div>
+                    </div>
 
+                    {{-- Services Section TODO --}}
                     <a href="#" class="btn-section-link btn-services">
                         <strong>Services</strong>
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
@@ -71,6 +75,7 @@
                         <div class="ajaxable" id="services-form-div"></div>
                     {!! Form::close() !!}
 
+                    {{-- SEO Section TODO --}}
                     <a href="#" class="btn-section-link btn-seo-reports-admin">
                         <strong>Upload SEO Reports</strong>
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
@@ -81,6 +86,7 @@
                         <div class="ajaxable" id="seo-form-div"></div>
                     {!! Form::close() !!}
 
+                    {{-- Information Section TODO --}}
                     <a href="#" class="btn-section-link btn-information-documents-admin">
                         <strong>Upload Information Documents</strong>
                         <p>This icon allows you to upload information documents for clients to refer to.</p>

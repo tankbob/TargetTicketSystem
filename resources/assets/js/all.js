@@ -18,6 +18,22 @@ function adaptMenu() {
     }
 }
 
+function startProgress() {
+    // Start nprogress
+    NProgress.start();
+
+    // Add the loading class
+    $('body').addClass('loading');
+}
+
+function stopProgress() {
+    // Remove nprogress
+    NProgress.done();
+
+    // Remove the loading class
+    $('body').removeClass('loading');
+}
+
 function togglePage($element, $ajaxUri, $slug) {
     console.log('Clicked');
 
@@ -30,9 +46,7 @@ function togglePage($element, $ajaxUri, $slug) {
     } else {
         console.log('Element is hidden so we are loading in the content');
 
-        // Start nprogress
-        NProgress.start();
-        $('body').addClass('loading');
+        startProgress();
 
         // Change the history
         window.history.pushState("", "", "/?" + $slug);
@@ -46,8 +60,7 @@ function togglePage($element, $ajaxUri, $slug) {
         })
         .done(function(html) {
             $element.html(html).slideDown();
-            NProgress.done();
-            $('body').removeClass('loading');
+            stopProgress();
         });
     }
 }
@@ -80,7 +93,7 @@ $(document).ready(function () {
 
     // Banners
     $('.btn-banners').on('click', function (e) {
-        togglePage($("#banners-div"), '/banners', 'banners');
+        togglePage($('#banners-div'), '/banners', 'banners');
         e.preventDefault();
     });
 
@@ -90,6 +103,14 @@ $(document).ready(function () {
         togglePage($("#services-div"), '/services');
         e.preventDefault();
     });
+
+
+
+
+
+
+
+
 
     $('#clients-div').on('click', '.clientFormToggler', function (event) {
         event.preventDefault();
@@ -104,33 +125,60 @@ $(document).ready(function () {
             scrollTarget: '#clientFormDiv'
         });
     });
-    $("#banners-div").on('change', '#banner-customer-select', function (event) {
-        event.preventDefault();
-        if ($(this).val() != '') {
-            $("#banner-table-div").load("/banners/" + $(this).val());
+
+    // When choosing a client show the adverts associated with them
+    $('body').on('change', '#banner-customer-select', function (e) {
+        var clientId = $(this).val();
+        if(clientId != '') {
+            startProgress();
+            $.ajax({
+                type: 'GET',
+                url: '/banners/' + clientId,
+                success: function (response) {
+                    $("#banner-table-div").html(response);
+                    $("#banner-table-div").slideDown();
+                    stopProgress();
+                }
+            });
         } else {
-            $("#banner-table-div").html('');
+            $('#banner-table-div').html('');
+            $('#banner-table-div').slideUp();
         }
+
+        e.preventDefault();
     });
-    $('#banners-div').on('click', '.bannerDelete', function (event) {
-        event.preventDefault();
-        if (window.confirm("Are you sure you want to delete this advert permanently?")) {
+
+    $('body').on('click', '.bannerDelete', function (e) {
+        if (window.confirm('Are you sure you want to delete this advert permanently?')) {
             $.ajax({
                 type: 'DELETE',
                 url: '/banners/' + $(this).attr('bannerId'),
                 success: function (response) {
                     var res = $.parseJSON(response);
-                    $("#banner-row-" + res.id).remove();
-                    $("#banner-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
+                    $('#banner-row-' + res.id).remove();
+                    $('#banner-form-div').html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
                 }
             });
         }
+
+        e.preventDefault();
     });
-    $('#banners-div').on('click', '.bannerFormToggler', function (event) {
-        event.preventDefault();
-        $("#banner-form-div").load("/banners/create");
-        //Validation
+
+    // When you click the add banner button load in the form
+    $('body').on('click', '.bannerFormToggler', function (e) {
+        startProgress();
+        $.ajax({
+            type: 'GET',
+            url: '/banners/create',
+            success: function (response) {
+                $("#banner-form-div").html(response);
+                $("#banner-form-div").slideDown();
+                stopProgress();
+            }
+        });
+        e.preventDefault();
     });
+
     $('#clients-div').on('submit', '#clientForm', function (event) {
         event.preventDefault();
         $.ajax({
@@ -149,6 +197,7 @@ $(document).ready(function () {
             }
         });
     });
+
     $('#clients-div').on('click', '.clientDelete', function (event) {
         event.preventDefault();
         if (window.confirm("Are you sure you want to delete this user permanently?")) {
@@ -163,10 +212,12 @@ $(document).ready(function () {
             });
         }
     });
+
     $('.btn-services').on('click', function (event) {
         event.preventDefault();
         $("#services-div").load("/services");
     });
+
     $("#services-div").on('change', '#service-customer-select', function (event) {
         event.preventDefault();
         if ($(this).val() != '') {
@@ -175,10 +226,12 @@ $(document).ready(function () {
             $("#services-table-div").html('');
         }
     });
+
     $('#services-div').on('click', '.services-form-toggler', function (event) {
         event.preventDefault();
         $('#services-form-div').load("/services/create");
     });
+
     $('#services-table-div').on('click', '.serviceDelete', function (event) {
         event.preventDefault();
         if (window.confirm("Are you sure you want to delete this document permanently?")) {
@@ -193,10 +246,12 @@ $(document).ready(function () {
             });
         }
     });
+
     $('.btn-seo-reports-admin').on('click', function (event) {
         event.preventDefault();
         $('#seo-div').load("/documents/seo");
     });
+
     $('#seo-div').on('change', '#seo-customer-select', function (event) {
         event.preventDefault();
         if ($(this).val() != '') {
@@ -205,10 +260,12 @@ $(document).ready(function () {
             $("#seo-table-div").html('');
         }
     });
+
     $('#seo-div').on('click', '.seo-form-toggler', function (event) {
         event.preventDefault();
         $('#seo-form-div').load("/documents/seo/create");
     });
+
     $('#seo-table-div').on('click', '.seoDelete', function (event) {
         event.preventDefault();
         if (window.confirm("Are you sure you want to delete this document permanently?")) {
@@ -223,6 +280,7 @@ $(document).ready(function () {
             });
         }
     });
+
     $('#info-table-div').on('click', '.infoDelete', function (event) {
         event.preventDefault();
         if (window.confirm("Are you sure you want to delete this document permanently?")) {
@@ -237,10 +295,12 @@ $(document).ready(function () {
             });
         }
     });
+
     $('.btn-information-documents-admin').on('click', function (event) {
         event.preventDefault();
         $('#info-div').load("/documents/info");
     });
+
     $('#info-div').on('change', '#info-customer-select', function (event) {
         event.preventDefault();
         if ($(this).val() != '') {
@@ -249,10 +309,12 @@ $(document).ready(function () {
             $("#info-table-div").html('');
         }
     });
+
     $('#info-div').on('click', '.info-form-toggler', function (event) {
         event.preventDefault();
         $('#info-form-div').load("/documents/info/create");
     });
+
     //Validate
     jQuery.validator.setDefaults({});
     $('#newBannerForm').validate({
