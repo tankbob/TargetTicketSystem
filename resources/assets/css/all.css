@@ -776,3 +776,9 @@ body.loading, body.loading * {
         padding-top: 13px !important;
     }
 }
+
+.btn-delete {
+    border:none;
+    font-size:1em;
+    color:blue;
+}
