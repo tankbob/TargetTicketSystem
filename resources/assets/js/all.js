@@ -386,7 +386,7 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    //Validate
+    // Validate
     jQuery.validator.setDefaults({});
     $('#newBannerForm').validate({
         rules: {
