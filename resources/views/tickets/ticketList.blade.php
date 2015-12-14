@@ -102,10 +102,10 @@
                             </td>
 	            			@endif
                             @if(auth()->user()->admin)
-		       				    <th>{{$ticket->totalTime()}}</th>
-			            		<td>
+		       				    <th class="td-adjust">{{$ticket->totalTime()}}</th>
+			            		<td class="td-adjust text-center">
 			            			{!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}
-			            				{!! Form::submit('Delete') !!}
+			            				{!! Form::submit('', ['class' => 'btn-delete icon-delete']) !!}
 			            			{!! Form::close() !!}
 			            		</td>
 			            	@endif
