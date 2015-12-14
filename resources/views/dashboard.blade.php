@@ -80,27 +80,37 @@
                         <div class="col-md-12 ajaxable" id="services-form-div"></div>
                     </div>
 
-                    {{-- SEO Section TODO --}}
+                    {{-- SEO Section --}}
                     <a href="#" class="btn-section-link btn-seo-reports-admin">
                         <strong>Upload SEO Reports</strong>
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
-                    {!! Form::open(['url' => '/documents/seo', 'method' => 'POST', 'id' => 'new-seo-form', 'files' => true]) !!}
-                        <div class="ajaxable" id="seo-div"></div>
-                        <div class="ajaxable" id="seo-table-div"></div>
-                        <div class="ajaxable" id="seo-form-div"></div>
-                    {!! Form::close() !!}
+                    <div class="row services-container">
+                        <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($_GET['seo'])) style="display:none;" @endif>
+                            @if(isset($_GET['seo']))
+                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
+                            {!! $c->index('seo') !!}
+                            @endif
+                        </div>
+                        <div class="col-md-12 ajaxable" id="seo-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="seo-form-div"></div>
+                    </div>
 
-                    {{-- Information Section TODO --}}
+                    {{-- Information Section --}}
                     <a href="#" class="btn-section-link btn-information-documents-admin">
                         <strong>Upload Information Documents</strong>
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
-                    {!! Form::open(['url' => '/documents/info', 'method' => 'POST', 'id' => 'new-info-form', 'files' => true]) !!}
-                        <div class="ajaxable" id="info-div"></div>
-                        <div class="ajaxable" id="info-table-div"></div>
-                        <div class="ajaxable" id="info-form-div"></div>
-                    {!! Form::close() !!}
+                    <div class="row services-container">
+                        <div class="col-md-12 ajaxable" id="info-div" @if(!isset($_GET['info'])) style="display:none;" @endif>
+                            @if(isset($_GET['info']))
+                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
+                            {!! $c->index('info') !!}
+                            @endif
+                        </div>
+                        <div class="col-md-12 ajaxable" id="info-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="info-form-div"></div>
+                    </div>
                 @else
                     <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>

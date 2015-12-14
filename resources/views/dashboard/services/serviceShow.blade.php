@@ -1,5 +1,5 @@
 @if(count($client->services))
-	<table class="table ticket-table" id="banner-table">
+	<table class="table ticket-table" id="service-table">
 		 <thead>
 	        <th>Icon</th>
 	        <th>Heading</th>

@@ -103,6 +103,18 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
+    // Seo
+    $('.btn-seo-reports-admin').on('click', function (e) {
+        togglePage($("#seo-div"), '/documents/seo', 'seo');
+        e.preventDefault();
+    });
+
+    // Info
+    $('.btn-information-documents-admin').on('click', function (e) {
+        togglePage($("#info-div"), '/documents/info', 'info');
+        e.preventDefault();
+    });
+
     // When clicking create or a client, load the data and scroll to the view
     $('#clients-div').on('click', '.clientFormToggler', function (e) {
         if ($(this).attr('clientId') == 0) {
@@ -219,12 +231,6 @@ $(document).ready(function () {
         }
     });
 
-
-
-
-
-
-
     // When choosing a client show the adverts associated with them
     $('body').on('change', '#service-customer-select', function (e) {
         var clientId = $(this).val();
@@ -246,12 +252,6 @@ $(document).ready(function () {
 
         e.preventDefault();
     });
-
-
-
-
-
-
 
     // When you click the add service button load in the form
     $('body').on('click', '.services-form-toggler', function (e) {
@@ -283,27 +283,44 @@ $(document).ready(function () {
         }
     });
 
-    $('.btn-seo-reports-admin').on('click', function (event) {
-        event.preventDefault();
-        $('#seo-div').load("/documents/seo");
-    });
-
-    $('#seo-div').on('change', '#seo-customer-select', function (event) {
-        event.preventDefault();
-        if ($(this).val() != '') {
-            $("#seo-table-div").load("/documents/seo/" + $(this).val());
+    // When choosing a client show the seo documents associated with them
+    $('body').on('change', '#seo-customer-select', function (e) {
+        var clientId = $(this).val();
+        if(clientId != '') {
+            startProgress();
+            $.ajax({
+                type: 'GET',
+                url: '/documents/seo/' + clientId,
+                success: function (response) {
+                    $("#seo-table-div").html(response);
+                    $("#seo-table-div").slideDown();
+                    stopProgress();
+                }
+            });
         } else {
-            $("#seo-table-div").html('');
+            $('#seo-table-div').html('');
+            $('#seo-table-div').slideUp();
         }
+
+        e.preventDefault();
     });
 
-    $('#seo-div').on('click', '.seo-form-toggler', function (event) {
-        event.preventDefault();
-        $('#seo-form-div').load("/documents/seo/create");
+    // When you click the add seo button load in the form
+    $('body').on('click', '.seo-form-toggler', function (e) {
+        startProgress();
+        $.ajax({
+            type: 'GET',
+            url: '/documents/seo/create',
+            success: function (response) {
+                $("#seo-form-div").html(response);
+                $("#seo-form-div").slideDown();
+                stopProgress();
+            }
+        });
+        e.preventDefault();
     });
 
-    $('#seo-table-div').on('click', '.seoDelete', function (event) {
-        event.preventDefault();
+    $('body').on('click', '.seoDelete', function (e) {
         if (window.confirm("Are you sure you want to delete this document permanently?")) {
             $.ajax({
                 type: 'DELETE',
@@ -315,10 +332,10 @@ $(document).ready(function () {
                 }
             });
         }
+        e.preventDefault();
     });
 
-    $('#info-table-div').on('click', '.infoDelete', function (event) {
-        event.preventDefault();
+    $('body').on('click', '.infoDelete', function (e) {
         if (window.confirm("Are you sure you want to delete this document permanently?")) {
             $.ajax({
                 type: 'DELETE',
@@ -330,25 +347,43 @@ $(document).ready(function () {
                 }
             });
         }
+        e.preventDefault();
     });
 
-    $('.btn-information-documents-admin').on('click', function (event) {
-        event.preventDefault();
-        $('#info-div').load("/documents/info");
-    });
-
-    $('#info-div').on('change', '#info-customer-select', function (event) {
-        event.preventDefault();
-        if ($(this).val() != '') {
-            $("#info-table-div").load("/documents/info/" + $(this).val());
+    // When choosing a client show the info documents associated with them
+    $('body').on('change', '#info-customer-select', function (e) {
+        var clientId = $(this).val();
+        if(clientId != '') {
+            startProgress();
+            $.ajax({
+                type: 'GET',
+                url: '/documents/info/' + clientId,
+                success: function (response) {
+                    $("#info-table-div").html(response);
+                    $("#info-table-div").slideDown();
+                    stopProgress();
+                }
+            });
         } else {
-            $("#info-table-div").html('');
+            $('#info-table-div').html('');
+            $('#info-table-div').slideUp();
         }
+        e.preventDefault();
     });
 
-    $('#info-div').on('click', '.info-form-toggler', function (event) {
-        event.preventDefault();
-        $('#info-form-div').load("/documents/info/create");
+    // When you click the add info button load in the form
+    $('body').on('click', '.info-form-toggler', function (e) {
+        startProgress();
+        $.ajax({
+            type: 'GET',
+            url: '/documents/info/create',
+            success: function (response) {
+                $("#info-form-div").html(response);
+                $("#info-form-div").slideDown();
+                stopProgress();
+            }
+        });
+        e.preventDefault();
     });
 
     //Validate
