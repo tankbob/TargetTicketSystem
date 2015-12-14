@@ -98,32 +98,38 @@ $(document).ready(function () {
     });
 
     // Services
-    $("#services-div").hide();
     $('.btn-services').on('click', function (e) {
-        togglePage($("#services-div"), '/services');
+        togglePage($("#services-div"), '/services', 'services');
         e.preventDefault();
     });
 
-
-
-
-
-
-
-
-
-    $('#clients-div').on('click', '.clientFormToggler', function (event) {
-        event.preventDefault();
+    // When clicking create or a client, load the data and scroll to the view
+    $('#clients-div').on('click', '.clientFormToggler', function (e) {
         if ($(this).attr('clientId') == 0) {
-            $("#clientFormDiv").load("/clients/create");
+            var loadURI = '/clients/create';
         } else {
-            $("#clientFormDiv").load("/clients/" + $(this).attr('clientId') + "/edit");
+            var loadURI = '/clients/' + $(this).attr('clientId') + '/edit';
         }
 
-        // Scroll to the form
-        $.smoothScroll({
-            scrollTarget: '#clientFormDiv'
+        startProgress();
+        $.ajax({
+            type: 'GET',
+            url: loadURI,
+            success: function (response) {
+                // Load the response into the div
+                $("#clientFormDiv").html(response);
+
+                // Stop nprogress
+                stopProgress();
+
+                // Scroll to the form
+                $.smoothScroll({
+                    scrollTarget: '#clientFormDiv'
+                });
+            }
         });
+
+        e.preventDefault();
     });
 
     // When choosing a client show the adverts associated with them
@@ -213,23 +219,53 @@ $(document).ready(function () {
         }
     });
 
-    $('.btn-services').on('click', function (event) {
-        event.preventDefault();
-        $("#services-div").load("/services");
-    });
 
-    $("#services-div").on('change', '#service-customer-select', function (event) {
-        event.preventDefault();
-        if ($(this).val() != '') {
-            $("#services-table-div").load("/services/" + $(this).val());
+
+
+
+
+
+    // When choosing a client show the adverts associated with them
+    $('body').on('change', '#service-customer-select', function (e) {
+        var clientId = $(this).val();
+        if(clientId != '') {
+            startProgress();
+            $.ajax({
+                type: 'GET',
+                url: '/services/' + clientId,
+                success: function (response) {
+                    $("#services-table-div").html(response);
+                    $("#services-table-div").slideDown();
+                    stopProgress();
+                }
+            });
         } else {
-            $("#services-table-div").html('');
+            $('#services-table-div').html('');
+            $('#services-table-div').slideUp();
         }
+
+        e.preventDefault();
     });
 
-    $('#services-div').on('click', '.services-form-toggler', function (event) {
-        event.preventDefault();
-        $('#services-form-div').load("/services/create");
+
+
+
+
+
+
+    // When you click the add service button load in the form
+    $('body').on('click', '.services-form-toggler', function (e) {
+        startProgress();
+        $.ajax({
+            type: 'GET',
+            url: '/services/create',
+            success: function (response) {
+                $("#services-form-div").html(response);
+                $("#services-form-div").slideDown();
+                stopProgress();
+            }
+        });
+        e.preventDefault();
     });
 
     $('#services-table-div').on('click', '.serviceDelete', function (event) {

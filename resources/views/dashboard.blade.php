@@ -64,16 +64,21 @@
                         <div class="col-md-12 ajaxable" id="banner-form-div"></div>
                     </div>
 
-                    {{-- Services Section TODO --}}
-                    <a href="#" class="btn-section-link btn-services">
+                    {{-- Services Section --}}
+                    <a href="#" class="btn-section-link btn-services" id="servicesDiv">
                         <strong>Services</strong>
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
                     </a>
-                    {!! Form::open(['url' => '/services', 'method' => 'POST', 'id' => 'new-services-form', 'files' => true]) !!}
-                        <div class="ajaxable" id="services-div"></div>
-                        <div class="ajaxable" id="services-table-div"></div>
-                        <div class="ajaxable" id="services-form-div"></div>
-                    {!! Form::close() !!}
+                    <div class="row services-container">
+                        <div class="col-md-12 ajaxable" id="services-div" @if(!isset($_GET['services'])) style="display:none;" @endif>
+                            @if(isset($_GET['services']))
+                            <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
+                            {!! $c->index() !!}
+                            @endif
+                        </div>
+                        <div class="col-md-12 ajaxable" id="services-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="services-form-div"></div>
+                    </div>
 
                     {{-- SEO Section TODO --}}
                     <a href="#" class="btn-section-link btn-seo-reports-admin">
