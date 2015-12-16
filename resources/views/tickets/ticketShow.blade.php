@@ -5,7 +5,6 @@
 @stop
 
 @section('scripts')
-	
 	<script type="text/javascript">
 		var attachmentCounter = 1;
 
@@ -32,22 +31,21 @@
 @stop
 
 @section('content')
-<div class="page-heading text-center">
-    <h1>Ticket Details</h1>  
+<div class="page-heading text-center">\lk;
+    <h1>Ticket Details</h1>
 </div>
 
 @include('flash::message')
 
 <div class="page-content">
     <div class="row">
-        <div class="col-xs-12">
-           
-           <div class="form-group">
-           		{!! Form::label('title', 'Ticket Title', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
-           			{!! Form::text('title', $ticket->title, ['class' => 'form-control', 'disabled']) !!}
-           		</div>
-            </div>
+        <div class="col-md-10 col-md-offset-1 form-horizontal">
+			<div class="form-group">
+				{!! Form::label('title', 'Ticket Title', ['class' => 'col-xs-4 form-label']) !!}
+				<div class="col-xs-8">
+					{!! Form::text('title', $ticket->title, ['class' => 'form-control', 'disabled']) !!}
+				</div>
+			</div>
 
             <div class="form-group">
            		{!! Form::label('ref_no', 'Reference No.', ['class' => 'col-xs-4 form-label']) !!}
@@ -56,8 +54,8 @@
            		</div>
             </div>
 
-           	@if(auth()->user()->admin)
-           		{!! Form::model($ticket, ['url' => '/'.$company_slug.'/tickets/'.$ticket->id, 'method' => 'PUT']) !!}
+			@if(auth()->user()->admin)
+           		{!! Form::model($ticket, ['url' => '/' . $company_slug . '/tickets/' . $ticket->id, 'method' => 'PUT']) !!}
            	@endif
 
             <div class="form-group">
@@ -67,7 +65,7 @@
            				{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control']) !!}
            			@else
 	           			{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control', 'disabled']) !!}
-	           		@endif 
+	           		@endif
            		</div>
             </div>
 
@@ -77,7 +75,7 @@
            			{!! Form::text('total_working_time', $ticket->totalTime(), ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
-           
+
             @if(auth()->user()->admin)
           		<div class="form-group">
 	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
@@ -98,92 +96,99 @@
             	{!! Form::submit() !!}
             	{!! Form::close() !!}
             @endif
-
-            @foreach($ticket->responses as $response)
-
-            	<div class="panel @if($response->admin) admin_response @else client_response @endif">
-					<div class="panel-heading">
-					@if($response->admin) Support: Response @else Client: Response @endif
-					Date: {{date('d/m/y', strtotime($response->created_at))}}
-					Time: {{date('H:i', strtotime($response->created_at))}}
-					@if($response->admin) 
-						@if(auth()->user()->admin)
-							{!! Form::open(['url' => '/'.$company_slug.'/tickets/'.$ticket->id.'/'.$response->id.'/edittime', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
-									{!! Form::text('working_time', $response->formatWorkingTime(), ['class' => 'hourInput']) !!}
-								{!!Form::submit('save')!!}
-							{!! Form::close() !!}
-						@else
-							({{$response->formatWorkingTime()}})
-						@endif
-					@endif
-					</div>
-					<div class="panel-body">
-						{{$response->content}}
-						@if($response->article_title)
-							<div class="response_data">Article Title: {{$response->article_title}}</div>
-						@endif
-						@if($response->categories)
-							<div class="response_data">Categories: {{$response->categories}}</div>
-						@endif
-						@if($response->published_at != '0000-00-00')
-							<div class="response_data">Published At: {{date('d/m/y', strtotime($response->published_at))}}</div>
-						@endif
-						@if($response->author)
-							<div class="response_data">Author: {{$response->author}}</div>
-						@endif
-						@if($response->schedule)
-							<div class="response_data">Schedule: {{$response->schedule}}</div>
-						@endif
-
-						@foreach($response->attachments as $attachment)
-							@if($attachment->type == 'I')
-								<img src="/files/tickets/{{$attachment->filename}}" alt="{{$attachment->original_filename}}">
-							@else
-								<a href="/files/tickets/{{$attachment->filename}}" target="#blank">DOWNLOAD ICON</a>
+		</div>
+		<div class="col-md-12">
+			<hr>
+		</div>
+		<div class="col-md-10 col-md-offset-1">
+			@if(count($ticket->responses))
+	            @foreach($ticket->responses as $response)
+	            	<div class="panel panel-default @if($response->admin) admin_response @else client_response @endif">
+						<div class="panel-heading text-center">
+							<span>@if($response->admin) Support: Response @else Client: Response @endif</span>
+							<span>Date: {{ date('d/m/y', strtotime($response->created_at)) }}</span>
+							<span>Time: {{ date('H:i', strtotime($response->created_at)) }}</span>
+							@if($response->admin)
+								@if(auth()->user()->admin)
+									{!! Form::open(['url' => $company_slug . '/tickets/' . $ticket->id . '/' . $response->id . '/edittime', 'method' => 'POST', 'class' => 'form-horizontal hidden object-editor']) !!}
+											{!! Form::text('working_time', $response->formatWorkingTime(), ['class' => 'hourInput']) !!}
+										{!! Form::submit('save') !!}
+									{!! Form::close() !!}
+								@else
+									({{ $response->formatWorkingTime() }})
+								@endif
 							@endif
-						@endforeach
-					</div>
-            	</div>
+						</div>
+						<div class="panel-body">
+							{!! nl2br($response->content, false) !!}
 
-            @endforeach
+							@if($response->article_title)
+								<div class="response_data">Article Title: {{ $response->article_title }}</div>
+							@endif
+							@if($response->categories)
+								<div class="response_data">Categories: {{ $response->categories }}</div>
+							@endif
+							@if($response->published_at != '0000-00-00')
+								<div class="response_data">Published At: {{ date('d/m/y', strtotime($response->published_at)) }}</div>
+							@endif
+							@if($response->author)
+								<div class="response_data">Author: {{ $response->author }}</div>
+							@endif
+							@if($response->schedule)
+								<div class="response_data">Schedule: {{ $response->schedule }}</div>
+							@endif
 
+							@foreach($response->attachments as $attachment)
+								@if($attachment->type == 'I')
+									<img src="/files/tickets/{{ $attachment->filename }}" alt="{{ $attachment->original_filename }}">
+								@else
+									<a href="/files/tickets/{{ $attachment->filename }}" target="_blank">DOWNLOAD ICON</a>
+								@endif
+							@endforeach
+						</div>
+	            	</div>
+	            @endforeach
+			@else
+				<div class="alert alert-info">There are no responses yet</div>
+			@endif
 
+            {!! Form::open(['url' => $company_slug . '/tickets/' . $ticket->id . '/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'object-editor']) !!}
 
-            {!! Form::open(['url' => '/'.$company_slug.'/tickets/'.$ticket->id.'/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'form-horizontal object-editor']) !!}
-
-            	<div @if($errors->has('content')) has-error dark @endif>
+            	<div class="form-group @if($errors->has('content')) has-error dark @endif ">
 	           		@if($errors->has('content'))
 	           			<span class="alert-danger"> {{ $errors->first('content') }} </span>
 	           		@endif
-					{!! Form::textarea('content', '', ['placeholder' => 'Enter your Response...']) !!}
+					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Enter your Response...']) !!}
 		        </div>
 
 		        <!-- Only Retrieve one file error if there is more than one-->
 		        @if(old('attachment_count'))
 					@for($i = 1; $i <= old('attachment_count'); $i ++)
-		        		@if($errors->has('attachment-'.$i))
-		        			<span class="alert-danger"> {{ $errors->first('attachment-'.$i) }} </span>
+		        		@if($errors->has('attachment-' . $i))
+		        			<span class="alert-danger">{{ $errors->first('attachment-' . $i) }}</span>
 		        			<?php $i = old('attachment_count'); ?>
 		        		@endif
 		        	@endfor
 				@endif
 
             	<div id="attachmentDiv">
-			        <div>
-			        	{!! Form::file('attachment-1', ['attachmentID' => 1, 'class' => 'fileInput']) !!}
+			        <div class="form-group">
+			        	{!! Form::file('attachment-1', ['attachmentID' => 1, 'class' => 'fileInput form-control']) !!}
 			        </div>
 			    </div>
 
 		    	<input type="hidden" name="attachment_count" id="attachment_count" value="1">
 
 		    	@if(auth()->user()->admin)
-		    		{!! Form::text('working_time', '', ['placeholder' => '00:00', 'class' => 'hourInput']) !!}
+				<div class="form-group">
+		    		{!! Form::text('working_time', '', ['placeholder' => '00:00', 'class' => 'hourInput form-control']) !!}
+				</div>
 		    	@endif
 
-			    {!! Form::submit('Respond') !!}
-
+				<div class="text-center">
+				    {!! Form::submit('Respond', ['class' => 'btn btn-success btn-ticket-respond']) !!}
+				</div>
             {!! Form::close() !!}
-
 		</div>
     </div>
 </div>

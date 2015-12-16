@@ -782,3 +782,44 @@ body.loading, body.loading * {
     font-size:1em;
     color:blue;
 }
+
+.btn-ticket-respond {
+    width:254px;
+    height:55px;
+    color:#fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: #2fcd9d;
+}
+
+.btn-ticket-respond:hover {
+    background: #1f916e;
+}
+
+.panel.admin_response, .panel.client_response, .panel.admin_response .panel-heading, .panel.client_response .panel-heading {
+    border-radius: 0px;
+    color:#fff;
+    border:none;
+}
+
+.panel.admin_response .panel-heading span, .panel.client_response .panel-heading span {
+    margin:0 15px;
+    font-size: 18px;
+}
+
+.panel.admin_response .panel-body, .panel.client_response .panel-body {
+    border:#e5e5e5 1px solid;
+    color:#ababab;
+}
+
+.panel.admin_response .panel-heading {
+    background:#2fcd9d;
+    border:none;
+    padding:15px;
+}
+
+.panel.client_response .panel-heading {
+    background:#2ec5cc;
+    border:none;
+    padding:15px;
+}
