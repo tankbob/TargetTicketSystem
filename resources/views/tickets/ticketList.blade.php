@@ -48,72 +48,76 @@
             </table>
         </div>
         <div class="col-xs-12">
-            <table class="table ticket-table sorted_table" id="ticket_table">
-	            <thead>
-	            	<tr>
-		            	<th width="75"></th>
-		            	<th>Ticket Title</th>
-		            	<th>Ref No.</th>
-		            	<th>Ticket Type</th>
-		            	<th>Cost</th>
-		            	<th class="text-center">Response</th>
-                        @if($archived)
-		            	<th class="text-center">Unarchive</th>
-                        @else
-                        <th class="text-center">Archive</th>
-                        @endif
-                        @if(auth()->user()->admin)
-		       			    <th>Time</th>
-		            		<th></th>
-		            	@endif
-		            	<th width="36"></th>
-		            </tr>
-	            </thead>
-	            <tbody>
-	            	@foreach($tickets as $ticket)
-	            		<tr id="{{ $ticket->id }}">
-	            			<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}" class="show-on-hover icon-goto"></a></td>
-	            			<td class="td-adjust">{{ $ticket->title }}</td>
-	            			<td class="td-adjust">{{ $ticket->getRef() }}</td>
-	            			<td class="td-adjust">
-	            				@if($ticket->type == 1)
-	            					Web Amends
-	            				@elseif($ticket->type == 2)
-	            					Add Content
-	            				@elseif($ticket->type == 3)
-	            					Get Quote
-	            				@elseif($ticket->type == 4)
-	            					Ask Question
-	            				@endif
-	            			</td>
-	            			<td class="td-adjust">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
-	            			<td class="text-center">
-                                @if(@$ticket->responses->last()->admin)
-                                <i class="icon-response"></i>
-                                @endif
-                            </td>
-	            			@if($archived)
-            				<td class="text-center">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive"></a>
-                            </td>
-	            			@else
-            				<td class="text-center">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive"></a>
-                            </td>
-	            			@endif
+            @if(count($tickets))
+                <table class="table ticket-table sorted_table" id="ticket_table">
+    	            <thead>
+    	            	<tr>
+    		            	<th width="75"></th>
+    		            	<th>Ticket Title</th>
+    		            	<th>Ref No.</th>
+    		            	<th>Ticket Type</th>
+    		            	<th>Cost</th>
+    		            	<th class="text-center">Response</th>
+                            @if($archived)
+    		            	<th class="text-center">Unarchive</th>
+                            @else
+                            <th class="text-center">Archive</th>
+                            @endif
                             @if(auth()->user()->admin)
-		       				    <th class="td-adjust">{{$ticket->totalTime()}}</th>
-			            		<td class="td-adjust text-center">
-			            			{!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}
-			            				{!! Form::submit('', ['class' => 'btn-delete icon-delete']) !!}
-			            			{!! Form::close() !!}
-			            		</td>
-			            	@endif
-	            			<td><i class="show-on-hover icon-move"></i></td>
-	            		</tr>
-	            	@endforeach
-	            </tbody>
-            </table>
+    		       			    <th>Time</th>
+    		            		<th></th>
+    		            	@endif
+    		            	<th width="36"></th>
+    		            </tr>
+    	            </thead>
+    	            <tbody>
+    	            	@foreach($tickets as $ticket)
+    	            		<tr id="{{ $ticket->id }}">
+    	            			<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}" class="show-on-hover icon-goto"></a></td>
+    	            			<td class="td-adjust">{{ $ticket->title }}</td>
+    	            			<td class="td-adjust">{{ $ticket->getRef() }}</td>
+    	            			<td class="td-adjust">
+    	            				@if($ticket->type == 1)
+    	            					Web Amends
+    	            				@elseif($ticket->type == 2)
+    	            					Add Content
+    	            				@elseif($ticket->type == 3)
+    	            					Get Quote
+    	            				@elseif($ticket->type == 4)
+    	            					Ask Question
+    	            				@endif
+    	            			</td>
+    	            			<td class="td-adjust">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
+    	            			<td class="text-center">
+                                    @if(@$ticket->responses->last()->admin)
+                                    <i class="icon-response"></i>
+                                    @endif
+                                </td>
+    	            			@if($archived)
+                				<td class="text-center">
+                                    <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive"></a>
+                                </td>
+    	            			@else
+                				<td class="text-center">
+                                    <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive"></a>
+                                </td>
+    	            			@endif
+                                @if(auth()->user()->admin)
+    		       				    <th class="td-adjust">{{$ticket->totalTime()}}</th>
+    			            		<td class="td-adjust text-center">
+    			            			{!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}
+    			            				{!! Form::submit('', ['class' => 'btn-delete icon-delete']) !!}
+    			            			{!! Form::close() !!}
+    			            		</td>
+    			            	@endif
+    	            			<td><i class="show-on-hover icon-move"></i></td>
+    	            		</tr>
+    	            	@endforeach
+    	            </tbody>
+                </table>
+            @else
+                <div class="alert alert-warning">There are no tickets to show</div>
+            @endif
         </div>
     </div>
 </div>
