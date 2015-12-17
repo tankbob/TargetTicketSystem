@@ -11,7 +11,6 @@
 |
 */
 
-
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -53,3 +52,25 @@ Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
 // Api
 Route::post('api/ticketsort', 'TicketController@setOrder');
 Route::post('api/getclientinfo', 'UserController@getInfo');
+
+// Images
+Route::get('img/{path}', function(Illuminate\Http\Request $request, $path) {
+    // Image builder for glide
+    $filesystem = config('filesystems.cloud');
+    $client = Aws\S3\S3Client::factory([
+        'credentials' => [
+            'key'    => config('filesystems.disks.' . $filesystem . '.key'),
+            'secret' => config('filesystems.disks.' . $filesystem . '.secret'),
+        ],
+        'region' => config('filesystems.disks.' . $filesystem . '.region'),
+        'version' => 'latest',
+    ]);
+    $server = League\Glide\ServerFactory::create([
+        'source' => new League\Flysystem\Filesystem(new League\Flysystem\AwsS3v3\AwsS3Adapter($client, config('filesystems.disks.' . $filesystem . '.bucket'))),
+        'cache' => new League\Flysystem\Filesystem(new League\Flysystem\Adapter\Local(storage_path() . '/app')),
+        'source_path_prefix' => '',
+        'cache_path_prefix' => 'cache',
+    ]);
+
+	$server->outputImage($request->segment(2), $request->all());
+})->where('path', '.+');

@@ -15,6 +15,8 @@ use TargetInk\User;
 use TargetInk\Http\Requests\TicketRequest;
 use TargetInk\Http\Requests\ResponseRequest;
 
+use Storage;
+use Image;
 
 class TicketController extends Controller
 {
@@ -246,19 +248,27 @@ class TicketController extends Controller
                 $file = $request->file('attachment-' . $counter);
                 $extension = $file->getClientOriginalExtension();
                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename .= '_' .time() . '.' . $extension;
+                $filename .= '_' . time() . '.' . $extension;
+
+                // Sanitize
+                $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+                $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
 
                 if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
-                    $img = \Image::make($file);
+                    $img = Image::make($file);
                     if($img->width() > 510) {
                         $img->resize(510, null, function ($constraint) {
                             $constraint->aspectRatio();
                         });
                     }
-                    $img->save(public_path() . '/files/tickets/' . $filename);
+
+                    $img->save(storage_path('app/' . $filename));
+                    Storage::disk('s3')->put($filename, file_get_contents(storage_path('app/' . $filename)));
+                    Storage::disk('local')->delete($filename);
                     $doctype = 'I';
                 } else {
-                    $file->move(public_path() . '/files/tickets', $filename);
+                    //$file->move(public_path() . '/files/tickets', $filename);
+                    Storage::disk('s3')->put($filename, file_get_contents($request->file('attachment-' . $counter)->getRealPath()));
                     $doctype = 'D';
                 }
 

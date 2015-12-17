@@ -27,6 +27,7 @@ return [
     */
 
     'url' => 'http://localhost',
+    'asset_url' => 'https://s3-eu-west-1.amazonaws.com/target-ink-system/',
 
     /*
     |--------------------------------------------------------------------------

@@ -13,7 +13,9 @@
         "doctrine/dbal": "*",
         "rigor789/airbrake-laravel": "^1.2",
         "twbs/bootstrap": "3.*",
-        "barryvdh/laravel-debugbar": "^2.0"
+        "barryvdh/laravel-debugbar": "^2.0",
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "league/glide": "^0.3.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

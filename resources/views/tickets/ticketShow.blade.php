@@ -120,7 +120,7 @@
 							@endif
 						</div>
 						<div class="panel-body">
-							{!! nl2br($response->content, false) !!}
+							<div>{!! nl2br($response->content, false) !!}</div>
 
 							@if($response->article_title)
 								<div class="response_data">Article Title: {{ $response->article_title }}</div>
@@ -139,11 +139,12 @@
 							@endif
 
 							@foreach($response->attachments as $attachment)
+							<div class="attachment">
 								@if($attachment->type == 'I')
-									<img src="/files/tickets/{{ $attachment->filename }}" alt="{{ $attachment->original_filename }}">
-								@else
-									<a href="/files/tickets/{{ $attachment->filename }}" target="_blank">DOWNLOAD ICON</a>
+									<img src="/img/{{ $attachment->filename }}?w=510&amp;fit=max" alt="{{ $attachment->original_filename }}">
 								@endif
+								<a href="{{ config('app.asset_url') }}{{ $attachment->filename }}" target="_blank" class="icon-download"></a>
+							</div>
 							@endforeach
 						</div>
 	            	</div>
@@ -171,11 +172,7 @@
 		        	@endfor
 				@endif
 
-            	<div id="attachmentDiv">
-			        <div class="form-group">
-			        	{!! Form::file('attachment-1', ['attachmentID' => 1, 'class' => 'fileInput form-control']) !!}
-			        </div>
-			    </div>
+				@include('includes.fileInput')
 
 		    	<input type="hidden" name="attachment_count" id="attachment_count" value="1">
 
