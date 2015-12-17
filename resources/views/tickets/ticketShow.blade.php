@@ -174,8 +174,6 @@
 
 				@include('includes.fileInput')
 
-		    	<input type="hidden" name="attachment_count" id="attachment_count" value="1">
-
 		    	@if(auth()->user()->admin)
 				<div class="form-group">
 		    		{!! Form::text('working_time', '', ['placeholder' => '00:00', 'class' => 'hourInput form-control']) !!}

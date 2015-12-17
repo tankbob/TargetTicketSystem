@@ -243,41 +243,35 @@ class TicketController extends Controller
     }
 
     public function processFileUpload($request, $response_id) {
-        for($counter = 1; $counter <= $request->get('attachment_count'); $counter ++) {
-            if($request->hasFile('attachment-' . $counter) && $request->file('attachment-' . $counter)->isValid()) {
-                $file = $request->file('attachment-' . $counter);
-                $extension = $file->getClientOriginalExtension();
-                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename .= '_' . time() . '.' . $extension;
+        // Loop through attachments
+        foreach($request->all() as $request_key => $request_val) {
+            if(substr($request_key, 0, 10) == 'attachment') {
+                // We are uploading a file
+                if($request->hasFile($request_key) && $request->file($request_key)->isValid()) {
+                    $file = $request->file($request_key);
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $filename .= '_' . time() . '.' . $extension;
 
-                // Sanitize
-                $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
-                $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+                    // Sanitize
+                    $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+                    $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
 
-                if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
-                    $img = Image::make($file);
-                    if($img->width() > 510) {
-                        $img->resize(510, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
+                    if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
+                        $doctype = 'I';
+                    } else {
+                        $doctype = 'D';
                     }
 
-                    $img->save(storage_path('app/' . $filename));
-                    Storage::disk('s3')->put($filename, file_get_contents(storage_path('app/' . $filename)));
-                    Storage::disk('local')->delete($filename);
-                    $doctype = 'I';
-                } else {
-                    //$file->move(public_path() . '/files/tickets', $filename);
-                    Storage::disk('s3')->put($filename, file_get_contents($request->file('attachment-' . $counter)->getRealPath()));
-                    $doctype = 'D';
-                }
+                    Storage::disk('s3')->put($filename, file_get_contents($request->file($request_key)->getRealPath()));
 
-                $attachment = new Attachment;
-                $attachment->type = $doctype;
-                $attachment->original_filename = $file->getClientOriginalName();
-                $attachment->filename = $filename;
-                $attachment->response_id = $response_id;
-                $attachment->save();
+                    $attachment = new Attachment;
+                    $attachment->type = $doctype;
+                    $attachment->original_filename = $file->getClientOriginalName();
+                    $attachment->filename = $filename;
+                    $attachment->response_id = $response_id;
+                    $attachment->save();
+                }
             }
         }
     }
