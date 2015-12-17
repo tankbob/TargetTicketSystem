@@ -240,6 +240,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val(clientId);
                 $.ajax({
                     type: 'GET',
                     url: '/services/' + clientId,
@@ -266,6 +267,8 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#services-form-div").html(response);
                     $("#services-form-div").slideDown();
+
+                    $('.clientValue').val($('#services-customer-select').val());
                     stopProgress();
                 }
             });
@@ -292,6 +295,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val($('#seo-customer-select').val());
                 $.ajax({
                     type: 'GET',
                     url: '/documents/seo/' + clientId,
@@ -318,6 +322,8 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#seo-form-div").html(response);
                     $("#seo-form-div").slideDown();
+
+                    $('.clientValue').val($('#seo-customer-select').val());
                     stopProgress();
                 }
             });
@@ -359,6 +365,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val(clientId);
                 $.ajax({
                     type: 'GET',
                     url: '/documents/info/' + clientId,
@@ -384,6 +391,8 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#info-form-div").html(response);
                     $("#info-form-div").slideDown();
+
+                    $('.clientValue').val($('#info-customer-select').val());
                     stopProgress();
                 }
             });

@@ -152,12 +152,12 @@
         <style type="text/css">
             @foreach(auth()->user()->services as $service)
                 .btn-section-{{ $service->id }} {
-                    background-image: url('/files/services/{{ $service->icon }}') !important;
+                    background-image: url('/img/{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
                     background-position-y: top;
                     background-repeat: no-repeat;
                 }
                 .btn-section-{{ $service->id }}:hover {
-                    background-image: url('/files/services/{{ $service->icon_rollover }}') !important;
+                    background-image: url('/img/{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
                 }
             @endforeach
         </style>

@@ -52,13 +52,13 @@ class AdminDocumentsController extends Controller
      */
     public function store($type, Request $request)
     {
-        $file = new File;
-        $file->fill($request->all());
+        $fileobj = new File;
+        $fileobj->fill($request->all());
 
         if($type == 'seo') {
-            $file->type = 0;
+            $fileobj->type = 0;
         } else {
-            $file->type = 1;
+            $fileobj->type = 1;
         }
 
         if($request->hasFile('file') && $request->file('file')->isValid()) {
@@ -81,10 +81,10 @@ class AdminDocumentsController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('file')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
+            $fileobj->filepath = config('app.asset_url') . $filename;
         }
 
-        $file->save();
+        $fileobj->save();
         return redirect('/?' . $type . '=' . $request->get('client_id') . '#' . $type . '-div');
     }
 

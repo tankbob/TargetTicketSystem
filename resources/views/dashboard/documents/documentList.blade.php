@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+<div class="row">
     <div class="col-sm-6">
     	@if($type == 'seo')
     		<h2 class="maintenance-title pull-left">SEO Doc</h2> <a href="#" class="seo-form-toggler icon-new-seo pull-left" clientId="0"></a>
