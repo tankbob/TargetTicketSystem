@@ -8,6 +8,7 @@ use TargetInk\Ticket;
 use TargetInk\Advert;
 use TargetInk\Response;
 use TargetInk\Attachment;
+use TargetInk\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -130,6 +131,24 @@ class DatabaseSeeder extends Seeder
                     'client_id' => $user->id,
                     'url' => 'http://www.google.com',
                     'image' => 'skyscraper-example.gif',
+                ]);
+            }
+
+            // Create some documents
+            for($d = 0; $d < rand(0, 6); $d++){
+                File::create([
+                    'filename' => $faker->text(30),
+                    'filepath' => 'Sample.docx',
+                    'client_id' => $user->id,
+                    'type' => 'seo',
+                ]);
+            }
+            for($d = 0; $d < rand(0, 6); $d++){
+                File::create([
+                    'filename' => $faker->text(30),
+                    'filepath' => 'Sample.docx',
+                    'client_id' => $user->id,
+                    'type' => 'info',
                 ]);
             }
 

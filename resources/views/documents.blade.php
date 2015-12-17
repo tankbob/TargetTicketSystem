@@ -18,7 +18,7 @@
 	            @foreach($files as $file)
 	            	<tr>
 						<td width="75">
-							<a href="{{ $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
+							<a href="{{ config('app.asset_url') . $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
 						</td>
 						<td class="td-adjust text-left">
 	            			{{ $file->filename }}
