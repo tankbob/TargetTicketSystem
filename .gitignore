@@ -1,9 +1,15 @@
-/public
+# Generic
 /vendor
 /node_modules
-Homestead.yaml
-Homestead.json
 .env
 npm-debug.log
+
+# Build Files
+public/build/*
 public/css/all.css
 public/js/all.js
+public/css/all.css.map
+public/js/all.js.map
+
+# Uploads
+public/files/documents/*

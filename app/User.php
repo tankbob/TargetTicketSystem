@@ -48,27 +48,33 @@ class User extends Model implements AuthenticatableContract,
         return $query->where('admin', '=', 1);
     }
 
-    public function files(){
+    public function files()
+    {
         return $this->hasMany('TargetInk\File', 'client_id');
     }
 
-    public function services(){
+    public function services()
+    {
         return $this->hasMany('TargetInk\Service', 'client_id');
     }
 
-    public function tickets(){
+    public function tickets()
+    {
         return $this->hasMany('TargetInk\Ticket', 'client_id');
     }
 
-    public function seoFiles(){
+    public function seoFiles()
+    {
         return $this->files()->seo()->orderBy('created_at', 'desc');
     }
 
-    public function infoFiles(){
-        return $this->files()->Information()->orderBy('created_at', 'desc');
+    public function infoFiles()
+    {
+        return $this->files()->information()->orderBy('created_at', 'desc');
     }
 
-    public function adverts(){
+    public function adverts()
+    {
         return $this->hasMany('TargetInk\Advert', 'client_id');
     }
 }

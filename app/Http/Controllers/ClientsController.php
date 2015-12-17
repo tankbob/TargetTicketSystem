@@ -11,13 +11,13 @@ use TargetInk\Libraries\Slug;
 
 class ClientsController extends Controller
 {
-
-    //should be admin
+    // Should be admin
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('admin');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +26,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = null;
-        if(auth()->user()->admin){
+        if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
         return view('dashboard.clients.clientList', compact('clients'));
@@ -65,17 +65,6 @@ class ClientsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -98,7 +87,7 @@ class ClientsController extends Controller
     {
         $client = User::find($id);
         $client->fill($request->except(['password']));
-        if($request->has('password')){
+        if($request->has('password')) {
            $client->password = bcrypt($request->get('password'));
         }
         $client->save();
@@ -122,9 +111,9 @@ class ClientsController extends Controller
         $client = User::find($id);
         $client->delete();
         return json_encode([
-            'success'   =>  'The Client has been deleted.',
-            'method'    =>  'delete',
-            'id'        =>  $client->id
+            'success'   => 'The Client has been deleted.',
+            'method'    => 'delete',
+            'id'        => $client->id,
         ]);
     }
 }

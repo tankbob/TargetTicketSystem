@@ -15,6 +15,8 @@ use TargetInk\User;
 use TargetInk\Http\Requests\TicketRequest;
 use TargetInk\Http\Requests\ResponseRequest;
 
+use Storage;
+use Image;
 
 class TicketController extends Controller
 {
@@ -29,11 +31,11 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($company_slug)
+    public function index(Request $request, $company_slug)
     {
-        if(\Request::has('archived')){
+        if($request->has('archived')) {
             $archived = 1;
-        }else{
+        } else {
             $archived = 0;
         }
         $client = User::where('company_slug', $company_slug)->first();
@@ -60,19 +62,19 @@ class TicketController extends Controller
     public function store($company_slug, TicketRequest $request)
     {
         $client_id = User::where('company_slug', $company_slug)->first()->id;
-        if($request->published_at){
+        if($request->published_at) {
             $published_at_date = explode('/', $request->published_at);
-            $published_at_date = $published_at_date[2].'-'.$published_at_date[1].'-'.$published_at_date[0];
-        }else{
+            $published_at_date = $published_at_date[2]. '-' . $published_at_date[1]. '-' . $published_at_date[0];
+        } else {
             $published_at_date = '0000-00-00';
         }
         $ticket = new Ticket;
         $ticket->fill($request->all());
         $ticket->client_id = $client_id;
         $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
-        if($order){
+        if($order) {
             $order = $order->order +1;
-        }else{
+        } else {
             $order = 1;
         }
         $ticket->order = $order;
@@ -86,8 +88,8 @@ class TicketController extends Controller
         $response->save();
 
         self::processFileUpload($request, $response->id);
-        
-        return View('tickets.ticketSuccess', compact('company_slug'));
+
+        return view('tickets.ticketSuccess', compact('company_slug'));
     }
 
     /**
@@ -97,11 +99,11 @@ class TicketController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($company_slug, $ticket_id)
-    {  
+    {
 
         $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
-        if($ticket->Client->company_slug != $company_slug){
-            return \Redirect::to('/');
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
         }
          return view('tickets.ticketShow', compact('ticket', 'company_slug'));
     }
@@ -114,8 +116,10 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-    /*    $ticket = Ticket::find($id);
-        return view('tickets.ticketEdit', compact('ticket')); */
+        /*
+        $ticket = Ticket::find($id);
+        return view('tickets.ticketEdit', compact('ticket'));
+        */
     }
 
     /**
@@ -128,14 +132,14 @@ class TicketController extends Controller
     public function update(Request $request, $company_slug, $id)
     {
         $ticket = Ticket::find($id);
-        if($ticket->Client->company_slug != $company_slug){
-            return \Redirect::to('/');
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
         }
         $ticket->type = ($request->get('type'));
         $ticket->cost = ($request->get('cost'));
         $ticket->save();
         flash()->success('The ticket has been changed.');
-        return \Redirect::back();
+        return redirect()->back();
     }
 
     /**
@@ -147,70 +151,70 @@ class TicketController extends Controller
     public function destroy($company_slug, $id)
     {
         $ticket = Ticket::find($id);
-        if($ticket->Client->company_slug != $company_slug){
-            return \Redirect::to('/');
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
         }
         $ticket->delete();
         flash()->success('The ticket has been deleted.');
-        return \Redirect::back();
+        return redirect()->back();
     }
 
-    public function archive($company_slug, $ticket_id){
+    public function archive($company_slug, $ticket_id) {
         $ticket = Ticket::find($ticket_id);
-        if($ticket->Client->company_slug != $company_slug){
-            return \Redirect::to('/');
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
         }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->archived = 1;
         $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
-        if($order){
+        if($order) {
             $order = $order->order +1;
-        }else{
+        } else {
             $order = 1;
         }
         $ticket->order = $order;
         $ticket->save();
         flash()->success('The ticket has been successfully archived.');
-        return \Redirect::back();
+        return redirect()->back();
     }
 
-    public function unarchive($company_slug, $ticket_id){
+    public function unarchive($company_slug, $ticket_id) {
         $ticket = Ticket::find($ticket_id);
-        if($ticket->Client->company_slug != $company_slug){
-            return \Redirect::to('/');
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
         }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->archived = 0;
         $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
-        if($order){
+        if($order) {
             $order = $order->order +1;
-        }else{
+        } else {
             $order = 1;
         }
         $ticket->order = $order;
         $ticket->save();
         flash()->success('The ticket has been successfully unarchived.');
-        return \Redirect::back();
+        return redirect()->back();
     }
 
-    public function setOrder(){
-        $user_id = \Request::get('user_id');
-        $archived = \Request::get('archived');
-        $new_order = \Request::get('new_order');
+    public function setOrder(Request $request) {
+        $user_id = $request->input('user_id');
+        $archived = $request->input('archived');
+        $new_order = $request->input('new_order');
 
         $tickets = Ticket::where('client_id', '=', $user_id)->where('archived', '=', $archived)->whereIn('id', $new_order)->get();
 
         $query = "UPDATE tickets SET tickets.order = CASE id ";
 
-        foreach($new_order as $order => $id){
+        foreach($new_order as $order => $id) {
             //ORDER IS REVERSE CAUSE WHEN U ADD A NEW ONE IS MAX ORDER +1 AND SHOULD APPEAR FIRST
-            $query .= ' WHEN '.$id.' THEN '.(count($new_order)-$order);
+            $query .= ' WHEN ' . $id.' THEN ' .(count($new_order)-$order);
         }
 
 
         $query .= " END WHERE id IN (";
 
-        foreach($new_order as $order => $id){
+        foreach($new_order as $order => $id) {
             $query .= $id.',';
         }
 
@@ -225,7 +229,7 @@ class TicketController extends Controller
     {
         $response = new Response;
         $response->fill($request->all());
-        if($request->has('working_time')){
+        if($request->has('working_time')) {
             $wt = explode(':', $request->get('working_time'));
             $response->working_time = 60*$wt[0]+$wt[1];
         }
@@ -234,58 +238,60 @@ class TicketController extends Controller
         $response->save();
 
         self::processFileUpload($request, $response->id);
-        flash()->success('The response has been sent.');
-        return \Redirect::back();
+        flash()->success('The response has been sent. ');
+        return redirect()->back();
     }
 
-    public function processFileUpload($request, $response_id){
-        for($counter = 1; $counter <= $request->get('attachment_count'); $counter ++){
-            if(\Request::hasFile('attachment-'.$counter) && $request->file('attachment-'.$counter)->isValid()){
-                $file = $request->file('attachment-'.$counter);
-                $extension = $file->getClientOriginalExtension();
-                $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename .= '_'.time().'.'.$extension;
-                
-                if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])){
-                    $img = \Image::make($file);
-                    if($img->width() > 510){
-                        $img->resize(510, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
+    public function processFileUpload($request, $response_id) {
+        // Loop through attachments
+        foreach($request->all() as $request_key => $request_val) {
+            if(substr($request_key, 0, 10) == 'attachment') {
+                // We are uploading a file
+                if($request->hasFile($request_key) && $request->file($request_key)->isValid()) {
+                    $file = $request->file($request_key);
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $filename .= '_' . time() . '.' . $extension;
+
+                    // Sanitize
+                    $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+                    $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+                    if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
+                        $doctype = 'I';
+                    } else {
+                        $doctype = 'D';
                     }
-                    $img->save(public_path().'/files/tickets/'.$filename);
-                    $doctype = 'I';
-                }else{
-                    $file->move(public_path().'/files/tickets', $filename);
-                    $doctype = 'D';
+
+                    Storage::disk('s3')->put($filename, file_get_contents($request->file($request_key)->getRealPath()));
+
+                    $attachment = new Attachment;
+                    $attachment->type = $doctype;
+                    $attachment->original_filename = $file->getClientOriginalName();
+                    $attachment->filename = $filename;
+                    $attachment->response_id = $response_id;
+                    $attachment->save();
                 }
-                
-                $attachment = new Attachment;
-                $attachment->type = $doctype;
-                $attachment->original_filename = $file->getClientOriginalName();
-                $attachment->filename = $filename;
-                $attachment->response_id = $response_id;
-                $attachment->save();
             }
         }
     }
 
-    public function editResponseTime(Request $request, $company_slug, $ticket_id, $response_id){
+    public function editResponseTime(Request $request, $company_slug, $ticket_id, $response_id) {
         $ticket = Ticket::find($ticket_id);
-        if($ticket->Client->company_slug != $company_slug){
-            return \Redirect::to('/');
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
         }
         $response = Response::find($response_id);
-        if($response->ticket_id != $ticket_id){
-            return \Redirect::to('/');
+        if($response->ticket_id != $ticket_id) {
+            return redirect('/');
         }
-        if($request->has('working_time')){
+        if($request->has('working_time')) {
             $wt = explode(':', $request->get('working_time'));
             $response->working_time = 60*$wt[0]+$wt[1];
         }
         $response->save();
 
         flash()->success('The response has been updated.');
-        return \Redirect::back();
+        return redirect()->back();
     }
 }

@@ -18,7 +18,8 @@ class Advert extends Model
         'url'
     ];
 
-    public function Client(){
-        return $this->BelongsTo('TargetInk\User', 'client_id');
+    public function client()
+    {
+        return $this->belongsTo('TargetInk\User', 'client_id');
     }
 }
