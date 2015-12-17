@@ -246,7 +246,7 @@ class TicketController extends Controller
                 $file = $request->file('attachment-' . $counter);
                 $extension = $file->getClientOriginalExtension();
                 $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $filename .= '_' .time() . ' . ' . $extension;
+                $filename .= '_' .time() . '.' . $extension;
 
                 if(in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
                     $img = \Image::make($file);
