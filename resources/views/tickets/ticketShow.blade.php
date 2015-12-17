@@ -31,7 +31,7 @@
 @stop
 
 @section('content')
-<div class="page-heading text-center">\lk;
+<div class="page-heading text-center">
     <h1>Ticket Details</h1>
 </div>
 
