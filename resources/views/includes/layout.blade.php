@@ -14,7 +14,12 @@
         <![endif]-->
         @yield('styles')
     </head>
-    <body>
+
+    @if(auth()->check() &&  auth()->user()->admin)
+    <body class="admin">
+    @else
+    <body class="user">
+    @endif
         <div class="nav-container">
             <div class="container">
                 @if(auth()->check() && auth()->user()->admin)
