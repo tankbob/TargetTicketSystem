@@ -887,3 +887,9 @@ label.label-file.mouse-over {
 .attachment {
     margin-top:15px;
 }
+
+p.document {
+    display: inline-block;
+    position: relative;
+    top: -10px;
+}

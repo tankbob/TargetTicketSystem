@@ -142,6 +142,8 @@
 							<div class="attachment">
 								@if($attachment->type == 'I')
 									<img src="/img/{{ $attachment->filename }}?w=510&amp;fit=max" alt="{{ $attachment->original_filename }}">
+								@else
+									<p class="document">{{ $attachment->getFilename() }}</p>
 								@endif
 								<a href="{{ config('app.asset_url') }}{{ $attachment->filename }}" target="_blank" class="icon-download"></a>
 							</div>

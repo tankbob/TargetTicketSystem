@@ -17,4 +17,15 @@ class Attachment extends Model
     	'filename',
         'type'
     ];
+
+    public function getFilename()
+    {
+        if($this->original_filename) {
+            return $this->original_filename;
+        } elseif($this->filename) {
+            return $this->filename;
+        } else {
+            return 'File #' . $this->id;
+        }
+    }
 }
