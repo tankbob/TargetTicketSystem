@@ -828,7 +828,7 @@ body.loading, body.loading * {
 }
 
 /* File Inputs */
-input[type=file] {
+.file-input-container input[type=file] {
     height: 57px;
     top: -62px;
     position: relative;

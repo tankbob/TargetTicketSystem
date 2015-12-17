@@ -8,10 +8,11 @@ use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
 use TargetInk\Advert;
+use Storage;
 
 class AdvertController extends Controller
 {
-    //should be admin
+    // Should be admin
     public function __construct()
     {
         $this->middleware('auth');
@@ -52,24 +53,34 @@ class AdvertController extends Controller
     {
         $advert = new Advert;
         $advert->fill($request->all());
+
         if($request->hasFile('image') && $request->file('image')->isValid()) {
             $file = $request->file('image');
-            $image = \Image::make($file);
-            $image->resize(null, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $destinationPath = public_path() . '/files/banners';
-            $counter = 1;
-            $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath . '/' . $filename)) {
-                $filename = $counter . '-' . $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $counter = 2;
+            $fcache = $filename;
+            while(Storage::disk('s3')->has($filename . '.' . $extension)) {
+                $filename = $fcache . '_' . $counter;
                 $counter++;
             }
-            $image->save($destinationPath . '/' . $filename);
+
+            $filename = $filename . '.' . $extension;
+
+            // Sanitize
+            $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+            $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+            Storage::disk('s3')->put($filename, file_get_contents($request->file('image')->getRealPath()));
+
+            $file->filepath = config('app.asset_url') . $filename;
             $advert->image = $filename;
         }
+
         $advert->save();
-        return redirect('/?advert=' . $request->get('client_id') . '#advertDiv');
+
+        return redirect('/?banners=' . $request->get('client_id') . '#advertDiv');
     }
 
     /**

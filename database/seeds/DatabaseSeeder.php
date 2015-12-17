@@ -104,11 +104,12 @@ class DatabaseSeeder extends Seeder
             }
 
             // Create some adverts
-            for($a = 1; $a < rand(1, 6); $a++){
+            for($a = 0; $a < rand(1, 6); $a++){
                 Advert::create([
                     'name' => $faker->text(80),
                     'client_id' => $user->id,
-                    'url' => 'http://www.google.com'
+                    'url' => 'http://www.google.com',
+                    'image' => 'skyscraper-example.gif',
                 ]);
             }
 

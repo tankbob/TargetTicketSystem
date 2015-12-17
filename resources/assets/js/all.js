@@ -150,6 +150,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val(clientId);
                 $.ajax({
                     type: 'GET',
                     url: '/banners/' + clientId,
@@ -192,6 +193,8 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#banner-form-div").html(response);
                     $("#banner-form-div").slideDown();
+
+                    $('.clientValue').val($('#banner-customer-select').val());
                     stopProgress();
                 }
             });

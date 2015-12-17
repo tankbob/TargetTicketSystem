@@ -40,27 +40,8 @@
 					{!! Form::textarea('content', @$ticket->content, ['placeholder' => 'Your Text', 'id' => 'content', 'class' => 'ticket-content']) !!}
 		        </div>
 
-		        {{-- Only Retrieve one file error if there is more than one --}}
-		        @if(old('attachment_count'))
-		        	@for($i = 1; $i <= old('attachment_count'); $i ++)
-		        		@if($errors->has('attachment-'.$i))
-		        			<span class="alert-danger"> {{ $errors->first('attachment-'.$i) }} </span>
-		        			<?php $i = old('attachment_count'); ?>
-		        		@endif
-		        	@endfor
-				@endif
-		        <div id="attachmentDiv">
-			        <div>
-						<label class="file-label">
-							{!! Form::file("attachment-1", ['attachmentID' => 1, 'class' => 'fileInput', 'multiple' => 'multiple']) !!}
-							<span>
-								<def>Attachments, click to add file or drop file here</def>
-								<i class="icon-upload pull-right"></i>
-							</span>
-						</label>
-			        </div>
-			    </div>
-			    <input type="hidden" name="attachment_count" id="attachment_count" value="1">
+		        @include('includes.fileInput')
+				
 		        <div id="publishedAtDiv">
 		        	<div>
 		        		@if(@$ticket->published_at)
