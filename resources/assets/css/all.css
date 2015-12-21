@@ -899,3 +899,10 @@ p.document {
     overflow: hidden;
     max-height: 57px;
 }
+
+.btn-login {
+    width: 200px;
+    height: 50px;
+    display: block;
+    margin-top: 15px;
+}
