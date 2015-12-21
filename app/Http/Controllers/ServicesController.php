@@ -103,7 +103,7 @@ class ServicesController extends Controller
         }
 
         $service->save();
-        return redirect('/?services=' . $request->get('client_id') . '#services-div');
+        return redirect('/?services&client_id=' . $request->get('client_id') . '#services-div');
     }
 
     /**

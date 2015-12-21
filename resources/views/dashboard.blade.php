@@ -60,7 +60,12 @@
                             {!! $c->index() !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="banner-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="banner-table-div">
+                            @if(request()->input('client_id'))
+                            <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
+                            {!! $c->show(request()->input('client_id')) !!}
+                            @endif
+                        </div>
                         <div class="col-md-12 ajaxable" id="banner-form-div"></div>
                     </div>
 
@@ -76,7 +81,12 @@
                             {!! $c->index() !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="services-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="services-table-div">
+                            @if(request()->input('client_id'))
+                            <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
+                            {!! $c->show(request()->input('client_id')) !!}
+                            @endif
+                        </div>
                         <div class="col-md-12 ajaxable" id="services-form-div"></div>
                     </div>
 
@@ -92,7 +102,12 @@
                             {!! $c->index('seo') !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="seo-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="seo-table-div">
+                            @if(request()->input('client_id'))
+                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
+                            {!! $c->show('seo', request()->input('client_id')) !!}
+                            @endif
+                        </div>
                         <div class="col-md-12 ajaxable" id="seo-form-div"></div>
                     </div>
 
@@ -108,7 +123,12 @@
                             {!! $c->index('info') !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="info-table-div"></div>
+                        <div class="col-md-12 ajaxable" id="info-table-div">
+                            @if(request()->input('client_id'))
+                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
+                            {!! $c->show('info', request()->input('client_id')) !!}
+                            @endif
+                        </div>
                         <div class="col-md-12 ajaxable" id="info-form-div"></div>
                     </div>
                 @else

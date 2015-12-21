@@ -85,7 +85,7 @@ class AdminDocumentsController extends Controller
         }
 
         $fileobj->save();
-        return redirect('/?' . $type . '=' . $request->get('client_id') . '#' . $type . '-div');
+        return redirect('/?' . $type . '&client_id=' . $request->get('client_id') . '#' . $type . '-div');
     }
 
     /**

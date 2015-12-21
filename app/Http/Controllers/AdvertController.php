@@ -80,7 +80,7 @@ class AdvertController extends Controller
 
         $advert->save();
 
-        return redirect('/?banners=' . $request->get('client_id') . '#advertDiv');
+        return redirect('/?banners&client_id=' . $request->get('client_id') . '#advertDiv');
     }
 
     /**
