@@ -1,5 +1,9 @@
 @extends('includes.layout')
 
+@section('sectionTitle')
+	Login
+@stop
+
 @section('content')
 <div class="row">
     <div class="auth-form col-md-8 col-md-offset-2">
