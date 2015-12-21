@@ -893,3 +893,8 @@ p.document {
     position: relative;
     top: -10px;
 }
+
+.single-input {
+    overflow: hidden;
+    max-height: 57px;
+}

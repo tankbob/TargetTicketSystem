@@ -399,68 +399,6 @@ $(document).ready(function () {
             e.preventDefault();
         });
 
-        // File Input
-        var fileInputCounter = 1;
-        function addInput() {
-            // Remove blanks
-            $("input[type='file']").filter(function (){
-                // Check if its the template
-                if($(this).closest('.file-view-template').length > 0) {
-                    return false;
-                } else {
-                    return !this.value;
-                }
-            }).parent('.form-group').remove();
-
-            // Add a new one
-            var html = $('.file-view-template').html().replace(/XX/g, fileInputCounter);
-            $('.file-input-container').append(html);
-
-            // Add to the counter to prevent collisions
-            fileInputCounter++;
-        }
-        addInput();
-
-        $('.file-input-container').on('change', '.file-input', function() {
-            $($(this).data('file-text')).html($(this).val());
-            addInput();
-        });
-
-        var originalPlaceholder = '';
-        var dropMessage = 'Drop file to upload...';
-
-        $('.file-input-container').on('dragenter', '.file-input', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            originalPlaceholder = $(this).parents('.form-group').children('.label-file').children('.file-source').text();
-            $(this).parents('.form-group').children('.label-file').children('.file-source').text(dropMessage);
-            $(this).parents('.form-group').children('.label-file').addClass('hover mouse-over');
-        });
-
-        $('.file-input-container').on('dragleave', '.file-input', function(e) {
-            $(this).parents('.form-group').children('.label-file').children('.file-source').text(originalPlaceholder);
-            $(this).parents('.form-group').children('.label-file').removeClass('hover mouse-over');
-            originalPlaceholder = '';
-        });
-
-        $('.file-input-container').on('drop', '.file-input', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            $(this).parents('.form-group').children('.label-file').removeClass('hover mouse-over');
-            $(this).parents('.form-group').children('.label-file').children('.file-source').text(originalPlaceholder);
-            originalPlaceholder = '';
-        });
-
-        $('.file-input-container').on('mouseenter', '.file-input', function(e) {
-            $(this).parents('.form-group').children('.label-file').addClass('hover');
-        });
-
-        $('.file-input-container').on('mouseleave', '.file-input', function(e) {
-            $(this).parents('.form-group').children('.label-file').removeClass('hover');
-        });
-
         // Validate
         jQuery.validator.setDefaults({});
         $('#newBannerForm').validate({
@@ -532,7 +470,7 @@ $(document).ready(function () {
                 }
             }
         });
-
+/*
         $('.sorted_table').sortable({
             containerSelector: 'table',
             handle: 'i.icon-move',
@@ -563,7 +501,7 @@ $(document).ready(function () {
                 $("body").removeClass(container.group.options.bodyClass)
             }
         });
-
+*/
         // Ticket creation
         $("#attachmentDiv").on('change', '.fileInput', function (){
             addFileInput(this);
@@ -577,6 +515,71 @@ $(document).ready(function () {
 
         $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
     }
+
+    // File Input
+    var fileInputCounter = 1;
+    function addInput() {
+        if($('.file-view-template').length) {
+            // Remove blanks
+            $("input[type='file']").filter(function (){
+                // Check if its the template
+                if($(this).closest('.file-view-template').length > 0) {
+                    return false;
+                } else {
+                    return !this.value;
+                }
+            }).parent('.form-group').remove();
+
+            // Add a new one
+            var html = $('.file-view-template').html().replace(/XX/g, fileInputCounter);
+            $('.file-input-container').append(html);
+
+            // Add to the counter to prevent collisions
+            fileInputCounter++;
+        }
+    }
+    addInput();
+
+    var originalPlaceholder = '';
+    var dropMessage = 'Drop file to upload...';
+
+    $('body').on('dragenter', '.file-input', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        originalPlaceholder = $(this).prev('.label-file').children('.file-source').text();
+        $(this).prev('.label-file').children('.file-source').text(dropMessage);
+        $(this).prev('.label-file').addClass('hover mouse-over');
+    });
+
+    $('body').on('dragleave', '.file-input', function(e) {
+        $(this).prev('.label-file').children('.file-source').text(originalPlaceholder);
+        $(this).prev('.label-file').removeClass('hover mouse-over');
+        originalPlaceholder = '';
+    });
+
+    $('body').on('drop', '.file-input', function(e) {
+        $(this).prev('.label-file').removeClass('hover mouse-over');
+        $(this).prev('.label-file').children('.file-source').text(originalPlaceholder);
+        originalPlaceholder = '';
+    });
+
+    $('body').on('mouseenter', '.file-input', function(e) {
+        $(this).prev('.label-file').addClass('hover');
+    });
+
+    $('body').on('mouseleave', '.file-input', function(e) {
+        $(this).prev('.label-file').removeClass('hover');
+    });
+
+    $('body').on('change', '.file-input', function() {
+        if($(this).val().length) {
+            $($(this).data('file-text')).html($(this).val());
+            addInput();
+        } else {
+            $(this).val('Attachments, click to add file');
+        }
+    });
 });
 
 function toggleFormFields(typeValue){
