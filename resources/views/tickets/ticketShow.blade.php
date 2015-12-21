@@ -93,7 +93,7 @@
            	@endif
 
             @if(auth()->user()->admin)
-            	{!! Form::submit() !!}
+            	{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary pull-right']) !!}
             	{!! Form::close() !!}
             @endif
 		</div>
