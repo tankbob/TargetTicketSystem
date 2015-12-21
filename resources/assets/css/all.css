@@ -32,6 +32,11 @@ body {
     box-shadow: none;
 }
 
+.main-nav .btn:active {
+    background: #ccc;
+    box-shadow: none;
+}
+
 .btn-logout {
     color: #000 !important;
 }
