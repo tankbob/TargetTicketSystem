@@ -39,9 +39,9 @@
 	           		@endif
 					{!! Form::textarea('content', @$ticket->content, ['placeholder' => 'Your Text', 'id' => 'content', 'class' => 'ticket-content']) !!}
 		        </div>
-
-		        @include('includes.fileInput')
-				
+				<div class="col-xs-12">
+			        @include('includes.fileInput')
+				</div>
 		        <div id="publishedAtDiv">
 		        	<div>
 		        		@if(@$ticket->published_at)
