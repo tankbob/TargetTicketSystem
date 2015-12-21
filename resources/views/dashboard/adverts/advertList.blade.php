@@ -4,6 +4,6 @@
     </div>
     <div class="col-sm-6 text-right client-chooser">
         <label for="banner-customer-select">Choose a Client:</label>
-        {!! Form::select('client_id', [ '' => '' ] + $clients, '', ['id' => 'banner-customer-select']) !!}
+        {!! Form::select('client_id', [ '' => '' ] + $clients, request()->input('client_id'), ['id' => 'banner-customer-select']) !!}
     </div>
 </div>

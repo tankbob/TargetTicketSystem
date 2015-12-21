@@ -61,7 +61,7 @@
                             @endif
                         </div>
                         <div class="col-md-12 ajaxable" id="banner-table-div">
-                            @if(request()->input('client_id'))
+                            @if(isset($_GET['banners']) && request()->input('client_id'))
                             <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
                             {!! $c->show(request()->input('client_id')) !!}
                             @endif
@@ -82,7 +82,7 @@
                             @endif
                         </div>
                         <div class="col-md-12 ajaxable" id="services-table-div">
-                            @if(request()->input('client_id'))
+                            @if(isset($_GET['services']) && request()->input('client_id'))
                             <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
                             {!! $c->show(request()->input('client_id')) !!}
                             @endif
@@ -103,7 +103,7 @@
                             @endif
                         </div>
                         <div class="col-md-12 ajaxable" id="seo-table-div">
-                            @if(request()->input('client_id'))
+                            @if(isset($_GET['seo']) && request()->input('client_id'))
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
                             {!! $c->show('seo', request()->input('client_id')) !!}
                             @endif
@@ -124,7 +124,7 @@
                             @endif
                         </div>
                         <div class="col-md-12 ajaxable" id="info-table-div">
-                            @if(request()->input('client_id'))
+                            @if(isset($_GET['info']) && request()->input('client_id'))
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
                             {!! $c->show('info', request()->input('client_id')) !!}
                             @endif
