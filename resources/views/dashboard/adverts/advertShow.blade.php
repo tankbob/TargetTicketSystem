@@ -11,9 +11,7 @@
 	    	@foreach($client->adverts as $advert)
 	    		<tr id="banner-row-{{ $advert->id }}">
 	                <td class="td-adjust text-center">
-						@if(file_exists(public_path() . '/files/banners/' . $advert->image))
-						<img src="{{ url('files/banners/' . $advert->image) }}">
-						@endif
+						<img src="{{ url('img/' . $advert->image) }}?w=120&amp;h=240&amp;fit=max">
 					</td>
 	                <td class="td-adjust">{{ $advert->name }}</td>
 	                <td class="td-adjust">{{ $client->email }}</td>

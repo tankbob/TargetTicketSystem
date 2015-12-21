@@ -9,6 +9,7 @@ use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
 use TargetInk\File;
+use Storage;
 
 class AdminDocumentsController extends Controller
 {
@@ -18,7 +19,7 @@ class AdminDocumentsController extends Controller
         $this->middleware('auth');
         $this->middleware('admin');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -51,28 +52,40 @@ class AdminDocumentsController extends Controller
      */
     public function store($type, Request $request)
     {
-        $file = new File;
-        $file->fill($request->all());
-        if($type == 'seo') {
-            $file->type = 0;
-        } else {
-            $file->type = 1;
-        }
-        if($request->hasFile('file') && $request->file('file')->isValid()) {
-            $tempfile = $request->file('file');
-            $destinationPath = public_path() . '/files/documents';
+        $fileobj = new File;
+        $fileobj->fill($request->all());
 
-            $counter = 1;
-            $filename = $tempfile->getClientOriginalName();
-            while(file_exists($destinationPath . '/' . $filename)) {
-                $filename = $counter. '-' . $tempfile->getClientOriginalName();
+        if($type == 'seo') {
+            $fileobj->type = 0;
+        } else {
+            $fileobj->type = 1;
+        }
+
+        if($request->hasFile('file') && $request->file('file')->isValid()) {
+            $file = $request->file('file');
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $counter = 2;
+            $fcache = $filename;
+            while(Storage::disk('s3')->has($filename . '.' . $extension)) {
+                $filename = $fcache . '_' . $counter;
                 $counter++;
             }
-            $tempfile->move($destinationPath, $filename);
-            $file->filepath = $filename;
+
+            $filename = $filename . '.' . $extension;
+
+            // Sanitize
+            $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+            $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+            Storage::disk('s3')->put($filename, file_get_contents($request->file('file')->getRealPath()));
+
+            $fileobj->filepath = config('app.asset_url') . $filename;
         }
-        $file->save();
-        return redirect('/?' . $type . '=' . $request->get('client_id') . '#' . $type . '-div');
+
+        $fileobj->save();
+        return redirect('/?' . $type . '&client_id=' . $request->get('client_id') . '#' . $type . '-div');
     }
 
     /**

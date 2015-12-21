@@ -32,6 +32,11 @@ body {
     box-shadow: none;
 }
 
+.main-nav .btn:active {
+    background: #fafafa;
+    box-shadow: none;
+}
+
 .btn-logout {
     color: #000 !important;
 }
@@ -85,8 +90,9 @@ body {
     background-position-y: bottom;
 }
 
-.btn-section-link:hover {
+.btn-section-link:hover, .btn-section-link:active, .btn-section-link:focus {
     text-decoration: none;
+    outline:none;
 }
 
 .btn-section-link:hover * {
@@ -828,7 +834,7 @@ body.loading, body.loading * {
 }
 
 /* File Inputs */
-input[type=file] {
+.file-input-container input[type=file] {
     height: 57px;
     top: -62px;
     position: relative;
@@ -886,4 +892,22 @@ label.label-file.mouse-over {
 
 .attachment {
     margin-top:15px;
+}
+
+p.document {
+    display: inline-block;
+    position: relative;
+    top: -10px;
+}
+
+.single-input {
+    overflow: hidden;
+    max-height: 57px;
+}
+
+.btn-login {
+    width: 200px;
+    height: 50px;
+    display: block;
+    margin-top: 15px;
 }

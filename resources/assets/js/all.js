@@ -150,6 +150,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val(clientId);
                 $.ajax({
                     type: 'GET',
                     url: '/banners/' + clientId,
@@ -192,6 +193,9 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#banner-form-div").html(response);
                     $("#banner-form-div").slideDown();
+
+                    $('.clientValue').val($('#banner-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -237,6 +241,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val(clientId);
                 $.ajax({
                     type: 'GET',
                     url: '/services/' + clientId,
@@ -263,6 +268,9 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#services-form-div").html(response);
                     $("#services-form-div").slideDown();
+
+                    $('.clientValue').val($('#services-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -289,6 +297,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val($('#seo-customer-select').val());
                 $.ajax({
                     type: 'GET',
                     url: '/documents/seo/' + clientId,
@@ -315,6 +324,9 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#seo-form-div").html(response);
                     $("#seo-form-div").slideDown();
+
+                    $('.clientValue').val($('#seo-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -356,6 +368,7 @@ $(document).ready(function () {
             var clientId = $(this).val();
             if(clientId != '') {
                 startProgress();
+                $('.clientValue').val(clientId);
                 $.ajax({
                     type: 'GET',
                     url: '/documents/info/' + clientId,
@@ -381,15 +394,135 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#info-form-div").html(response);
                     $("#info-form-div").slideDown();
+
+                    $('.clientValue').val($('#info-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
             e.preventDefault();
         });
 
-        // File Input
-        var fileInputCounter = 1;
-        function addInput() {
+        // Validate
+        function setUpValidation() {
+            jQuery.validator.setDefaults({});
+            $('#newBannerForm').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    image: {
+                        required: true
+                    },
+                    url: {
+                        required: true,
+                        url: true
+                    },
+                    name: {
+                        required: true
+                    }
+                },
+                messages: {
+                    category_id: "Please choose an option"
+                }
+            });
+            $('#new-seo-form').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    filename: {
+                        required: true
+                    },
+                    file: {
+                        required: true
+                    }
+                }
+            });
+            $('#new-info-form').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    filename: {
+                        required: true
+                    },
+                    file: {
+                        required: true
+                    }
+                }
+            });
+            $('#newServiceForm').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    icon: {
+                        required: true
+                    },
+                    icon_rollover: {
+                        required: true
+                    },
+                    heading: {
+                        required: true
+                    },
+                    link: {
+                        required: true,
+                        url: true
+                    },
+                    text: {
+                        required: true
+                    }
+                }
+            });
+        }
+        setUpValidation();
+
+        $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
+    }
+
+    // Ticket creation
+    $('.type').on('change', function(){
+        toggleFormFields($('.type:checked').val());
+    });
+
+    toggleFormFields($('.type:checked').val());
+
+    $('.sorted_table').sortable({
+        containerSelector: 'table',
+        handle: 'i.icon-move',
+        itemPath: '> tbody',
+        itemSelector: 'tr',
+        placeholder: '<tr class="placeholder"/>',
+        onDrop: function ($item, container, _super, event) {
+
+            var new_order = [];
+            $("#ticket_table tbody").find("tr").each(function () {
+                new_order.push(this.id);
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '/api/ticketsort',
+                data: {
+                    'user_id': $client_id,
+                    'archived': $archived,
+                    'new_order': new_order
+                },
+                success: function (response) {
+
+                }
+            });
+
+            $item.removeClass(container.group.options.draggedClass).removeAttr("style")
+            $("body").removeClass(container.group.options.bodyClass)
+        }
+    });
+
+    // File Input
+    var fileInputCounter = 1;
+    function addInput() {
+        if($('.file-view-template').length) {
             // Remove blanks
             $("input[type='file']").filter(function (){
                 // Check if its the template
@@ -407,164 +540,49 @@ $(document).ready(function () {
             // Add to the counter to prevent collisions
             fileInputCounter++;
         }
-        addInput();
+    }
+    addInput();
 
-        $('.file-input-container').on('change', '.file-input', function() {
+    var originalPlaceholder = '';
+    var dropMessage = 'Drop file to upload...';
+
+    $('body').on('dragenter', '.file-input', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        originalPlaceholder = $(this).prev('.label-file').children('.file-source').text();
+        $(this).prev('.label-file').children('.file-source').text(dropMessage);
+        $(this).prev('.label-file').addClass('hover mouse-over');
+    });
+
+    $('body').on('dragleave', '.file-input', function(e) {
+        $(this).prev('.label-file').children('.file-source').text(originalPlaceholder);
+        $(this).prev('.label-file').removeClass('hover mouse-over');
+        originalPlaceholder = '';
+    });
+
+    $('body').on('drop', '.file-input', function(e) {
+        $(this).prev('.label-file').removeClass('hover mouse-over');
+        $(this).prev('.label-file').children('.file-source').text(originalPlaceholder);
+        originalPlaceholder = '';
+    });
+
+    $('body').on('mouseenter', '.file-input', function(e) {
+        $(this).prev('.label-file').addClass('hover');
+    });
+
+    $('body').on('mouseleave', '.file-input', function(e) {
+        $(this).prev('.label-file').removeClass('hover');
+    });
+
+    $('body').on('change', '.file-input', function() {
+        if($(this).val().length) {
             $($(this).data('file-text')).html($(this).val());
             addInput();
-        });
-
-        var originalPlaceholder = '';
-        var dropMessage = 'Drop file to upload...';
-
-        $('.file-input-container').on('dragenter', '.file-input', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            originalPlaceholder = $(this).parents('.form-group').children('.label-file').children('.file-source').text();
-            $(this).parents('.form-group').children('.label-file').children('.file-source').text(dropMessage);
-            $(this).parents('.form-group').children('.label-file').addClass('hover mouse-over');
-        });
-
-        $('.file-input-container').on('dragleave', '.file-input', function(e) {
-            $(this).parents('.form-group').children('.label-file').children('.file-source').text(originalPlaceholder);
-            $(this).parents('.form-group').children('.label-file').removeClass('hover mouse-over');
-            originalPlaceholder = '';
-        });
-
-        $('.file-input-container').on('drop', '.file-input', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            $(this).parents('.form-group').children('.label-file').removeClass('hover mouse-over');
-            $(this).parents('.form-group').children('.label-file').children('.file-source').text(originalPlaceholder);
-            originalPlaceholder = '';
-        });
-
-        $('.file-input-container').on('mouseenter', '.file-input', function(e) {
-            $(this).parents('.form-group').children('.label-file').addClass('hover');
-        });
-
-        $('.file-input-container').on('mouseleave', '.file-input', function(e) {
-            $(this).parents('.form-group').children('.label-file').removeClass('hover');
-        });
-
-        // Validate
-        jQuery.validator.setDefaults({});
-        $('#newBannerForm').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                image: {
-                    required: true
-                },
-                url: {
-                    required: true,
-                    url: true
-                },
-                name: {
-                    required: true
-                }
-            },
-            messages: {
-                category_id: "Please choose an option"
-            }
-        });
-        $('#new-seo-form').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                filename: {
-                    required: true
-                },
-                file: {
-                    required: true
-                }
-            }
-        });
-        $('#new-info-form').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                filename: {
-                    required: true
-                },
-                file: {
-                    required: true
-                }
-            }
-        });
-        $('#new-services-form').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                icon: {
-                    required: true
-                },
-                icon_rollover: {
-                    required: true
-                },
-                heading: {
-                    required: true
-                },
-                link: {
-                    required: true,
-                    url: true
-                },
-                text: {
-                    required: true
-                }
-            }
-        });
-
-        $('.sorted_table').sortable({
-            containerSelector: 'table',
-            handle: 'i.icon-move',
-            itemPath: '> tbody',
-            itemSelector: 'tr',
-            placeholder: '<tr class="placeholder"/>',
-            onDrop: function ($item, container, _super, event) {
-
-                var new_order = [];
-                $("#ticket_table tbody").find("tr").each(function () {
-                    new_order.push(this.id);
-                });
-
-                $.ajax({
-                    type: "POST",
-                    url: '/api/ticketsort',
-                    data: {
-                        'user_id': $client_id,
-                        'archived': $archived,
-                        'new_order': new_order
-                    },
-                    success: function (response) {
-
-                    }
-                });
-
-                $item.removeClass(container.group.options.draggedClass).removeAttr("style")
-                $("body").removeClass(container.group.options.bodyClass)
-            }
-        });
-
-        // Ticket creation
-        $("#attachmentDiv").on('change', '.fileInput', function (){
-            addFileInput(this);
-        });
-
-        $('.type').on('change', function(){
-            toggleFormFields($('.type:checked').val());
-        });
-
-        toggleFormFields($('.type:checked').val());
-
-        $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
-    }
+        } else {
+            $(this).val('Attachments, click to add file');
+        }
+    });
 });
 
 function toggleFormFields(typeValue){
@@ -603,17 +621,5 @@ function toggleFormFields(typeValue){
             break;
         default:
             break;
-    }
-}
-
-function addFileInput(fileinput){
-    if($(fileinput).val() && $(fileinput).attr('attachmentID') == attachmentCounter){
-        attachmentCounter ++;
-        var html = '';
-        html += '<div>';
-            html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment-'+attachmentCounter+'" type="file">';
-        html += '</div>';
-        $('#attachmentDiv').append(html);
-        $('#attachment_count').val(attachmentCounter);
     }
 }

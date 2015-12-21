@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+<div class="row">
     <div class="col-sm-6">
     	@if($type == 'seo')
     		<h2 class="maintenance-title pull-left">SEO Doc</h2> <a href="#" class="seo-form-toggler icon-new-seo pull-left" clientId="0"></a>
@@ -8,6 +8,6 @@
     </div>
     <div class="col-sm-6 text-right client-chooser">
         <label for="{{ $type }}-customer-select">Choose a Client:</label>
-    	{!! Form::select('client_id', [ '' => '' ] + $clients, '', ['id' => $type . '-customer-select']) !!}
+    	{!! Form::select('client_id', [ '' => '' ] + $clients, request()->input('client_id'), ['id' => $type . '-customer-select']) !!}
     </div>
 </div>

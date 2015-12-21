@@ -39,7 +39,7 @@ class TicketController extends Controller
             $archived = 0;
         }
         $client = User::where('company_slug', $company_slug)->first();
-        $tickets = $client->Tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
+        $tickets = $client->tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
         return view('tickets.ticketList', compact('archived', 'tickets', 'client'));
     }
 

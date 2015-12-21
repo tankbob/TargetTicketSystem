@@ -1,5 +1,9 @@
 @extends('includes.layout')
 
+@section('sectionTitle')
+	Login
+@stop
+
 @section('content')
 <div class="row">
     <div class="auth-form col-md-8 col-md-offset-2">
@@ -35,7 +39,7 @@
                 </label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary btn-login">Login</button>
         </form>
     </div>
 </div>

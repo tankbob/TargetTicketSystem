@@ -9,6 +9,7 @@ use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
 use TargetInk\Service;
+use Storage;
 
 class ServicesController extends Controller
 {
@@ -54,37 +55,55 @@ class ServicesController extends Controller
     {
         $service = new Service;
         $service->fill($request->all());
+
         if($request->hasFile('icon') && $request->file('icon')->isValid()) {
             $file = $request->file('icon');
-            $image = \Image::make($file);
-            $image->fit(146, 146);
-            $destinationPath = public_path() . '/files/services';
-            $counter = 1;
-            $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath. '/' . $filename)) {
-                $filename = $counter. '-' . $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $counter = 2;
+            $fcache = $filename;
+            while(Storage::disk('s3')->has($filename . '.' . $extension)) {
+                $filename = $fcache . '_' . $counter;
                 $counter++;
             }
-            $image->save($destinationPath. '/' . $filename);
-            $service->icon = $filename;
+
+            $filename = $filename . '.' . $extension;
+
+            // Sanitize
+            $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+            $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+            Storage::disk('s3')->put($filename, file_get_contents($request->file('icon')->getRealPath()));
+
+            $service->icon = config('app.asset_url') . $filename;
         }
 
         if($request->hasFile('icon_rollover') && $request->file('icon_rollover')->isValid()) {
             $file = $request->file('icon_rollover');
-            $image = \Image::make($file);
-            $image->fit(146, 146);
-            $destinationPath = public_path() . '/files/services';
-            $counter = 1;
-            $filename = $file->getClientOriginalName();
-            while(file_exists($destinationPath. '/' . $filename)) {
-                $filename = $counter. '-' . $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $counter = 2;
+            $fcache = $filename;
+            while(Storage::disk('s3')->has($filename . '.' . $extension)) {
+                $filename = $fcache . '_' . $counter;
                 $counter++;
             }
-            $image->save($destinationPath. '/' . $filename);
-            $service->icon_rollover = $filename;
+
+            $filename = $filename . '.' . $extension;
+
+            // Sanitize
+            $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+            $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+            Storage::disk('s3')->put($filename, file_get_contents($request->file('icon_rollover')->getRealPath()));
+
+            $service->icon_rollover = config('app.asset_url') . $filename;
         }
+
         $service->save();
-        return redirect('/?service=' . $request->get('client_id') . '#services-div');
+        return redirect('/?services&client_id=' . $request->get('client_id') . '#services-div');
     }
 
     /**

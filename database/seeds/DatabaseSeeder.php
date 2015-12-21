@@ -7,6 +7,8 @@ use TargetInk\User;
 use TargetInk\Ticket;
 use TargetInk\Advert;
 use TargetInk\Response;
+use TargetInk\Attachment;
+use TargetInk\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -92,7 +94,7 @@ class DatabaseSeeder extends Seeder
                         'ticket_id' => $ticket->id,
                         'working_time' => rand(0, 100),
                         'admin' => $resAdmin,
-                        'content' => $faker->paragraph
+                        'content' => $faker->paragraph,
                     ]);
 
                     if($resAdmin) {
@@ -100,15 +102,53 @@ class DatabaseSeeder extends Seeder
                     } else {
                         $resAdmin = true;
                     }
+
+                    // Add some attachments
+                    for($a = 1; $a < rand(2, 4); $a++) {
+                        $attachment = Attachment::create([
+                            'response_id' => $response->id,
+                            'original_filename' => 'pattern_test.jpg',
+                            'filename' => 'pattern_test.jpg',
+                            'type' => 'I',
+                        ]);
+                    }
+                    for($a = 1; $a < rand(2, 4); $a++) {
+                        $attachment = Attachment::create([
+                            'response_id' => $response->id,
+                            'original_filename' => 'Sample.docx',
+                            'filename' => 'Sample.docx',
+                            'type' => 'D',
+                        ]);
+                    }
+
                 }
             }
 
             // Create some adverts
-            for($a = 1; $a < rand(1, 6); $a++){
+            for($a = 0; $a < rand(0, 6); $a++){
                 Advert::create([
                     'name' => $faker->text(80),
                     'client_id' => $user->id,
-                    'url' => 'http://www.google.com'
+                    'url' => 'http://www.google.com',
+                    'image' => 'skyscraper-example.gif',
+                ]);
+            }
+
+            // Create some documents
+            for($d = 0; $d < rand(0, 6); $d++){
+                File::create([
+                    'filename' => $faker->text(30),
+                    'filepath' => 'Sample.docx',
+                    'client_id' => $user->id,
+                    'type' => 'seo',
+                ]);
+            }
+            for($d = 0; $d < rand(0, 6); $d++){
+                File::create([
+                    'filename' => $faker->text(30),
+                    'filepath' => 'Sample.docx',
+                    'client_id' => $user->id,
+                    'type' => 'info',
                 ]);
             }
 

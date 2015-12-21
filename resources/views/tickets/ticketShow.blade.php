@@ -142,6 +142,8 @@
 							<div class="attachment">
 								@if($attachment->type == 'I')
 									<img src="/img/{{ $attachment->filename }}?w=510&amp;fit=max" alt="{{ $attachment->original_filename }}">
+								@else
+									<p class="document">{{ $attachment->getFilename() }}</p>
 								@endif
 								<a href="{{ config('app.asset_url') }}{{ $attachment->filename }}" target="_blank" class="icon-download"></a>
 							</div>
@@ -161,16 +163,6 @@
 	           		@endif
 					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Enter your Response...']) !!}
 		        </div>
-
-		        <!-- Only Retrieve one file error if there is more than one-->
-		        @if(old('attachment_count'))
-					@for($i = 1; $i <= old('attachment_count'); $i ++)
-		        		@if($errors->has('attachment-' . $i))
-		        			<span class="alert-danger">{{ $errors->first('attachment-' . $i) }}</span>
-		        			<?php $i = old('attachment_count'); ?>
-		        		@endif
-		        	@endfor
-				@endif
 
 				@include('includes.fileInput')
 

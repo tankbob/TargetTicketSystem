@@ -2,11 +2,9 @@
 <h4 class="sponsor-title">Featured Ads</h4>
 	@foreach(auth()->user()->adverts as $advert)
 	<div class="sponsor">
-		@if(file_exists(public_path() . 'files/banners/' . $advert->image))
 	    <a href="{{ $advert->url }}" target="_blank">
-	        <img src="{{ asset('files/banners/' . $advert->image) }}" alt="{{ $advert->name }}">
+			<img src="{{ url('img/' . $advert->image) }}?w=120&amp;h=240&amp;fit=max" alt="{{ $advert->name }}">
 	    </a>
-		@endif
 	</div>
 	@endforeach
 @endif
