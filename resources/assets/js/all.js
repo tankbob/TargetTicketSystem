@@ -195,6 +195,7 @@ $(document).ready(function () {
                     $("#banner-form-div").slideDown();
 
                     $('.clientValue').val($('#banner-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -269,6 +270,7 @@ $(document).ready(function () {
                     $("#services-form-div").slideDown();
 
                     $('.clientValue').val($('#services-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -324,6 +326,7 @@ $(document).ready(function () {
                     $("#seo-form-div").slideDown();
 
                     $('.clientValue').val($('#seo-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -393,6 +396,7 @@ $(document).ready(function () {
                     $("#info-form-div").slideDown();
 
                     $('.clientValue').val($('#info-customer-select').val());
+                    setUpValidation();
                     stopProgress();
                 }
             });
@@ -400,76 +404,79 @@ $(document).ready(function () {
         });
 
         // Validate
-        jQuery.validator.setDefaults({});
-        $('#newBannerForm').validate({
-            rules: {
-                client_id: {
-                    required: true
+        function setUpValidation() {
+            jQuery.validator.setDefaults({});
+            $('#newBannerForm').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    image: {
+                        required: true
+                    },
+                    url: {
+                        required: true,
+                        url: true
+                    },
+                    name: {
+                        required: true
+                    }
                 },
-                image: {
-                    required: true
-                },
-                url: {
-                    required: true,
-                    url: true
-                },
-                name: {
-                    required: true
+                messages: {
+                    category_id: "Please choose an option"
                 }
-            },
-            messages: {
-                category_id: "Please choose an option"
-            }
-        });
-        $('#new-seo-form').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                filename: {
-                    required: true
-                },
-                file: {
-                    required: true
+            });
+            $('#new-seo-form').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    filename: {
+                        required: true
+                    },
+                    file: {
+                        required: true
+                    }
                 }
-            }
-        });
-        $('#new-info-form').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                filename: {
-                    required: true
-                },
-                file: {
-                    required: true
+            });
+            $('#new-info-form').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    filename: {
+                        required: true
+                    },
+                    file: {
+                        required: true
+                    }
                 }
-            }
-        });
-        $('#new-services-form').validate({
-            rules: {
-                client_id: {
-                    required: true
-                },
-                icon: {
-                    required: true
-                },
-                icon_rollover: {
-                    required: true
-                },
-                heading: {
-                    required: true
-                },
-                link: {
-                    required: true,
-                    url: true
-                },
-                text: {
-                    required: true
+            });
+            $('#newServiceForm').validate({
+                rules: {
+                    client_id: {
+                        required: true
+                    },
+                    icon: {
+                        required: true
+                    },
+                    icon_rollover: {
+                        required: true
+                    },
+                    heading: {
+                        required: true
+                    },
+                    link: {
+                        required: true,
+                        url: true
+                    },
+                    text: {
+                        required: true
+                    }
                 }
-            }
-        });
+            });
+        }
+        setUpValidation();
 
         // Ticket creation
         $('.type').on('change', function(){
