@@ -33,7 +33,7 @@ body {
 }
 
 .main-nav .btn:active {
-    background: #ccc;
+    background: #fafafa;
     box-shadow: none;
 }
 
