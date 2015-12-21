@@ -478,15 +478,15 @@ $(document).ready(function () {
         }
         setUpValidation();
 
-        // Ticket creation
-        $('.type').on('change', function(){
-            toggleFormFields($('.type:checked').val());
-        });
-
-        toggleFormFields($('.type:checked').val());
-
         $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
     }
+
+    // Ticket creation
+    $('.type').on('change', function(){
+        toggleFormFields($('.type:checked').val());
+    });
+
+    toggleFormFields($('.type:checked').val());
 
     $('.sorted_table').sortable({
         containerSelector: 'table',
