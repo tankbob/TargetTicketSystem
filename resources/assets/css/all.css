@@ -5,6 +5,7 @@ font-family: 'Open Sans', sans-serif;
 body {
     padding-bottom: 50px;
     font-family: 'Open Sans',sans-serif;
+    overflow-x: hidden;
 }
 
 .nav-container {
