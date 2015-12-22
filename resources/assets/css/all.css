@@ -787,6 +787,12 @@ body.loading, body.loading * {
     }
 }
 
+@media (max-width: 767px) {
+    div.ajaxable {
+        padding: 15px;
+    }
+}
+
 .btn-delete {
     border:none;
     font-size:1em;
