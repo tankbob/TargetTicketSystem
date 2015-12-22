@@ -5,7 +5,7 @@
         <th width="75"></th>
         <th>Email</th>
         <th>Name</th>
-        <th>Last Login</th>
+        <th class="hidden-sm hidden-xs">Last Login</th>
         <th class="text-center">Delete</th>
     </thead>
     <tbody>
@@ -14,7 +14,7 @@
                 <td><a href="#" class="clientFormToggler show-on-hover icon-goto" clientId="{{ $client->id }}"></a></td>
                 <td class="td-adjust" id="client-email-{{ $client->id }}">{{ $client->email }}</td>
                 <td class="td-adjust" id="client-name-{{ $client->id }}">{{ $client->name }}</td>
-                <td class="td-adjust"></td>
+                <td class="td-adjust hidden-sm hidden-xs"></td>
                 <td><a href="#" class="clientDelete icon-delete" clientId="{{ $client->id }}"></a></td>
             </tr>
         @endforeach

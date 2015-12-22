@@ -5,6 +5,7 @@ font-family: 'Open Sans', sans-serif;
 body {
     padding-bottom: 50px;
     font-family: 'Open Sans',sans-serif;
+    overflow-x: hidden;
 }
 
 .nav-container {
@@ -783,6 +784,12 @@ body.loading, body.loading * {
 @media (min-width: 768px) {
     .form-horizontal .control-label {
         padding-top: 13px !important;
+    }
+}
+
+@media (max-width: 767px) {
+    div.ajaxable {
+        padding: 15px;
     }
 }
 
