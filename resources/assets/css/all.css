@@ -918,3 +918,7 @@ p.document {
     display: block;
     margin-top: 15px;
 }
+
+.clickable-row, .clientFormToggler {
+    cursor:pointer;
+}

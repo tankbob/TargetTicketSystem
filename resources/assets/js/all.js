@@ -583,6 +583,10 @@ $(document).ready(function () {
             $(this).val('Attachments, click to add file');
         }
     });
+
+    $('body').on('click', '.clickable-row', function() {
+        window.location.href = $(this).data('href');
+    });
 });
 
 function toggleFormFields(typeValue){

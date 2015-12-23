@@ -10,8 +10,8 @@
     </thead>
     <tbody>
         @foreach($clients as $client)
-            <tr id="client-row-{{ $client->id }}">
-                <td><a href="#" class="clientFormToggler show-on-hover icon-goto" clientId="{{ $client->id }}"></a></td>
+            <tr id="client-row-{{ $client->id }}" class="clientFormToggler" clientId="{{ $client->id }}">
+                <td><a href="#" class="show-on-hover icon-goto" clientId="{{ $client->id }}"></a></td>
                 <td class="td-adjust" id="client-email-{{ $client->id }}">{{ $client->email }}</td>
                 <td class="td-adjust" id="client-name-{{ $client->id }}">{{ $client->name }}</td>
                 <td class="td-adjust hidden-sm hidden-xs"></td>

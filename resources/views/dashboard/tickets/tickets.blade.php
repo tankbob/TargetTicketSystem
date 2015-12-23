@@ -9,8 +9,8 @@
     </thead>
     <tbody>
         @foreach($clients as $client)
-            <tr>
-                <td><a href="{{ url($client->company_slug . '/tickets') }}" class="show-on-hover icon-goto"></a></td>
+            <tr class="clickable-row" data-href="{{ url($client->company_slug . '/tickets') }}">
+                <td><i class="show-on-hover icon-goto"></i></td>
                 <td class="td-adjust">{{ $client->company }}</td>
                 <td class="td-adjust">{{ $client->name }}</td>
             </tr>
