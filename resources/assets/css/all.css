@@ -793,6 +793,21 @@ body.loading, body.loading * {
     }
 }
 
+@media (max-width: 990px) {
+    .ticket-table {
+        font-size:12px;
+    }
+    .ticket-table tr td {
+        padding:5px !important;
+    }
+}
+
+@media (max-width: 450px) {
+    .ticket-table {
+        font-size:10px;
+    }
+}
+
 .btn-delete {
     border:none;
     font-size:1em;

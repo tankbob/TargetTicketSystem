@@ -54,10 +54,10 @@
                 <table class="table ticket-table sorted_table" id="ticket_table">
     	            <thead>
     	            	<tr>
-    		            	<th width="75"></th>
+    		            	<th class="hidden-sm hidden-xs" width="75"></th>
     		            	<th>Ticket Title</th>
-    		            	<th>Ref No.</th>
-    		            	<th>Ticket Type</th>
+    		            	<th class="hidden-sm hidden-xs">Ref No.</th>
+    		            	<th class="hidden-xs">Ticket Type</th>
     		            	<th>Cost</th>
     		            	<th class="text-center">Response</th>
                             @if($archived)
@@ -75,10 +75,10 @@
     	            <tbody>
     	            	@foreach($tickets as $ticket)
     	            		<tr id="{{ $ticket->id }}">
-    	            			<td><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}" class="show-on-hover icon-goto"></a></td>
+    	            			<td class="hidden-sm hidden-xs"><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}" class="show-on-hover icon-goto"></a></td>
     	            			<td class="td-adjust">{{ $ticket->title }}</td>
-    	            			<td class="td-adjust">{{ $ticket->getRef() }}</td>
-    	            			<td class="td-adjust">
+    	            			<td class="td-adjust hidden-sm hidden-xs">{{ $ticket->getRef() }}</td>
+    	            			<td class="td-adjust hidden-xs">
     	            				@if($ticket->type == 1)
     	            					Web Amends
     	            				@elseif($ticket->type == 2)
