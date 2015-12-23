@@ -3,7 +3,7 @@
 		 <thead>
 	        <th>Title</th>
 	        <th>Client</th>
-	        <th>Date</th>
+	        <th class="hidden-sm hidden-xs">Date</th>
 	        <th class="text-center">Delete</th>
 	    </thead>
 	    <tbody>
@@ -12,7 +12,7 @@
 	        		<tr id="seo-row-{{ $file->id }}">
 	                    <td class="td-adjust">{{ $file->filename }}</td>
 	                    <td class="td-adjust">{{ $client->company }}</td>
-	                    <td class="td-adjust">{{ date('d/m/y', strtotime($file->created_at)) }}</td>
+	                    <td class="td-adjust hidden-sm hidden-xs">{{ date('d/m/y', strtotime($file->created_at)) }}</td>
 	                    <td class="td-adjust text-center"><a href="#" class="seoDelete icon-delete" fileId="{{ $file->id }}"></a></td>
 	                </tr>
 	        	@endforeach
@@ -21,7 +21,7 @@
 	                <tr id="info-row-{{ $file->id }}">
 	                    <td class="td-adjust">{{ $file->filename }}</td>
 	                    <td class="td-adjust">{{ $client->company }}</td>
-	                    <td class="td-adjust">{{ date('d/m/y', strtotime($file->created_at)) }}</td>
+	                    <td class="td-adjust hidden-sm hidden-xs">{{ date('d/m/y', strtotime($file->created_at)) }}</td>
 	                    <td class="td-adjust text-center"><a href="#" class="infoDelete icon-delete" fileId="{{ $file->id }}"></a></td>
 	                </tr>
 	            @endforeach

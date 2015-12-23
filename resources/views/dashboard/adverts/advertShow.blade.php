@@ -3,8 +3,8 @@
 		 <thead>
 	        <th class="text-center">Thumbnail</th>
 	        <th>Advert Name</th>
-	        <th>Clients</th>
-	        <th class="text-center">Added On</th>
+	        <th class="hidden-sm hidden-xs">Clients</th>
+	        <th class="text-center hidden-sm hidden-xs">Added On</th>
 	        <th class="text-center">Delete</th>
 	    </thead>
 	    <tbody>
@@ -14,8 +14,8 @@
 						<img src="{{ url('img/' . $advert->image) }}?w=120&amp;h=240&amp;fit=max">
 					</td>
 	                <td class="td-adjust">{{ $advert->name }}</td>
-	                <td class="td-adjust">{{ $client->email }}</td>
-	                <td class="td-adjust text-center">{{ date('d/m/y', strtotime($advert->created_at)) }}</td>
+	                <td class="td-adjust hidden-sm hidden-xs">{{ $client->email }}</td>
+	                <td class="td-adjust text-center hidden-sm hidden-xs">{{ date('d/m/y', strtotime($advert->created_at)) }}</td>
 					<td class="td-adjust text-center"><a href="#" class="bannerDelete icon-delete" bannerId="{{ $advert->id }}"></a></td>
 	            </tr>
 	    	@endforeach
