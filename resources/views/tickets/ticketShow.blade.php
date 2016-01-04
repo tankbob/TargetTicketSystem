@@ -93,8 +93,12 @@
            	@endif
 
             @if(auth()->user()->admin)
-            	{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary pull-right']) !!}
-            	{!! Form::close() !!}
+           		<div class="form-group">
+           			<div class="col-xs-12">
+		           		{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary pull-right']) !!}
+	            		{!! Form::close() !!}
+            		</div>
+	            </div>
             @endif
 		</div>
 		<div class="col-md-12">
@@ -141,7 +145,7 @@
 							@foreach($response->attachments as $attachment)
 							<div class="attachment">
 								@if($attachment->type == 'I')
-									<img src="/img/{{ $attachment->filename }}?w=510&amp;fit=max" alt="{{ $attachment->original_filename }}">
+									<img src="/img/{{ $attachment->filename }}?w=510&amp;fit=max" alt="{{ $attachment->original_filename }}" class="img-responsive">
 								@else
 									<p class="document">{{ $attachment->getFilename() }}</p>
 								@endif
