@@ -33,14 +33,20 @@
     <div class="col-xs-12">
         <table class="table text-muted table-muted table-no-borders no-margin">
             <tr>
-                <td class="goto-column">
+                <td class="hidden-sm hidden-xs goto-column">
                     <i class="icon-goto"></i>
                 </td>
-                <td class="td-adjust">
+                <td class="td-adjust hidden-xs">
                     Double Click to View Ticket
                 </td>
-                <td class="td-adjust text-right">
+                <td class="td-adjust text-right hidden-xs">
                     Click &amp; Drag to Reprioritise Ticket
+                </td>
+                <td class="td-adjust visible-xs">
+                    Tap to View Ticket
+                </td>
+                <td class="td-adjust text-right visible-xs">
+                    Tap to Reprioritise Ticket
                 </td>
                 <td width="36">
                     <i class="icon-move icon-muted"></i>
@@ -57,16 +63,16 @@
                         <th>Ticket Title</th>
                         <th class="hidden-sm hidden-xs">Ref No.</th>
                         <th class="hidden-xs">Ticket Type</th>
-                        <th>Cost</th>
+                        <th class="hidden-xs">Cost</th>
                         <th class="text-center">Response</th>
                         @if($archived)
-                        <th class="text-center">Unarchive</th>
+                        <th class="text-center hidden-xs">Unarchive</th>
                         @else
-                        <th class="text-center">Archive</th>
+                        <th class="text-center hidden-xs">Archive</th>
                         @endif
                         @if(auth()->user()->admin)
-                            <th>Time</th>
-                            <th></th>
+                            <th class="hidden-xs">Time</th>
+                            <th class="hidden-xs"></th>
                         @endif
                         <th width="36"></th>
                     </tr>
@@ -88,24 +94,24 @@
                                     Ask Question
                                 @endif
                             </td>
-                            <td class="td-adjust">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
+                            <td class="td-adjust hidden-xs">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
                             <td class="text-center">
                                 @if(@$ticket->responses->last()->admin)
                                 <i class="icon-response"></i>
                                 @endif
                             </td>
                             @if($archived)
-                            <td class="text-center">
+                            <td class="text-center hidden-xs">
                                 <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive"></a>
                             </td>
                             @else
-                            <td class="text-center">
+                            <td class="text-center hidden-xs">
                                 <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive"></a>
                             </td>
                             @endif
                             @if(auth()->user()->admin)
-                                <th class="td-adjust">{{$ticket->totalTime()}}</th>
-                                <td class="td-adjust text-center">
+                                <th class="td-adjust hidden-xs">{{$ticket->totalTime()}}</th>
+                                <td class="td-adjust text-center hidden-xs">
                                     {!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}
                                         {!! Form::submit('', ['class' => 'btn-delete icon-delete']) !!}
                                     {!! Form::close() !!}

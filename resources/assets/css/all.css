@@ -815,6 +815,10 @@ body.loading, body.loading * {
     .ticket-table {
         font-size:10px;
     }
+    
+    .ticket-pad {
+        font-size: 11px;
+    }
 }
 
 .btn-delete {
