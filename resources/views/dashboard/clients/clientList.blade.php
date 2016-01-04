@@ -2,7 +2,7 @@
 
 <table class="table ticket-table" id="client-table">
     <thead>
-        <th width="75"></th>
+        <th class="goto-column"></th>
         <th>Email</th>
         <th>Name</th>
         <th class="hidden-sm hidden-xs">Last Login</th>

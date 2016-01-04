@@ -15,7 +15,7 @@
         @yield('styles')
     </head>
 
-    @if(auth()->check() &&  auth()->user()->admin)
+    @if(auth()->check() && auth()->user()->admin)
     <body class="admin">
     @else
     <body class="user">

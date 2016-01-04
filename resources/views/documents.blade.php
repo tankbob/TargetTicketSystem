@@ -17,7 +17,7 @@
 				<table class="table table-ti-border">
 	            @foreach($files as $file)
 	            	<tr>
-						<td width="75">
+						<td class="goto-column">
 							<a href="{{ config('app.asset_url') . $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
 						</td>
 						<td class="td-adjust text-left">

@@ -34,7 +34,7 @@
         <div class="col-xs-12">
             <table class="table text-muted table-muted table-no-borders no-margin">
                 <tr>
-                    <td width="75">
+                    <td class="goto-column">
                         <i class="icon-goto"></i>
                     </td>
                     <td class="td-adjust">
@@ -54,7 +54,7 @@
                 <table class="table ticket-table sorted_table" id="ticket_table">
     	            <thead>
     	            	<tr>
-    		            	<th class="hidden-sm hidden-xs" width="75"></th>
+    		            	<th class="hidden-sm hidden-xs goto-column"></th>
     		            	<th>Ticket Title</th>
     		            	<th class="hidden-sm hidden-xs">Ref No.</th>
     		            	<th class="hidden-xs">Ticket Type</th>
