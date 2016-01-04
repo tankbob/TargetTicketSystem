@@ -13,3 +13,4 @@ public/js/all.js.map
 
 # Uploads
 public/files/documents/*
+resources/assets/js/plugins/npm.js
