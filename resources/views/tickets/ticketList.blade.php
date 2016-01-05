@@ -23,7 +23,7 @@
 
 @include('flash::message')
 
-<div class="page-content">
+<div class="page-content row">
     <div class="col-xs-12">
         <div class="border-b ticket-pad">
             <a href="{{ url($client->company_slug . '/tickets') }}" class="btn-open-tickets @if(!$archived) active @endif "><i></i> View Open Tickets</a>
