@@ -48,7 +48,7 @@
                 <td class="td-adjust text-right visible-xs">
                     Tap to Reprioritise Ticket
                 </td>
-                <td width="36">
+                <td width="36" class="hidden-xs">
                     <i class="icon-move icon-muted"></i>
                 </td>
             </tr>
@@ -117,7 +117,15 @@
                                     {!! Form::close() !!}
                                 </td>
                             @endif
-                            <td><i class="show-on-hover icon-move"></i></td>
+                            <td class="hidden-xs"><i class="show-on-hover icon-move"></i></td>
+                            <td class="visible-xs">
+                                <div>
+                                    <a href="/" class="mobile-order-icon"><i class="fa fa-2x fa-caret-up"></i></a>
+                                </div>
+                                <div>
+                                    <a href="/" class="mobile-order-icon"><i class="fa fa-2x fa-caret-down"></i></a>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

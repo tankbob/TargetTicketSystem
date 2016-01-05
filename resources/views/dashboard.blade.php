@@ -17,7 +17,8 @@
 
 <div class="page-content">
     <div class="row">
-        @if(auth()->user()->admin)
+        {{-- If there are no ads to display --}}
+        @if(count(auth()->user()->Adverts) == 0)
         <div class="col-xs-12">
         @else
         <div class="col-sm-9 col-xs-12">

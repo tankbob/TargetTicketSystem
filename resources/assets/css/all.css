@@ -819,6 +819,10 @@ body.loading, body.loading * {
     .ticket-pad {
         font-size: 11px;
     }
+
+    .page-heading h1 {
+        font-size:34px;
+    }
 }
 
 .btn-delete {
@@ -954,4 +958,8 @@ p.document {
 .goto-column {
     max-width:75px !important;
     width:75px !important;
+}
+
+.mobile-order-icon {
+    color:#ccc;
 }
