@@ -6,6 +6,11 @@
 
 var attachmentCounter = 1;
 
+function is_touch_device() {
+  return 'ontouchstart' in window        // works on most browsers 
+      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+};
+
 function adaptMenu() {
     if ($(window).width() < 720) {
         $('.main-nav').removeClass('btn-group-justified');
@@ -78,6 +83,15 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    // Set touch 
+    if(is_touch_device()) {
+        $('.click-only').addClass('hidden');
+        $('.touch-only').removeClass('hidden');
+    } else {
+        $('.click-only').removeClass('hidden');
+        $('.touch-only').addClass('hidden');
+    }
 
     if($('body').hasClass('admin')) {
         // Maintenance Button

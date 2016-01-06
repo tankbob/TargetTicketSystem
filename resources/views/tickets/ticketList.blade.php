@@ -36,19 +36,19 @@
                 <td class="hidden-sm hidden-xs goto-column">
                     <i class="icon-goto"></i>
                 </td>
-                <td class="td-adjust hidden-xs">
+                <td class="td-adjust click-only">
                     Double Click to View Ticket
                 </td>
-                <td class="td-adjust text-right hidden-xs">
+                <td class="td-adjust text-right click-only">
                     Click &amp; Drag to Reprioritise Ticket
                 </td>
-                <td class="td-adjust visible-xs">
+                <td class="td-adjust touch-only hidden">
                     Tap to View Ticket
                 </td>
-                <td class="td-adjust text-right visible-xs">
+                <td class="td-adjust text-right touch-only hidden">
                     Tap to Reprioritise Ticket
                 </td>
-                <td width="36" class="hidden-xs">
+                <td width="36" class="hidden-xs click-only">
                     <i class="icon-move icon-muted"></i>
                 </td>
             </tr>
@@ -117,13 +117,13 @@
                                     {!! Form::close() !!}
                                 </td>
                             @endif
-                            <td class="hidden-xs"><i class="show-on-hover icon-move"></i></td>
-                            <td class="visible-xs">
+                            <td class="click-only"><i class="show-on-hover icon-move"></i></td>
+                            <td class="touch-only hidden">
                                 <div>
-                                    <a href="/" class="mobile-order-icon"><i class="fa fa-2x fa-caret-up"></i></a>
+                                    <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->first) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
                                 </div>
                                 <div>
-                                    <a href="/" class="mobile-order-icon"><i class="fa fa-2x fa-caret-down"></i></a>
+                                    <a href="{{ url('api/move/ticket/down/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->last) style="visibility:hidden" @endif><i class="fa fa-2x fa-caret-down"></i></a>
                                 </div>
                             </td>
                         </tr>
