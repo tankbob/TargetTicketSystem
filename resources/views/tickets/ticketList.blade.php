@@ -117,8 +117,8 @@
                                     {!! Form::close() !!}
                                 </td>
                             @endif
-                            <td class="hidden-xs"><i class="show-on-hover icon-move"></i></td>
-                            <td class="visible-xs">
+                            <td class="click-only"><i class="show-on-hover icon-move"></i></td>
+                            <td class="touch-only">
                                 <div>
                                     <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->first) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
                                 </div>
