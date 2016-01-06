@@ -52,6 +52,7 @@ Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
 // Api
 Route::post('api/ticketsort', 'TicketController@setOrder');
 Route::post('api/getclientinfo', 'UserController@getInfo');
+Route::get('api/move/ticket/{direction}/{user_id}/{ticket_id}/{archived}', 'TicketController@move');
 
 // Images
 Route::get('img/{path}', function(Illuminate\Http\Request $request, $path) {

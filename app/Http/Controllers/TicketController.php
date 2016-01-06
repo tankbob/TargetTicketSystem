@@ -40,6 +40,23 @@ class TicketController extends Controller
         }
         $client = User::where('company_slug', $company_slug)->first();
         $tickets = $client->tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
+
+        $counter = 0;
+        foreach($tickets as $ticket) {
+            $counter++;
+            if($counter == 1) {
+                $ticket->first = true;
+            } else {
+                $ticket->first = false;
+            }
+
+            if($counter == count($tickets)) {
+                $ticket->last = true;
+            } else {
+                $ticket->last = false;
+            }
+        }
+
         return view('tickets.ticketList', compact('archived', 'tickets', 'client'));
     }
 
@@ -208,14 +225,13 @@ class TicketController extends Controller
 
         foreach($new_order as $order => $id) {
             //ORDER IS REVERSE CAUSE WHEN U ADD A NEW ONE IS MAX ORDER +1 AND SHOULD APPEAR FIRST
-            $query .= ' WHEN ' . $id.' THEN ' .(count($new_order)-$order);
+            $query .= ' WHEN ' . $id . ' THEN ' . (count($new_order)-$order);
         }
-
 
         $query .= " END WHERE id IN (";
 
         foreach($new_order as $order => $id) {
-            $query .= $id.',';
+            $query .= $id . ',';
         }
 
         $query = rtrim($query, ",");
@@ -223,6 +239,59 @@ class TicketController extends Controller
         $query .= ")";
 
         \DB::update($query);
+    }
+
+    public function move(Request $request, $direction, $user_id, $ticket_id, $archived) {
+        $tickets = Ticket::where('client_id', $user_id)->where('archived', $archived)->orderBy('order', 'asc')->get();
+
+        // Set initial order in case it has never been set
+        $order = 0;
+        foreach($tickets as $ticket) {
+            $order++;
+            $ticket->order = $order;
+        }
+
+        $previous = null;
+        $current = null;
+        foreach($tickets as $ticket) {
+            if($direction == 'down') {
+                if($previous) {
+                    if($ticket_id == $ticket->id) {
+                        // Swap the orders with the previous one
+                        $tmp = $previous->order;
+                        $previous->order = $ticket->order;
+                        $ticket->order = $tmp;
+                        unset($tmp);
+
+                        $previous->save();
+                        $ticket->save();
+                    }
+                }
+            } elseif($direction == 'up') {
+                if($current) {
+                    // Current has been set, so swap it with the previous
+                    $tmp = $ticket->order;
+                    $ticket->order = $current->order;
+                    $current->order = $tmp;
+                    unset($tmp);
+
+                    $current->save();
+                    $ticket->save();
+
+                    break;
+                }
+                
+                if($ticket_id == $ticket->id) {
+                    $current = $ticket;
+                }
+            } else {
+                abort(500, 'Invalid direction');
+            }
+
+            $previous = $ticket;
+        }
+
+        return redirect()->back()->with('success', 'Successfully moved ticket');
     }
 
     public function addResponse($company_slug, $ticket_id, ResponseRequest $request)

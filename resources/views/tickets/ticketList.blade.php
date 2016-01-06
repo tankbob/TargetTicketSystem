@@ -120,10 +120,10 @@
                             <td class="hidden-xs"><i class="show-on-hover icon-move"></i></td>
                             <td class="visible-xs">
                                 <div>
-                                    <a href="/" class="mobile-order-icon"><i class="fa fa-2x fa-caret-up"></i></a>
+                                    <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->first) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
                                 </div>
                                 <div>
-                                    <a href="/" class="mobile-order-icon"><i class="fa fa-2x fa-caret-down"></i></a>
+                                    <a href="{{ url('api/move/ticket/down/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->last) style="visibility:hidden" @endif><i class="fa fa-2x fa-caret-down"></i></a>
                                 </div>
                             </td>
                         </tr>
