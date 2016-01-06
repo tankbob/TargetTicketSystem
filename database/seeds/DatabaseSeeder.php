@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Sample User',
             'email' => 'dev@heliocentrix.co.uk',
             'company' => 'Heliocentrix',
-            'company_slug' => 'heliocentrix',
+            'company_slug' => '',
             'web' => 'http://www.heliocentrix.co.uk',
             'admin' => true,
             'password' => bcrypt('secret')
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Rob Stevens',
             'email' => 'rob@targetink.co.uk',
             'company' => 'Target Ink',
-            'company_slug' => 'target_ink',
+            'company_slug' => '',
             'web' => 'http://www.targetink.co.uk',
             'admin' => true,
             'password' => bcrypt('secret')
