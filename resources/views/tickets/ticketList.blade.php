@@ -48,7 +48,7 @@
                 <td class="td-adjust text-right touch-only hidden">
                     Tap to Reprioritise Ticket
                 </td>
-                <td width="36" class="hidden-xs">
+                <td width="36" class="hidden-xs click-only">
                     <i class="icon-move icon-muted"></i>
                 </td>
             </tr>
