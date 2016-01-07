@@ -37,9 +37,11 @@
                 <label>
                     <input type="checkbox" name="remember" value="1"> Remember Me
                 </label>
+                <a href="{{ url('password/email') }}" class="pull-right">Reset password</a>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-login">Login</button>
+            <button type="submit" class="btn btn-primary btn-login pull-left">Login</button>
+           
         </form>
     </div>
 </div>
