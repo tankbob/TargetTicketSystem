@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'support@targetink.com', 'name' => 'TargetInk'],
+    'from' => ['address' => 'support@maintenanceaccounts.com', 'name' => 'Maintenance Accounts'],
 
     /*
     |--------------------------------------------------------------------------
