@@ -224,7 +224,13 @@ $(document).ready(function () {
                 data: $(this).serialize(),
                 success: function (response) {
                     var res = $.parseJSON(response);
-                    $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
+
+                    if(res.success) {
+                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
+                    } else {
+                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-danger">' + res.error + '</div></div>');
+                    }
+
                     if (res.method == 'create') {
                         $('#client-table tbody').append('<tr id="client-row-' + res.id + '"><td><a href="#" class="clientFormToggler show-on-hover icon-goto" clientId="' + res.id + '"></a></td><td class="td-adjust">' + res.email + '</td><td class="td-adjust">' + res.name + '</td><td></td><td><a href="#" class="clientDelete icon-delete" clientId="' + res.id + '"></a></td></tr>');
                     } else {

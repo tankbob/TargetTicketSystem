@@ -86,17 +86,35 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $client = User::find($id);
+
+        // Check the email
+        if($client->email != $request->get('email')) {
+            // We are changing the email
+            $emailCheck = User::where('email', $request->get('email'))->get();
+            if($emailCheck) {
+                // Someone else has this email already
+                return json_encode([
+                    'error'     => 'That email is already taken.',
+                    'success'   => false,
+                    'method'    => 'update',
+                    'id'        => $client->id,
+                    'email'     => $client->email,
+                    'name'      => $client->name
+                ]);
+            }
+        }
+
         $client->fill($request->except(['password']));
         if($request->has('password')) {
            $client->password = bcrypt($request->get('password'));
         }
         $client->save();
         return json_encode([
-            'success'   =>  'The Client has been updated.',
-            'method'    =>  'update',
-            'id'        =>  $client->id,
-            'email'     =>  $client->email,
-            'name'      =>  $client->name
+            'success'   => 'The Client has been updated.',
+            'method'    => 'update',
+            'id'        => $client->id,
+            'email'     => $client->email,
+            'name'      => $client->name
         ]);
     }
 
