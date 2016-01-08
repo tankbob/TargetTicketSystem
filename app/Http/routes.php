@@ -26,6 +26,9 @@ Route::any('test/mail', function () {
     }
 });
 
+Route::any('test/mail/html', function () {
+    return view('emails.newTicket');
+});
 
 Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 

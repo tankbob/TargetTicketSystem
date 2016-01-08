@@ -182,7 +182,20 @@
                                                                             <tr>
                                                                                 <td valign="top" class="textContent">
                                                                                     <h3 style="color:#5F5F5F;line-height:125%;font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:normal;margin-top:0;margin-bottom:3px;text-align:left;">@yield('title')</h3>
-                                                                                    <div style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;">@yield('content')</div>
+                                                                                    <div style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;">
+                                                                                        @yield('content')
+
+                                                                                        <p>Best Regards<br>Support</p>
+
+                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:left;line-height:120%;">
+                                                                                            <div>
+                                                                                                Target Ink Ltd<br>
+                                                                                                support@maintenanceaccounts.co.uk<br>
+                                                                                                01892 800 400<br>
+                                                                                                www.targetink.co.uk<br>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -235,11 +248,11 @@
                                                             <table border="0" cellpadding="30" cellspacing="0" width="100%">
                                                                 <tr>
                                                                     <td valign="top" bgcolor="#E1E1E1">
-
                                                                         <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;">
-                                                                        <div>Copyright &#169; {{ date("Y") }} <a href="/" target="_blank" style="text-decoration:none;color:#828282;"><span style="color:#828282;">TargetInk</span></a>. All&nbsp;rights&nbsp;reserved.</div>
+                                                                            <div>
+                                                                                Confidentiality Notice: This e-mail message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure or distribution is prohibited. If you are not the intended recipient, please contact the sender by reply e-mail and destroy all copies of the original message.
+                                                                            </div>
                                                                         </div>
-
                                                                     </td>
                                                                 </tr>
                                                             </table>
