@@ -42,4 +42,18 @@ class Ticket extends Model
         return str_pad($this->id, 6, '0', STR_PAD_LEFT);
     }
 
+    public function getType()
+    {
+        return 'TODO';
+    }
+
+    public function getPriority()
+    {
+        if($this->priority) {
+            return 'Yes';
+        } else {
+            return 'No';
+        }
+    }
+
 }

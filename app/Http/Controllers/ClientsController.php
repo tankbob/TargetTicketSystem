@@ -8,6 +8,7 @@ use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
 use TargetInk\Libraries\Slug;
+use Mail;
 
 class ClientsController extends Controller
 {
@@ -55,6 +56,16 @@ class ClientsController extends Controller
         $client->password = bcrypt($request->get('password'));
         $client->company_slug = Slug::make($request->get('company'), 'users', 'company_slug');
         $client->save();
+        $client->pre_pass = $request->get('password');
+
+        // Send an email
+        foreach([$client->email, config('app.email_to')] as $recipient) {
+            Mail::send('emails.newUser', ['user' => $client], function ($message) use ($client, $recipient) {
+                $message->to($recipient);
+                $message->subject('Target Ink Ltd Maintenance Account setup for ' . $client->email);
+            });
+        }
+
         return json_encode([
             'success'   =>  'The Client has been created.',
             'method'    =>  'create',

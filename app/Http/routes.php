@@ -16,7 +16,6 @@ Route::any('test/mail', function () {
     $result = Mail::send('emails.test', [], function ($message) {
         $message->to('adam.tester@heliocentrix.co.uk');
         $message->subject('Test Email');
-        $message->sender('dev@heliocentrix.co.uk', 'TargetInk');
     });
 
     if($result) {

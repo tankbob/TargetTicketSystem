@@ -17,6 +17,7 @@ use TargetInk\Http\Requests\ResponseRequest;
 
 use Storage;
 use Image;
+use Mail;
 
 class TicketController extends Controller
 {
@@ -78,7 +79,7 @@ class TicketController extends Controller
      */
     public function store($company_slug, TicketRequest $request)
     {
-        $client_id = User::where('company_slug', $company_slug)->first()->id;
+        $client = User::where('company_slug', $company_slug)->first();
         if($request->published_at) {
             $published_at_date = explode('/', $request->published_at);
             $published_at_date = $published_at_date[2]. '-' . $published_at_date[1]. '-' . $published_at_date[0];
@@ -87,8 +88,8 @@ class TicketController extends Controller
         }
         $ticket = new Ticket;
         $ticket->fill($request->all());
-        $ticket->client_id = $client_id;
-        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        $ticket->client_id = $client->id;
+        $order = Ticket::where('client_id', '=', $client->id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
         if($order) {
             $order = $order->order +1;
         } else {
@@ -105,6 +106,20 @@ class TicketController extends Controller
         $response->save();
 
         self::processFileUpload($request, $response->id);
+
+        // Send an email
+        foreach([$client->email, config('app.email_to')] as $recipient) {
+            Mail::send('emails.newTicket', ['user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipient) {
+                $message->to($recipient);
+
+                $priority = '';
+                if($ticket->priority) {
+                    $priority = 'PRIORITY ';
+                }
+
+                $message->subject($priority . 'Support Request:' . $ticket->getRef());
+            });
+        }
 
         return view('tickets.ticketSuccess', compact('company_slug'));
     }
@@ -307,7 +322,30 @@ class TicketController extends Controller
         $response->save();
 
         self::processFileUpload($request, $response->id);
-        flash()->success('The response has been sent. ');
+        flash()->success('The response has been sent.');
+
+        // Send an email
+        $client = User::where('company_slug', $company_slug)->first();
+        $ticket = Ticket::find($response->ticket_id);
+
+        $recipients = [$client->email];
+        if(!auth()->user()->admin) {
+            $recipients[] = config('app.email_to');
+        }
+        
+        foreach($recipients as $recipient) {
+            Mail::send('emails.newTicketReply', ['user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipient) {
+                $message->to($recipient);
+
+                $priority = '';
+                if($ticket->priority) {
+                    $priority = 'PRIORITY ';
+                }
+
+                $message->subject($priority . 'Support Request:' . $ticket->getRef());
+            });
+        }
+
         return redirect()->back();
     }
 
