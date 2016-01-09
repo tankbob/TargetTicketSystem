@@ -1,7 +1,11 @@
 @extends('includes.layout')
 
 @section('sectionTitle')
-    Your Tickets
+    @if(auth()->user()->admin)
+        Client Tickets
+    @else
+        Your tickets
+    @endif
 @stop
 
 @section('content')
