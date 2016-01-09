@@ -1,7 +1,11 @@
 @extends('includes.layout')
 
 @section('sectionTitle')
-	Open Ticket
+	@if(auth()->user()->admin)
+		Admin Response
+	@else
+		Open Ticket
+	@endif
 @stop
 
 @section('scripts')
