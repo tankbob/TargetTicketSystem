@@ -28,7 +28,7 @@
                     {{-- Tickets Section --}}
                     <a href="#" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
-                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
+                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
                     <div class="ajaxable" id="maintenance-support-div" @if(!isset($_GET['maintenance'])) style="display:none;" @endif>
                         @if(isset($_GET['maintenance']))
@@ -40,7 +40,7 @@
                     {{-- Clients Section --}}
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
-                        <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond</p>
+                        <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond.</p>
                     </a>
                     <div class="ajaxable" id="clients-div" @if(!isset($_GET['clients'])) style="display:none;" @endif>
                         @if(isset($_GET['clients']))
@@ -52,7 +52,7 @@
                     {{-- Banners Section --}}
                     <a href="#" class="btn-section-link btn-banners" id="advertDiv">
                         <strong>Adverts</strong>
-                        <p>Click here to manage adverts displayed to clients</p>
+                        <p>Click here to manage adverts displayed to clients.</p>
                     </a>
                     <div class="row banners-container">
                         <div class="col-md-12 ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
@@ -135,7 +135,7 @@
                 @else
                     <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
-                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
+                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
 
                     <a href="{{ url(auth()->user()->company_slug . '/documents/seo') }}" class="btn-section-link btn-seo-reports">
