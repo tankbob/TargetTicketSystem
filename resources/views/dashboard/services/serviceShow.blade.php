@@ -24,5 +24,5 @@
 	    </tbody>
 	</table>
 @else
-	<div class="alert alert-info">There are no services for this client</div>
+	<div class="alert alert-warning">There are no services for this client</div>
 @endif

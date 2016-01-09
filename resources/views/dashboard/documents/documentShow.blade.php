@@ -29,5 +29,5 @@
 	    </tbody>
 	</table>
 @else
-	<div class="alert alert-info">There are no documents to show</div>
+	<div class="alert alert-warning">There are no documents to show</div>
 @endif

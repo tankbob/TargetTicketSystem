@@ -160,7 +160,7 @@
 	            	</div>
 	            @endforeach
 			@else
-				<div class="alert alert-info">There are no responses yet</div>
+				<div class="alert alert-warning">There are no responses yet</div>
 			@endif
 
             {!! Form::open(['url' => $company_slug . '/tickets/' . $ticket->id . '/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'object-editor']) !!}
