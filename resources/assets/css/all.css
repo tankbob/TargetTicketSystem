@@ -806,10 +806,21 @@ body.loading, body.loading * {
     font-size:18px;
 }
 
+.client-chooser label {
+    padding: 15px 12px 0px 0px;
+}
+
 .client-chooser select {
     padding:7px 20% 7px 7px;
     border: #cccccc 1px solid;
-    margin-left:15px;
+    height:56px;
+    float:right;
+}
+
+@media (min-width: 768px) {
+    .client-chooser select {
+        max-width:394px;
+    }
 }
 
 .banners-container, .services-container {
@@ -842,7 +853,6 @@ body.loading, body.loading * {
 
     .client-chooser select {
         padding:5px 15% 5px 5px;
-        margin-left:10px;
     }
 }
 
