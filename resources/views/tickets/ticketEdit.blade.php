@@ -71,7 +71,7 @@
 		        	</div>
 		        </div>
 			    <div>
-			    	{!! Form::submit('submit', ['class' => 'btn btn-info btn-submit-ticket']) !!}
+			    	{!! Form::submit('submit', ['class' => 'btn btn-info btn-submit-ticket target-btn']) !!}
 			    </div>
 
 				<div class="ticket-check">
