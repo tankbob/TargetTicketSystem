@@ -1018,3 +1018,7 @@ p.document {
 .form-horizontal .control-label {
     text-align: left !important;
 }
+
+#banner-form-div, #clientFormDiv, #services-form-div, #seo-form-div {
+    margin-bottom: 28px;
+}
