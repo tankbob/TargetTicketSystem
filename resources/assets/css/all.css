@@ -179,6 +179,12 @@ div, .btn {
     }
 }
 
+@media screen and (max-width: 1200px) {
+    label {
+        font-size: 12px !important;
+    }
+}
+
 /* Form Styles */
 .form-control {
     border-radius: 0;
@@ -932,7 +938,7 @@ label.label-file.mouse-over {
 }
 
 .file-input-container .form-group {
-    max-height: 57px;
+    max-height: 82px;
 }
 
 .attachment {
