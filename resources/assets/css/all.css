@@ -19,6 +19,7 @@ body {
     height: 69px;
     border-radius: 0;
     border: 0;
+    font-weight: normal;
 }
 
 .main-nav .btn:hover {
