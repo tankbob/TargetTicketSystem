@@ -24,12 +24,16 @@
 				{!! Form::radio('type', '4', @$ticket->type == 4, ['class' => 'type', 'id' => 'ask-question']) !!} <label for="ask-question" class="btn-ask-question"></label>
 			</div>
 			<div class="ticket-form">
+
+
 	           	<div @if($errors->has('title')) has-error dark @endif>
 	           		@if($errors->has('title'))
 	           			 <span class="alert-danger"> {{ $errors->first('title') }} </span>
 	           		@endif
-					{!! Form::text('title', @$ticket->title, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
+					{!! Form::text('title', @$ticket->title, ['class' => 'form-control form-title-input', 'placeholder' => 'Title']) !!}
 		        </div>
+
+
 		        <div id="scheduleDiv">
 		        	{!! Form::text('schedule', @$ticket->schedule, ['class' => 'form-control', 'placeholder' => 'What\'s your schedule']) !!}
 		        </div>

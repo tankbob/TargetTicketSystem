@@ -618,6 +618,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'Your Text');
+            $('.form-title-input').attr('placeholder', 'Title');
             break;
         case '2':
             $('#publishedAtDiv').removeClass('hidden');
@@ -626,6 +627,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').removeClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'Notes (For content ideally please submit a word or text doc. below)');
+            $('.form-title-input').attr('placeholder', 'Title of content e.g. My blog post');
             break;
         case '3':
             $('#publishedAtDiv').addClass('hidden');
@@ -634,6 +636,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').removeClass('hidden');
             $('#content').attr('placeholder', 'Your Text');
+            $('.form-title-input').attr('placeholder', 'Title');
             break;
         case '4':
             $('#publishedAtDiv').addClass('hidden');
@@ -642,6 +645,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'How can we help...');
+            $('.form-title-input').attr('placeholder', 'Title');
             break;
         default:
             break;
