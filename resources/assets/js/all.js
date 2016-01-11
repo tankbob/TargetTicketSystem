@@ -216,31 +216,6 @@ $(document).ready(function () {
             e.preventDefault();
         });
 
-        $('#clients-div').on('submit', '#clientForm', function (event) {
-            event.preventDefault();
-            $.ajax({
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function (response) {
-                    var res = $.parseJSON(response);
-
-                    if(res.success) {
-                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
-                    } else {
-                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-danger">' + res.error + '</div></div>');
-                    }
-
-                    if (res.method == 'create') {
-                        $('#client-table tbody').append('<tr id="client-row-' + res.id + '"><td><a href="#" class="clientFormToggler show-on-hover icon-goto" clientId="' + res.id + '"></a></td><td class="td-adjust">' + res.email + '</td><td class="td-adjust">' + res.name + '</td><td></td><td><a href="#" class="clientDelete icon-delete" clientId="' + res.id + '"></a></td></tr>');
-                    } else {
-                        $("#client-name-" + res.id).html(res.name);
-                        $("#client-email-" + res.id).html(res.email);
-                    }
-                }
-            });
-        });
-
         $('#clients-div').on('click', '.clientDelete', function (event) {
             event.preventDefault();
             if (window.confirm("Are you sure you want to delete this user permanently?")) {

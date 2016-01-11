@@ -26,7 +26,7 @@ Route::any('test/mail', function () {
 });
 
 Route::any('test/mail/html', function () {
-    return view('emails.newTicket');
+    return view('emails.newTicket', ['response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()]);
 });
 
 Route::get('dashboard/maintenance', 'AppController@showMaintenance');
