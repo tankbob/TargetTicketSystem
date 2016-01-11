@@ -125,7 +125,7 @@ class TicketController extends Controller
             });
         }
 
-        return view('tickets.ticketSuccess', compact('company_slug'));
+        return redirect('/')->with('ticket_success', true)->with('company_slug', $company_slug);
     }
 
     /**
@@ -136,12 +136,12 @@ class TicketController extends Controller
      */
     public function show($company_slug, $ticket_id)
     {
-
         $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
         }
-         return view('tickets.ticketShow', compact('ticket', 'company_slug'));
+
+        return view('tickets.ticketShow', compact('ticket', 'company_slug'));
     }
 
     /**

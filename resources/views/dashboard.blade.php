@@ -5,6 +5,10 @@
 @stop
 
 @section('content')
+@if(!auth()->user()->admin && session('ticket_success') && session('company_slug'))
+@include('tickets.ticketSuccess', ['company_slug' => session('company_slug')]);
+@else
+
 <div class="page-heading text-center">
     <h1>Choose a Service</h1>
 
@@ -166,6 +170,7 @@
         @endif
     </div>
 </div>
+@endif
 @endsection
 
 @section('styles')

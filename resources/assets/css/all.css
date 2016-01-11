@@ -1036,3 +1036,29 @@ p.document {
 #banner-form-div, #clientFormDiv, #services-form-div, #seo-form-div {
     margin-bottom: 28px;
 }
+
+.your-tickets-icon, .your-services-icon {
+    color:#cdcdcd;
+    text-align: center;
+    text-transform: uppercase;
+    width:146px;
+    height:146px;
+    display:inline-block;
+    background-image:url('/images/submission-icons.png');
+}
+
+.your-tickets-icon {
+    background-position: top right;
+}
+
+.your-tickets-icon:hover {
+    background-position: bottom right;
+}
+
+.your-services-icon {
+    background-position: top left;
+}
+
+.your-services-icon:hover {
+    background-position: bottom left;
+}
