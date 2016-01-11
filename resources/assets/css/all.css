@@ -474,6 +474,7 @@ tr:hover .show-on-hover {
     overflow: hidden;
     max-width: 200px;
     vertical-align: middle !important;
+    text-overflow: ellipsis;
 }
 
 .ticket-table thead th {
