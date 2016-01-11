@@ -14,7 +14,7 @@
             {!! FormHelper::bs('text', 'website', 'Website URL:') !!}
             {!! FormHelper::bs('text', 'type', 'Account Type:') !!}
             {!! FormHelper::bs('text', 'start_date', 'Account Start Date:') !!}
-        	{!! Form::submit('Add / Update Client', ['class' => 'btn btn-info pull-right update-client-btn']) !!}
+        	{!! Form::submit('Add / Update Client', ['class' => 'btn btn-info pull-right update-client-btn target-btn']) !!}
         {!! Form::close() !!}
     </div>
 </div>

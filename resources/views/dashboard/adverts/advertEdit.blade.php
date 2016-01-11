@@ -6,6 +6,6 @@
         {!! FormHelper::bs('text', 'url', 'URL:', null, null, 'http://www.example.com') !!}
         {!! FormHelper::bs('text', 'name', 'Advert Name:', null, null, 'Example Name') !!}
         <input type="hidden" name="client_id" value="0" class="clientValue">
-    	{!! Form::submit('Add Advert', ['class' => 'btn btn-info pull-right update-client-btn']) !!}
+    	{!! Form::submit('Add Advert', ['class' => 'btn btn-info pull-right update-client-btn target-btn']) !!}
     {!! Form::close() !!}
 </div>
