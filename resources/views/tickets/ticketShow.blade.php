@@ -1,7 +1,11 @@
 @extends('includes.layout')
 
 @section('sectionTitle')
-	Open Ticket
+	@if(auth()->user()->admin)
+		Admin Response
+	@else
+		Open Ticket
+	@endif
 @stop
 
 @section('scripts')
@@ -95,7 +99,7 @@
             @if(auth()->user()->admin)
            		<div class="form-group">
            			<div class="col-xs-12">
-		           		{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary pull-right']) !!}
+		           		{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary big-btn pull-right']) !!}
 	            		{!! Form::close() !!}
             		</div>
 	            </div>
@@ -110,7 +114,9 @@
 	            	<div class="panel panel-default @if($response->admin) admin_response @else client_response @endif">
 						<div class="panel-heading text-center">
 							<span>@if($response->admin) Support: Response @else Client: Response @endif</span>
+							<br class="visible-xs">
 							<span>Date: {{ date('d/m/y', strtotime($response->created_at)) }}</span>
+							<br class="visible-xs">
 							<span>Time: {{ date('H:i', strtotime($response->created_at)) }}</span>
 							@if($response->admin)
 								@if(auth()->user()->admin)
@@ -156,7 +162,7 @@
 	            	</div>
 	            @endforeach
 			@else
-				<div class="alert alert-info">There are no responses yet</div>
+				<div class="alert alert-warning">There are no responses yet</div>
 			@endif
 
             {!! Form::open(['url' => $company_slug . '/tickets/' . $ticket->id . '/addresponse', 'method' => 'POST', 'files' => true, 'class' => 'object-editor']) !!}

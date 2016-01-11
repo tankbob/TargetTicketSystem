@@ -5,6 +5,10 @@
 @stop
 
 @section('content')
+@if(!auth()->user()->admin && session('ticket_success') && session('company_slug'))
+@include('tickets.ticketSuccess', ['company_slug' => session('company_slug')]);
+@else
+
 <div class="page-heading text-center">
     <h1>Choose a Service</h1>
 
@@ -28,7 +32,7 @@
                     {{-- Tickets Section --}}
                     <a href="#" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
-                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
+                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
                     <div class="ajaxable" id="maintenance-support-div" @if(!isset($_GET['maintenance'])) style="display:none;" @endif>
                         @if(isset($_GET['maintenance']))
@@ -40,7 +44,7 @@
                     {{-- Clients Section --}}
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
-                        <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond</p>
+                        <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond.</p>
                     </a>
                     <div class="ajaxable" id="clients-div" @if(!isset($_GET['clients'])) style="display:none;" @endif>
                         @if(isset($_GET['clients']))
@@ -52,9 +56,9 @@
                     {{-- Banners Section --}}
                     <a href="#" class="btn-section-link btn-banners" id="advertDiv">
                         <strong>Adverts</strong>
-                        <p>Click here to manage adverts displayed to clients</p>
+                        <p>Click here to manage adverts displayed to clients.</p>
                     </a>
-                    <div class="row banners-container">
+                    <div class="clearfix banners-container">
                         <div class="col-md-12 ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
                             @if(isset($_GET['banners']))
                             <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
@@ -75,7 +79,7 @@
                         <strong>Services</strong>
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
                     </a>
-                    <div class="row services-container">
+                    <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="services-div" @if(!isset($_GET['services'])) style="display:none;" @endif>
                             @if(isset($_GET['services']))
                             <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
@@ -96,7 +100,7 @@
                         <strong>Upload SEO Reports</strong>
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
-                    <div class="row services-container">
+                    <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($_GET['seo'])) style="display:none;" @endif>
                             @if(isset($_GET['seo']))
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
@@ -117,7 +121,7 @@
                         <strong>Upload Information Documents</strong>
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
-                    <div class="row services-container">
+                    <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="info-div" @if(!isset($_GET['info'])) style="display:none;" @endif>
                             @if(isset($_GET['info']))
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
@@ -135,7 +139,7 @@
                 @else
                     <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
-                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote</p>
+                        <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
 
                     <a href="{{ url(auth()->user()->company_slug . '/documents/seo') }}" class="btn-section-link btn-seo-reports">
@@ -166,19 +170,21 @@
         @endif
     </div>
 </div>
+@endif
 @endsection
 
 @section('styles')
     @if(count(auth()->user()->services))
         <style type="text/css">
             @foreach(auth()->user()->services as $service)
-                .btn-section-{{ $service->id }} {
-                    background-image: url('/img/{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
+                .btn-section-{{ $service->id }}:before {
+                    background:none;
+                    background-image: url('{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
                     background-position-y: top;
                     background-repeat: no-repeat;
                 }
-                .btn-section-{{ $service->id }}:hover {
-                    background-image: url('/img/{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
+                .btn-section-{{ $service->id }}:hover:before {
+                    background-image: url('{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
                 }
             @endforeach
         </style>

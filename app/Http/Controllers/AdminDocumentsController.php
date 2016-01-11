@@ -84,6 +84,11 @@ class AdminDocumentsController extends Controller
             $fileobj->filepath = config('app.asset_url') . $filename;
         }
 
+        Mail::send('emails.newSeo', ['user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket) {
+            $message->to($client->email);
+            $message->subject('Your latest SEO review from Target Ink Ltd - 17/09/201:' . $ticket->getRef());
+        });
+
         $fileobj->save();
         return redirect('/?' . $type . '&client_id=' . $request->get('client_id') . '#' . $type . '-div');
     }

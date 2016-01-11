@@ -1,7 +1,11 @@
 @extends('includes.layout')
 
 @section('sectionTitle')
-    Your Tickets
+    @if(auth()->user()->admin)
+        Client Tickets
+    @else
+        Your tickets
+    @endif
 @stop
 
 @section('content')
@@ -18,6 +22,11 @@
 @if(!auth()->user()->admin)
 <div class="page-heading text-center">
     <a href="{{ url($client->company_slug . '/tickets/create') }}" class="btn btn-info btn-new-ticket">CREATE A NEW TICKET</a>
+</div>
+@else
+<div class="page-heading text-center">
+    <h1>Client Tickets</h1>
+    <p>Choose a ticket to reply, update, archive or delete</p>
 </div>
 @endif
 

@@ -4,7 +4,11 @@ font-family: 'Open Sans', sans-serif;
 */
 body {
     padding-bottom: 50px;
-    font-family: 'Open Sans',sans-serif;
+    font-family: 'Open Sans', sans-serif;
+}
+
+div, .btn {
+    transition: all 0.3s ease;
 }
 
 .nav-container {
@@ -13,12 +17,13 @@ body {
 
 .main-nav .btn {
     text-transform: uppercase;
-    font-family: 'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     color: #B3B3B3;
     height: 69px;
     border-radius: 0;
     border: 0;
+    font-weight: normal;
 }
 
 .main-nav .btn:hover {
@@ -46,7 +51,7 @@ body {
 }
 
 .page-heading h1 {
-    font-family: 'Montserrat',sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 48px;
     color: #1A1A1A;
     text-transform: uppercase;
@@ -55,7 +60,7 @@ body {
 }
 
 .page-heading p {
-    font-family: 'Open Sans',sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     color: #4D4D4D;
     font-size: 20px;
@@ -111,7 +116,7 @@ body {
     margin-left: 146px;
     color: #4D4D4D;
     font-size: 16px;
-    font-family: 'Open Sans',sans-serif;
+    font-family: 'Open Sans', sans-serif;
     display: block;
 }
 
@@ -119,24 +124,48 @@ body {
     background-position-x: 0;
 }
 
+.btn-maintenance-support strong {
+    padding-top: 7px;
+}
+
 .btn-clients:before {
     background-position-x: -584px;
 }
 
-.btn-adverts:before {
+.btn-clients strong {
+    padding-top: 20px;
+}
+
+.btn-banners:before {
     background-position-x: -438px;
+}
+
+.btn-banners strong {
+    padding-top: 20px;
 }
 
 .btn-services:before {
     background-position-x: -292px;
 }
 
-.btn-seo-reports:before {
+.btn-services strong {
+    padding-top: 20px;
+}
+
+.btn-seo-reports:before, .btn-seo-reports-admin:before {
     background-position-x: -146px;
 }
 
-.btn-information-documents:before {
+.btn-seo-reports strong, .btn-seo-reports-admin strong {
+    padding-top: 17px;
+}
+
+.btn-information-documents:before, .btn-information-documents-admin:before {
     background-position-x: -730px;
+}
+
+.btn-information-documents strong, .btn-information-documents-admin strong {
+    padding-top: 17px;
 }
 
 .btn-group-vertical .btn {
@@ -174,6 +203,12 @@ body {
     }
 }
 
+@media screen and (max-width: 1200px) {
+    label {
+        font-size: 12px !important;
+    }
+}
+
 /* Form Styles */
 .form-control {
     border-radius: 0;
@@ -189,8 +224,9 @@ body {
     min-width: 140px;
     border: none;
     border-radius: 0;
-    font-weight: 700;
     font-size: 16px;
+    font-weight: normal;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn:hover,.btn:active,.btn:focus,.btn:active:hover {
@@ -438,6 +474,7 @@ tr:hover .show-on-hover {
     overflow: hidden;
     max-width: 200px;
     vertical-align: middle !important;
+    text-overflow: ellipsis;
 }
 
 .ticket-table thead th {
@@ -570,10 +607,12 @@ label.file-label input[type="file"] {
 }
 
 .ticket-check label {
-    margin-left: 23px;
+    margin-left: 24px;
     position: relative;
     margin-top: -22px;
     color: #2ac7cc;
+    font-weight: normal;
+    font-size: 17px;
 }
 
 .page-content {
@@ -748,17 +787,28 @@ body.loading, body.loading * {
     margin-bottom: 42px;
 }
 
+.target-btn {
+    background: #66d3d6; /* Old browsers */
+    background: -moz-linear-gradient(left,  #66d3d6 0%, #2ec5ce 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #66d3d6 0%,#2ec5ce 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #66d3d6 0%,#2ec5ce 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66d3d6', endColorstr='#2ec5ce',GradientType=1 ); /* IE6-9 */
+}
+
+.target-btn:hover {
+    background: #45d1d3; /* Old browsers */
+    background: -moz-linear-gradient(left,  #45d1d3 0%, #00c1cc 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #45d1d3 0%,#00c1cc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #45d1d3 0%,#00c1cc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45d1d3', endColorstr='#00c1cc',GradientType=1 ); /* IE6-9 */
+}
+
 .update-client-btn {
     width:283px;
     height:54px;
     color:#fff;
     letter-spacing: 2px;
     text-transform: uppercase;
-    background: #60d3d6;
-}
-
-.update-client-btn:hover {
-    background: #2f777b;
 }
 
 #clientFormDiv {
@@ -770,10 +820,21 @@ body.loading, body.loading * {
     font-size:18px;
 }
 
+.client-chooser label {
+    padding: 15px 12px 0px 0px;
+}
+
 .client-chooser select {
     padding:7px 20% 7px 7px;
     border: #cccccc 1px solid;
-    margin-left:15px;
+    height:56px;
+    float:right;
+}
+
+@media (min-width: 768px) {
+    .client-chooser select {
+        max-width:394px;
+    }
 }
 
 .banners-container, .services-container {
@@ -806,7 +867,6 @@ body.loading, body.loading * {
 
     .client-chooser select {
         padding:5px 15% 5px 5px;
-        margin-left:10px;
     }
 }
 
@@ -926,7 +986,7 @@ label.label-file.mouse-over {
 }
 
 .file-input-container .form-group {
-    max-height: 57px;
+    max-height: 82px;
 }
 
 .attachment {
@@ -962,4 +1022,43 @@ p.document {
 
 .mobile-order-icon {
     color:#ccc;
+}
+
+.big-btn {
+    width: 254px;
+    height: 55px;
+}
+
+.form-horizontal .control-label {
+    text-align: left !important;
+}
+
+#banner-form-div, #clientFormDiv, #services-form-div, #seo-form-div {
+    margin-bottom: 28px;
+}
+
+.your-tickets-icon, .your-services-icon {
+    color:#cdcdcd;
+    text-align: center;
+    text-transform: uppercase;
+    width:146px;
+    height:146px;
+    display:inline-block;
+    background-image:url('/images/submission-icons.png');
+}
+
+.your-tickets-icon {
+    background-position: top right;
+}
+
+.your-tickets-icon:hover {
+    background-position: bottom right;
+}
+
+.your-services-icon {
+    background-position: top left;
+}
+
+.your-services-icon:hover {
+    background-position: bottom left;
 }

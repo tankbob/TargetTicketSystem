@@ -5,6 +5,7 @@
         {!! FormHelper::bs('text', 'heading', 'Heading:', null, null) !!}
         {!! FormHelper::bs('text', 'link', 'Icon Link:', null, null, 'http://www.example.com') !!}
         {!! FormHelper::bs('textarea', 'text', 'Text:') !!}
-        {!! Form::submit('Add Service', ['class' => 'btn btn-info pull-right update-client-btn']) !!}
+        <input type="hidden" name="client_id" value="0" class="clientValue">
+        {!! Form::submit('Add Service', ['class' => 'btn btn-info pull-right update-client-btn target-btn']) !!}
     {!! Form::close() !!}
 </div>

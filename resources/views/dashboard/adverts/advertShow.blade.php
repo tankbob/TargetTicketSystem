@@ -22,5 +22,5 @@
 	    </tbody>
 	</table>
 @else
-	<div class="alert alert-info">There are no adverts for this client</div>
+	<div class="alert alert-warning">There are no adverts for this client</div>
 @endif

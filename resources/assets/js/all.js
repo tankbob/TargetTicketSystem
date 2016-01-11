@@ -224,7 +224,13 @@ $(document).ready(function () {
                 data: $(this).serialize(),
                 success: function (response) {
                     var res = $.parseJSON(response);
-                    $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
+
+                    if(res.success) {
+                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
+                    } else {
+                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-danger">' + res.error + '</div></div>');
+                    }
+
                     if (res.method == 'create') {
                         $('#client-table tbody').append('<tr id="client-row-' + res.id + '"><td><a href="#" class="clientFormToggler show-on-hover icon-goto" clientId="' + res.id + '"></a></td><td class="td-adjust">' + res.email + '</td><td class="td-adjust">' + res.name + '</td><td></td><td><a href="#" class="clientDelete icon-delete" clientId="' + res.id + '"></a></td></tr>');
                     } else {
@@ -283,7 +289,7 @@ $(document).ready(function () {
                     $("#services-form-div").html(response);
                     $("#services-form-div").slideDown();
 
-                    $('.clientValue').val($('#services-customer-select').val());
+                    $('.clientValue').val($('#service-customer-select').val());
                     setUpValidation();
                     stopProgress();
                 }
@@ -611,7 +617,8 @@ function toggleFormFields(typeValue){
             $('#categoriesDiv').addClass('hidden');
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
-            $('#content').attr('placeholder', 'Your Text');
+            $('#content').attr('placeholder', 'Amend Description e.g. Please put the new attached logo within my homepage associates section...');
+            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. update homepage image');
             break;
         case '2':
             $('#publishedAtDiv').removeClass('hidden');
@@ -620,6 +627,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').removeClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'Notes (For content ideally please submit a word or text doc. below)');
+            $('.form-title-input').attr('placeholder', 'Title of content e.g. My blog post');
             break;
         case '3':
             $('#publishedAtDiv').addClass('hidden');
@@ -628,6 +636,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').removeClass('hidden');
             $('#content').attr('placeholder', 'Your Text');
+            $('.form-title-input').attr('placeholder', 'Title');
             break;
         case '4':
             $('#publishedAtDiv').addClass('hidden');
@@ -636,6 +645,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'How can we help...');
+            $('.form-title-input').attr('placeholder', 'Title');
             break;
         default:
             break;
