@@ -618,7 +618,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'Your Text');
-            $('.form-title-input').attr('placeholder', 'Title');
+            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. update homepage image');
             break;
         case '2':
             $('#publishedAtDiv').removeClass('hidden');
