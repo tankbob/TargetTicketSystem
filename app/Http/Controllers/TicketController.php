@@ -40,7 +40,11 @@ class TicketController extends Controller
             $archived = 0;
         }
         $client = User::where('company_slug', $company_slug)->first();
-        $tickets = $client->tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
+        if($client) {
+            $tickets = $client->tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
+        } else {
+            abort(404);
+        }
 
         $counter = 0;
         foreach($tickets as $ticket) {
