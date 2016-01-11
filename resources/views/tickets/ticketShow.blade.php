@@ -114,7 +114,9 @@
 	            	<div class="panel panel-default @if($response->admin) admin_response @else client_response @endif">
 						<div class="panel-heading text-center">
 							<span>@if($response->admin) Support: Response @else Client: Response @endif</span>
+							<br class="visible-xs">
 							<span>Date: {{ date('d/m/y', strtotime($response->created_at)) }}</span>
+							<br class="visible-xs">
 							<span>Time: {{ date('H:i', strtotime($response->created_at)) }}</span>
 							@if($response->admin)
 								@if(auth()->user()->admin)
