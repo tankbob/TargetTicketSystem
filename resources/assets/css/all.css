@@ -128,7 +128,7 @@ div, .btn {
     background-position-x: -584px;
 }
 
-.btn-adverts:before {
+.btn-banners:before {
     background-position-x: -438px;
 }
 
@@ -136,11 +136,11 @@ div, .btn {
     background-position-x: -292px;
 }
 
-.btn-seo-reports:before {
+.btn-seo-reports:before, .btn-seo-reports-admin:before {
     background-position-x: -146px;
 }
 
-.btn-information-documents:before {
+.btn-information-documents:before, .btn-information-documents-admin:before {
     background-position-x: -730px;
 }
 
