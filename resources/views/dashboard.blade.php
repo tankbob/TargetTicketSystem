@@ -172,13 +172,14 @@
     @if(count(auth()->user()->services))
         <style type="text/css">
             @foreach(auth()->user()->services as $service)
-                .btn-section-{{ $service->id }} {
-                    background-image: url('/img/{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
+                .btn-section-{{ $service->id }}:before {
+                    background:none;
+                    background-image: url('{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
                     background-position-y: top;
                     background-repeat: no-repeat;
                 }
-                .btn-section-{{ $service->id }}:hover {
-                    background-image: url('/img/{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
+                .btn-section-{{ $service->id }}:hover:before {
+                    background-image: url('{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
                 }
             @endforeach
         </style>

@@ -289,7 +289,7 @@ $(document).ready(function () {
                     $("#services-form-div").html(response);
                     $("#services-form-div").slideDown();
 
-                    $('.clientValue').val($('#services-customer-select').val());
+                    $('.clientValue').val($('#service-customer-select').val());
                     setUpValidation();
                     stopProgress();
                 }
