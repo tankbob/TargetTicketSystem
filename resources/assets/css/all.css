@@ -124,24 +124,48 @@ div, .btn {
     background-position-x: 0;
 }
 
+.btn-maintenance-support strong {
+    padding-top: 7px;
+}
+
 .btn-clients:before {
     background-position-x: -584px;
+}
+
+.btn-clients strong {
+    padding-top: 20px;
 }
 
 .btn-banners:before {
     background-position-x: -438px;
 }
 
+.btn-banners strong {
+    padding-top: 20px;
+}
+
 .btn-services:before {
     background-position-x: -292px;
+}
+
+.btn-services strong {
+    padding-top: 20px;
 }
 
 .btn-seo-reports:before, .btn-seo-reports-admin:before {
     background-position-x: -146px;
 }
 
+.btn-seo-reports strong, .btn-seo-reports-admin strong {
+    padding-top: 17px;
+}
+
 .btn-information-documents:before, .btn-information-documents-admin:before {
     background-position-x: -730px;
+}
+
+.btn-information-documents strong, .btn-information-documents-admin strong {
+    padding-top: 17px;
 }
 
 .btn-group-vertical .btn {
