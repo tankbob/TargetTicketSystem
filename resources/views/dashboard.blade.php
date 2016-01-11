@@ -54,7 +54,7 @@
                         <strong>Adverts</strong>
                         <p>Click here to manage adverts displayed to clients.</p>
                     </a>
-                    <div class="row banners-container">
+                    <div class="clearfix banners-container">
                         <div class="col-md-12 ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
                             @if(isset($_GET['banners']))
                             <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
@@ -75,7 +75,7 @@
                         <strong>Services</strong>
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
                     </a>
-                    <div class="row services-container">
+                    <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="services-div" @if(!isset($_GET['services'])) style="display:none;" @endif>
                             @if(isset($_GET['services']))
                             <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
@@ -96,7 +96,7 @@
                         <strong>Upload SEO Reports</strong>
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
-                    <div class="row services-container">
+                    <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($_GET['seo'])) style="display:none;" @endif>
                             @if(isset($_GET['seo']))
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
@@ -117,7 +117,7 @@
                         <strong>Upload Information Documents</strong>
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
-                    <div class="row services-container">
+                    <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="info-div" @if(!isset($_GET['info'])) style="display:none;" @endif>
                             @if(isset($_GET['info']))
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
