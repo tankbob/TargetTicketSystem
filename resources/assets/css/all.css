@@ -190,8 +190,9 @@ body {
     min-width: 140px;
     border: none;
     border-radius: 0;
-    font-weight: 700;
     font-size: 16px;
+    font-weight: normal;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .btn:hover,.btn:active,.btn:focus,.btn:active:hover {
