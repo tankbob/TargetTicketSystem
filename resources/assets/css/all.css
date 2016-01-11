@@ -963,3 +963,8 @@ p.document {
 .mobile-order-icon {
     color:#ccc;
 }
+
+.big-btn {
+    width: 254px;
+    height: 55px;
+}
