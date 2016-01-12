@@ -85,6 +85,7 @@ class DatabaseSeeder extends Seeder
                 $ticket = Ticket::create([
                     'title' => $faker->text(80),
                     'client_id' => $user->id,
+                    'type' => rand(1, 4)
                 ]);
 
                 // Create some responses
