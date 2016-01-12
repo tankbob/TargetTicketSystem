@@ -40,8 +40,6 @@ function stopProgress() {
 }
 
 function togglePage($element, $ajaxUri, $slug) {
-    console.log('Clicked');
-
     if ($element.is(":visible") == true) {
         // Hide all open windows
         $('.ajaxable').slideUp();
@@ -49,8 +47,6 @@ function togglePage($element, $ajaxUri, $slug) {
         // Change history
         window.history.pushState("", "", "/");
     } else {
-        console.log('Element is hidden so we are loading in the content');
-
         startProgress();
 
         // Change the history

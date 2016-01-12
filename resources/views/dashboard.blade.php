@@ -71,7 +71,7 @@
                             {!! $c->show(request()->input('client_id')) !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="banner-form-div"></div>
+                        <div class="col-md-12 ajaxable" id="banner-form-div" style="display:none;"></div>
                     </div>
 
                     {{-- Services Section --}}
@@ -92,7 +92,7 @@
                             {!! $c->show(request()->input('client_id')) !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="services-form-div"></div>
+                        <div class="col-md-12 ajaxable" id="services-form-div" style="display:none;"></div>
                     </div>
 
                     {{-- SEO Section --}}
@@ -113,7 +113,7 @@
                             {!! $c->show('seo', request()->input('client_id')) !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="seo-form-div"></div>
+                        <div class="col-md-12 ajaxable" id="seo-form-div" style="display:none;"></div>
                     </div>
 
                     {{-- Information Section --}}
@@ -134,7 +134,7 @@
                             {!! $c->show('info', request()->input('client_id')) !!}
                             @endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="info-form-div"></div>
+                        <div class="col-md-12 ajaxable" id="info-form-div" style="display:none;"></div>
                     </div>
                 @else
                     <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">
