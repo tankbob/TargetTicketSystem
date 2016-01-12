@@ -56,6 +56,7 @@ class ClientsController extends Controller
         $client->fill($request->except(['password']));
         $client->password = bcrypt($request->get('password'));
         $client->company_slug = Slug::make($request->get('company'), 'users', 'company_slug');
+        $client->instant = sha1($request->get('name') . $request->get('email') . $request->get('company'));
 
         if($request->hasFile('company_logo') && $request->file('company_logo')->isValid()) {
             $file = $request->file('company_logo');
@@ -86,9 +87,9 @@ class ClientsController extends Controller
         $client->pre_pass = $request->get('password');
 
         // Send an email
-        foreach([$client->email, config('app.email_to')] as $recipient) {
-            Mail::send('emails.newUser', ['user' => $client], function ($message) use ($client, $recipient) {
-                $message->to($recipient);
+        foreach([$client->email => $client->instant, config('app.email_to') => false] as $recipientEmail => $recipientInstantKey) {
+            Mail::send('emails.newUser', ['instant' => $recipientInstantKey, 'user' => $client], function ($message) use ($client, $recipientEmail) {
+                $message->to($recipientEmail);
                 $message->subject('Target Ink Ltd Maintenance Account setup for ' . $client->email);
             });
         }

@@ -4,6 +4,7 @@ namespace TargetInk\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use TargetInk\User;
 
 class Authenticate
 {
@@ -34,6 +35,15 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
+        // Check the instant login
+        if ($this->auth->guest() && $request->has('i')) {
+            $user = User::where('instant', $request->input('i'))->first();
+            if($user) {
+                $this->auth->login($user);
+            }
+        }
+
+        // If we are still a guest, then redirect
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);

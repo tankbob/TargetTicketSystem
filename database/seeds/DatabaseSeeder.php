@@ -24,13 +24,14 @@ class DatabaseSeeder extends Seeder
 
         // Create admin users
         User::create([
-            'name' => 'Sample User',
+            'name' => 'Heliocentrix Admin',
             'email' => 'dev@heliocentrix.co.uk',
             'company' => 'Heliocentrix',
             'company_slug' => '',
             'web' => 'http://www.heliocentrix.co.uk',
             'admin' => true,
-            'password' => bcrypt('secret')
+            'password' => bcrypt('secret'),
+            'instant' => sha1('Heliocentrix Admin' . 'dev@heliocentrix.co.uk' . 'Heliocentrix'),
         ]);
 
         User::create([
@@ -40,7 +41,8 @@ class DatabaseSeeder extends Seeder
             'company_slug' => 'heliocentrix',
             'web' => 'http://www.heliocentrix.co.uk',
             'admin' => false,
-            'password' => bcrypt('secret')
+            'password' => bcrypt('secret'),
+            'instant' => sha1('Heliocentrix' . 'user@heliocentrix.co.uk' . 'Heliocentrix'),
         ]);
 
         User::create([
@@ -50,7 +52,8 @@ class DatabaseSeeder extends Seeder
             'company_slug' => '',
             'web' => 'http://www.targetink.co.uk',
             'admin' => true,
-            'password' => bcrypt('secret')
+            'password' => bcrypt('secret'),
+            'instant' => sha1('Rob Stevens' . 'rob@targetink.co.uk' . 'Target Ink'),
         ]);
 
         User::create([
@@ -60,7 +63,8 @@ class DatabaseSeeder extends Seeder
             'company_slug' => 'target_ink',
             'web' => 'http://www.targetink.co.uk',
             'admin' => false,
-            'password' => bcrypt('secret')
+            'password' => bcrypt('secret'),
+            'instant' => sha1('Sample User' . 'user@targetink.co.uk' . 'Target Ink'),
         ]);
 
         $usersToSeed = 25;
@@ -77,7 +81,8 @@ class DatabaseSeeder extends Seeder
                 'company_slug' => $company_slug,
                 'web' => $faker->domainName,
                 'admin' => false,
-                'password' => bcrypt('secret')
+                'password' => bcrypt('secret'),
+                'instant' => sha1($faker->name . $faker->email . $company),
             ]);
 
             // Create tickets
