@@ -160,7 +160,10 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = User::find($id);
+        $client->email = $client->email . '_old';
+        $client->save();
         $client->delete();
+
         return json_encode([
             'success'   => 'The Client has been deleted.',
             'method'    => 'delete',
