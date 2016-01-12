@@ -1,5 +1,15 @@
 <h2 class="maintenance-title pull-left">Clients</h2> <a href="#" class="clientFormToggler icon-new-client pull-left" clientId="0"></a>
 
+@if(session('success'))
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    </div>
+</div>
+@endif
+
 <table class="table ticket-table" id="client-table">
     <thead>
         <th class="goto-column hidden-xs"></th>

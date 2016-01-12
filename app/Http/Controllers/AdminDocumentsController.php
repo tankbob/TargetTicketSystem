@@ -10,6 +10,7 @@ use TargetInk\Http\Controllers\Controller;
 use TargetInk\User;
 use TargetInk\File;
 use Storage;
+use Mail;
 
 class AdminDocumentsController extends Controller
 {
@@ -84,9 +85,11 @@ class AdminDocumentsController extends Controller
             $fileobj->filepath = config('app.asset_url') . $filename;
         }
 
-        Mail::send('emails.newSeo', ['user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket) {
+        $client = User::find($fileobj->client_id);
+
+        Mail::send('emails.newSeo', ['user' => $client, 'file' => $fileobj], function ($message) use ($client) {
             $message->to($client->email);
-            $message->subject('Your latest SEO review from Target Ink Ltd - 17/09/201:' . $ticket->getRef());
+            $message->subject('Your latest SEO review from Target Ink Ltd - ' .  date('d/m/Y'));
         });
 
         $fileobj->save();

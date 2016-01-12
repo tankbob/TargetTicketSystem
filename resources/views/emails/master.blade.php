@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="format-detection" content="telephone=no" />
-        <title>TargetInk</title>
+        <title>Email</title>
         <style type="text/css">
             body, #bodyTable, #bodyCell, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;font-family:Helvetica, Arial, "Lucida Grande", sans-serif;}
             table{border-collapse:collapse;}
@@ -154,8 +154,12 @@
                                                         <td align="center" valign="top" width="500" class="flexibleContainerCell">
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                                 <tbody><tr>
-                                                                    <td valign="top" class="imageContent">
-                                                                        <img src="{{ url('images/email-banner.png') }}" width="500" class="flexibleImage" style="max-width:500px;width:100%;display:block;" alt="TargetInk" title="TargetInk">
+                                                                    <td valign="top" align="center" class="imageContent">
+                                                                        @if(isset($user->company_logo) && $user->company_logo)
+                                                                        <img src="{{ url('img/' . $user->company_logo) }}?w=500&amp;h=100&amp;fit=max"  style="max-width:500px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
+                                                                        @else
+                                                                        <img src="{{ url('img/logo.png') }}?w=500&amp;h=100&amp;fit=max"  style="max-width:500px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
+                                                                        @endif
                                                                     </td>
                                                                 </tr>
                                                             </tbody></table>

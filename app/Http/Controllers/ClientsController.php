@@ -9,6 +9,7 @@ use TargetInk\Http\Controllers\Controller;
 use TargetInk\User;
 use TargetInk\Libraries\Slug;
 use Mail;
+use Storage;
 
 class ClientsController extends Controller
 {
@@ -55,24 +56,45 @@ class ClientsController extends Controller
         $client->fill($request->except(['password']));
         $client->password = bcrypt($request->get('password'));
         $client->company_slug = Slug::make($request->get('company'), 'users', 'company_slug');
+        $client->instant = sha1($request->get('name') . $request->get('email') . $request->get('company'));
+
+        if($request->hasFile('company_logo') && $request->file('company_logo')->isValid()) {
+            $file = $request->file('company_logo');
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $counter = 2;
+            $fcache = $filename;
+            while(Storage::disk('s3')->has($filename . '.' . $extension)) {
+                $filename = $fcache . '_' . $counter;
+                $counter++;
+            }
+
+            $filename = $filename . '.' . $extension;
+
+            // Sanitize
+            $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+            $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+            Storage::disk('s3')->put($filename, file_get_contents($request->file('company_logo')->getRealPath()));
+
+            $file->filepath = config('app.asset_url') . $filename;
+            $client->company_logo = $filename;
+        }
+
+        // Save the client
         $client->save();
         $client->pre_pass = $request->get('password');
 
         // Send an email
-        foreach([$client->email, config('app.email_to')] as $recipient) {
-            Mail::send('emails.newUser', ['user' => $client], function ($message) use ($client, $recipient) {
-                $message->to($recipient);
+        foreach([$client->email => $client->instant, config('app.email_to') => false] as $recipientEmail => $recipientInstantKey) {
+            Mail::send('emails.newUser', ['instant' => $recipientInstantKey, 'user' => $client], function ($message) use ($client, $recipientEmail) {
+                $message->to($recipientEmail);
                 $message->subject('Target Ink Ltd Maintenance Account setup for ' . $client->email);
             });
         }
 
-        return json_encode([
-            'success'   =>  'The Client has been created.',
-            'method'    =>  'create',
-            'id'        =>  $client->id,
-            'email'     =>  $client->email,
-            'name'      =>  $client->name
-        ]);
+        return redirect()->back()->with('success', 'The client has been created')->with('client', $client);
     }
 
     /**
@@ -110,7 +132,7 @@ class ClientsController extends Controller
                     'method'    => 'update',
                     'id'        => $client->id,
                     'email'     => $client->email,
-                    'name'      => $client->name
+                    'name'      => $client->name,
                 ]);
             }
         }

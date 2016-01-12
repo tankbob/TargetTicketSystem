@@ -44,7 +44,15 @@ class Ticket extends Model
 
     public function getType()
     {
-        return 'TODO';
+        if($this->type == 1) {
+            return 'Web Amends';
+        } elseif($this->type == 2) {
+            return 'Add Content';
+        } elseif($this->type == 3) {
+            return 'Get Quote';
+        } elseif($this->type == 4) {
+            return 'Ask Question';
+        }
     }
 
     public function getPriority()

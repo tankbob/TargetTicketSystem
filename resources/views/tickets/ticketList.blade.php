@@ -92,17 +92,7 @@
                             <td class="hidden-sm hidden-xs"><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}" class="show-on-hover icon-goto"></a></td>
                             <td class="td-adjust">{{ $ticket->title }}</td>
                             <td class="td-adjust hidden-sm hidden-xs">{{ $ticket->getRef() }}</td>
-                            <td class="td-adjust hidden-xs">
-                                @if($ticket->type == 1)
-                                    Web Amends
-                                @elseif($ticket->type == 2)
-                                    Add Content
-                                @elseif($ticket->type == 3)
-                                    Get Quote
-                                @elseif($ticket->type == 4)
-                                    Ask Question
-                                @endif
-                            </td>
+                            <td class="td-adjust hidden-xs">{{ $ticket->getType() }}</td>
                             <td class="td-adjust hidden-xs">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
                             <td class="text-center">
                                 @if(@$ticket->responses->last()->admin)

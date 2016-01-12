@@ -112,9 +112,9 @@ class TicketController extends Controller
         self::processFileUpload($request, $response->id);
 
         // Send an email
-        foreach([$client->email, config('app.email_to')] as $recipient) {
-            Mail::send('emails.newTicket', ['user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipient) {
-                $message->to($recipient);
+        foreach([$client->email => $client->instant, config('app.email_to') => false] as $recipientEmail => $recipientInstantKey) {
+            Mail::send('emails.newTicket', ['instant' => $recipientInstantKey, 'user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipientEmail) {
+                $message->to($recipientEmail);
 
                 $priority = '';
                 if($ticket->priority) {
@@ -332,14 +332,14 @@ class TicketController extends Controller
         $client = User::where('company_slug', $company_slug)->first();
         $ticket = Ticket::find($response->ticket_id);
 
-        $recipients = [$client->email];
+        $recipients = [$client->email => $client->instant];
         if(!auth()->user()->admin) {
-            $recipients[] = config('app.email_to');
+            $recipients[config('app.email_to')] = false;
         }
         
-        foreach($recipients as $recipient) {
-            Mail::send('emails.newTicketReply', ['user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipient) {
-                $message->to($recipient);
+        foreach($recipients as $recipientEmail => $recipientInstantKey) {
+            Mail::send('emails.newTicketReply', ['instant' => $recipientInstantKey, 'user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipientEmail) {
+                $message->to($recipientEmail);
 
                 $priority = '';
                 if($ticket->priority) {
