@@ -61,6 +61,7 @@ function togglePage($element, $ajaxUri, $slug) {
         })
         .done(function(html) {
             $element.html(html).slideDown();
+            setUpValidation();
             stopProgress();
         });
     }
@@ -141,6 +142,7 @@ $(document).ready(function () {
                 success: function (response) {
                     // Load the response into the div
                     $("#clientFormDiv").html(response);
+                    setUpValidation();
 
                     // Stop nprogress
                     stopProgress();
@@ -214,6 +216,8 @@ $(document).ready(function () {
 
         $('#clients-div').on('click', '.clientDelete', function (event) {
             event.preventDefault();
+            event.stopPropagation();
+
             if (window.confirm("Are you sure you want to delete this user permanently?")) {
                 $.ajax({
                     type: 'DELETE',
@@ -397,6 +401,27 @@ $(document).ready(function () {
         // Validate
         function setUpValidation() {
             jQuery.validator.setDefaults({});
+            $('#clientForm').validate({
+                rules: {
+                    name: {
+                        required: true,
+                        maxlength: 255
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        maxlength: 255
+                    },
+                    password: {
+                        required: true,
+                        maxlength: 255
+                    },
+                    website: {
+                        required: true,
+                        maxlength: 255
+                    }
+                }
+            });
             $('#newBannerForm').validate({
                 rules: {
                     client_id: {

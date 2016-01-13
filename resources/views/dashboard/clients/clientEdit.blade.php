@@ -1,7 +1,7 @@
 <div clas="row">
     <div class="col-md-10 col-md-offset-1">
         @if(isset($client))
-        {!! Form::model($client, ['url' => '/clients/' . $client->id, 'method' => 'PUT', 'id' => 'clientForm', 'class' => 'form-horizontal', 'files' => true]) !!}
+        {!! Form::model($client, ['url' => '/clients/' . $client->id, 'method' => 'PUT', 'id' => 'clientForm', 'class' => 'clientForm form-horizontal', 'files' => true]) !!}
         @else
         {!! Form::open(['url' => '/clients', 'method' => 'POST', 'id' => 'clientForm', 'class' => 'form-horizontal', 'files' => true]) !!}
         @endif
