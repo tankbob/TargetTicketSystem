@@ -10,6 +10,7 @@
 
 @section('scripts')
 	<script type="text/javascript">
+	/*
 		var attachmentCounter = 1;
 
 		$(function() {
@@ -31,6 +32,7 @@
 		        $('#attachment_count').val(attachmentCounter);
 			}
 		}
+		*/
 	</script>
 @stop
 
@@ -45,15 +47,15 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1 form-horizontal">
 			<div class="form-group">
-				{!! Form::label('title', 'Ticket Title', ['class' => 'col-xs-4 form-label']) !!}
-				<div class="col-xs-8">
+				{!! Form::label('title', 'Ticket Title', ['class' => 'col-sm-4 form-label']) !!}
+				<div class="col-sm-8">
 					{!! Form::text('title', $ticket->title, ['class' => 'form-control', 'disabled']) !!}
 				</div>
 			</div>
 
             <div class="form-group">
-           		{!! Form::label('ref_no', 'Reference No.', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
+           		{!! Form::label('ref_no', 'Reference No.', ['class' => 'col-sm-4 form-label']) !!}
+           		<div class="col-sm-8">
            			{!! Form::text('ref_no', $ticket->id, ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
@@ -63,8 +65,8 @@
            	@endif
 
             <div class="form-group">
-           		{!! Form::label('type', 'Ticket Type', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
+           		{!! Form::label('type', 'Ticket Type', ['class' => 'col-sm-4 form-label']) !!}
+           		<div class="col-sm-8">
            			@if(auth()->user()->admin)
            				{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control']) !!}
            			@else
@@ -74,23 +76,23 @@
             </div>
 
             <div class="form-group">
-           		{!! Form::label('total_working_time', 'Time', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
+           		{!! Form::label('total_working_time', 'Time', ['class' => 'col-sm-4 form-label']) !!}
+           		<div class="col-sm-8">
            			{!! Form::text('total_working_time', $ticket->totalTime(), ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
 
             @if(auth()->user()->admin)
           		<div class="form-group">
-	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
-	           		<div class="col-xs-8">
+	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-sm-4 form-label']) !!}
+	           		<div class="col-sm-8">
 	           			{!! Form::text('cost', $ticket->cost, ['class' => 'form-control']) !!}
 	           		</div>
 	            </div>
            	@elseif($ticket->cost)
            		<div class="form-group">
-	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
-	           		<div class="col-xs-8">
+	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-sm-4 form-label']) !!}
+	           		<div class="col-sm-8">
 	           			{!! Form::text('cost', $ticket->cost, ['class' => 'form-control', 'disabled']) !!}
 	           		</div>
 	            </div>

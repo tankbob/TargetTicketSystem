@@ -873,6 +873,9 @@ body.loading, body.loading * {
     .form-horizontal .control-label {
         padding-top: 13px !important;
     }
+    .form-label {
+        margin-top: 16px;
+    }
 }
 
 @media (max-width: 767px) {
