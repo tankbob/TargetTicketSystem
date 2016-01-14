@@ -614,7 +614,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'Amend Description e.g. Please put the new attached logo within my homepage associates section...');
-            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. update homepage image');
+            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. Update homepage image');
             break;
         case '2':
             $('#publishedAtDiv').removeClass('hidden');
