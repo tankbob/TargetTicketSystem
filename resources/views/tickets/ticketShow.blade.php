@@ -171,7 +171,7 @@
 	           		@if($errors->has('content'))
 	           			<span class="alert-danger"> {{ $errors->first('content') }} </span>
 	           		@endif
-					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Enter your Response...']) !!}
+					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Add to ticket...']) !!}
 		        </div>
 
 				@include('includes.fileInput')
@@ -183,7 +183,11 @@
 		    	@endif
 
 				<div class="text-center">
-				    {!! Form::submit('Respond', ['class' => 'btn btn-success btn-ticket-respond']) !!}
+					@if(auth()->user()->admin)
+				    {!! Form::submit('Respond', ['class' => 'btn btn-success btn-ticket-respond target-btn target-btn-success']) !!}
+				    @else
+				    {!! Form::submit('Respond', ['class' => 'btn btn-info btn-ticket-respond target-btn target-btn-info']) !!}
+				    @endif			    
 				</div>
             {!! Form::close() !!}
 		</div>
