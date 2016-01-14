@@ -44,7 +44,7 @@
                     {{-- Clients Section --}}
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
-                        <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond.</p>
+                        <p>Create a new client, add new clients and determine who receives emails and how you would like us to respond.</p>
                     </a>
                     <div class="ajaxable" id="clients-div" @if(!isset($_GET['clients'])) style="display:none;" @endif>
                         @if(isset($_GET['clients']))
@@ -149,7 +149,7 @@
 
                     <a href="{{ url(auth()->user()->company_slug . '/documents/info') }}" class="btn-section-link btn-information-documents">
                         <strong>Information Documents</strong>
-                        <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
+                        <p>Click here to view your documents. Information, instructions and Terms &amp; Conditions.</p>
                     </a>
 
                     @if(count(auth()->user()->services))

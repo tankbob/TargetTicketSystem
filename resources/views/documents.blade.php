@@ -7,7 +7,12 @@
 @section('content')
 <div class="page-heading text-center">
     <h1>@if($type == 'seo') SEO DOCUMENTS @elseif($type == 'info') INFORMATION DOCUMENTS @endif</h1>
-    <p>Welcome to @if($type == 'seo') your SEO @elseif($type == 'info') our information @endif, Click a pdf to view</p>
+
+    @if($type == 'seo')
+    <p>Welcome to your SEO documents page, click a pdf to view</p>
+    @else
+    <p>Welcome to your information page, click a pdf to view</p>
+    @endif
 </div>
 
 <div class="page-content">
