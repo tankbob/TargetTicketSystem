@@ -835,6 +835,10 @@ body.loading, body.loading * {
     .client-chooser select {
         max-width:394px;
     }
+
+    .client-chooser {
+        padding-right:0px;
+    }
 }
 
 .banners-container, .services-container {
