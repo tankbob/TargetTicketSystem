@@ -803,6 +803,30 @@ body.loading, body.loading * {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45d1d3', endColorstr='#00c1cc',GradientType=1 ); /* IE6-9 */
 }
 
+.target-btn-success {
+
+}
+
+.target-btn-success:hover {
+
+}
+
+.target-btn-info {
+    background: #66d3d6; /* Old browsers */
+    background: -moz-linear-gradient(left,  #66d3d6 0%, #2ec5ce 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #66d3d6 0%,#2ec5ce 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #66d3d6 0%,#2ec5ce 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#66d3d6', endColorstr='#2ec5ce',GradientType=1 ); /* IE6-9 */
+}
+
+.target-btn-info:hover {
+    background: #45d1d3; /* Old browsers */
+    background: -moz-linear-gradient(left,  #45d1d3 0%, #00c1cc 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #45d1d3 0%,#00c1cc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #45d1d3 0%,#00c1cc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45d1d3', endColorstr='#00c1cc',GradientType=1 ); /* IE6-9 */
+}
+
 .update-client-btn {
     width:283px;
     height:54px;
@@ -901,11 +925,6 @@ body.loading, body.loading * {
     color:#fff;
     letter-spacing: 2px;
     text-transform: uppercase;
-    background: #2fcd9d;
-}
-
-.btn-ticket-respond:hover {
-    background: #1f916e;
 }
 
 .panel.admin_response, .panel.client_response, .panel.admin_response .panel-heading, .panel.client_response .panel-heading {
