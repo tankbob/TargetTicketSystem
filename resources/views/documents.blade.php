@@ -17,8 +17,11 @@
 				<table class="table table-ti-border">
 	            @foreach($files as $file)
 	            	<tr>
-						<td class="goto-column">
-							<a href="{{ config('app.asset_url') . $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
+						<td class="goto-column click-only">
+							<a href="{{ $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
+						</td>
+						<td class="goto-column touch-only">
+							<a href="{{ $file->filepath }}" class="icon-download" target="_blank"></a>
 						</td>
 						<td class="td-adjust text-left">
 	            			{{ $file->filename }}
