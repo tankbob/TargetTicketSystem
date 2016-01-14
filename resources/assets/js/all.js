@@ -67,6 +67,101 @@ function togglePage($element, $ajaxUri, $slug) {
     }
 }
 
+// Validate
+function setUpValidation() {
+    jQuery.validator.setDefaults({});
+    $('#clientForm').validate({
+        rules: {
+            name: {
+                required: true,
+                maxlength: 255
+            },
+            email: {
+                required: true,
+                email: true,
+                maxlength: 255
+            },
+            password: {
+                required: true,
+                maxlength: 255
+            },
+            website: {
+                required: true,
+                maxlength: 255
+            }
+        }
+    });
+    $('#newBannerForm').validate({
+        rules: {
+            client_id: {
+                required: true
+            },
+            image: {
+                required: true
+            },
+            url: {
+                required: true,
+                url: true
+            },
+            name: {
+                required: true
+            }
+        },
+        messages: {
+            category_id: "Please choose an option"
+        }
+    });
+    $('#new-seo-form').validate({
+        rules: {
+            client_id: {
+                required: true
+            },
+            filename: {
+                required: true
+            },
+            file: {
+                required: true
+            }
+        }
+    });
+    $('#new-info-form').validate({
+        rules: {
+            client_id: {
+                required: true
+            },
+            filename: {
+                required: true
+            },
+            file: {
+                required: true
+            }
+        }
+    });
+    $('#newServiceForm').validate({
+        rules: {
+            client_id: {
+                required: true
+            },
+            icon: {
+                required: true
+            },
+            icon_rollover: {
+                required: true
+            },
+            heading: {
+                required: true
+            },
+            link: {
+                required: true,
+                url: true
+            },
+            text: {
+                required: true
+            }
+        }
+    });
+}
+
 // Adapt the menu so mobile devices
 $(window).resize(function () {
     adaptMenu();
@@ -80,6 +175,8 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    setUpValidation();
 
     // Set touch 
     if(is_touch_device()) {
@@ -398,102 +495,6 @@ $(document).ready(function () {
             e.preventDefault();
         });
 
-        // Validate
-        function setUpValidation() {
-            jQuery.validator.setDefaults({});
-            $('#clientForm').validate({
-                rules: {
-                    name: {
-                        required: true,
-                        maxlength: 255
-                    },
-                    email: {
-                        required: true,
-                        email: true,
-                        maxlength: 255
-                    },
-                    password: {
-                        required: true,
-                        maxlength: 255
-                    },
-                    website: {
-                        required: true,
-                        maxlength: 255
-                    }
-                }
-            });
-            $('#newBannerForm').validate({
-                rules: {
-                    client_id: {
-                        required: true
-                    },
-                    image: {
-                        required: true
-                    },
-                    url: {
-                        required: true,
-                        url: true
-                    },
-                    name: {
-                        required: true
-                    }
-                },
-                messages: {
-                    category_id: "Please choose an option"
-                }
-            });
-            $('#new-seo-form').validate({
-                rules: {
-                    client_id: {
-                        required: true
-                    },
-                    filename: {
-                        required: true
-                    },
-                    file: {
-                        required: true
-                    }
-                }
-            });
-            $('#new-info-form').validate({
-                rules: {
-                    client_id: {
-                        required: true
-                    },
-                    filename: {
-                        required: true
-                    },
-                    file: {
-                        required: true
-                    }
-                }
-            });
-            $('#newServiceForm').validate({
-                rules: {
-                    client_id: {
-                        required: true
-                    },
-                    icon: {
-                        required: true
-                    },
-                    icon_rollover: {
-                        required: true
-                    },
-                    heading: {
-                        required: true
-                    },
-                    link: {
-                        required: true,
-                        url: true
-                    },
-                    text: {
-                        required: true
-                    }
-                }
-            });
-        }
-        setUpValidation();
-
         $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
     }
 
@@ -614,7 +615,7 @@ function toggleFormFields(typeValue){
             $('#artitcleTitleDiv').addClass('hidden');
             $('#scheduleDiv').addClass('hidden');
             $('#content').attr('placeholder', 'Amend Description e.g. Please put the new attached logo within my homepage associates section...');
-            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. update homepage image');
+            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. Update homepage image');
             break;
         case '2':
             $('#publishedAtDiv').removeClass('hidden');

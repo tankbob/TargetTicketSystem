@@ -44,7 +44,7 @@
                     {{-- Clients Section --}}
                     <a href="#" class="btn-section-link btn-clients">
                         <strong>Clients</strong>
-                        <p>Create a new client, add new clients and determine who recieves emails and how you would like Ti to respond.</p>
+                        <p>Create a new client, add new clients and determine who receives emails and how you would like us to respond.</p>
                     </a>
                     <div class="ajaxable" id="clients-div" @if(!isset($_GET['clients'])) style="display:none;" @endif>
                         @if(isset($_GET['clients']))
@@ -149,12 +149,12 @@
 
                     <a href="{{ url(auth()->user()->company_slug . '/documents/info') }}" class="btn-section-link btn-information-documents">
                         <strong>Information Documents</strong>
-                        <p>Click here to view Target Ink documents. Information, instructions and Term &amp; Conditions.</p>
+                        <p>Click here to view your documents. Information, instructions and Terms &amp; Conditions.</p>
                     </a>
 
                     @if(count(auth()->user()->services))
                         @foreach(auth()->user()->services as $service)
-                             <a href="{{  $service->link }}" target="#blank" class="btn-section-link btn-section-{{ $service->id }}">
+                            <a href="{{ $service->link }}" target="#blank" class="btn-section-link btn-section-{{ $service->id }}">
                                 <strong>{{ $service->heading }}</strong>
                                 <p>{!! nl2br($service->text) !!}</p>
                             </a>
@@ -179,12 +179,13 @@
             @foreach(auth()->user()->services as $service)
                 .btn-section-{{ $service->id }}:before {
                     background:none;
-                    background-image: url('{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
+                    background-image: url('{{ url('img/' . $service->icon) }}?w=146&amp;h=146&amp;fit=max') !important;
                     background-position-y: top;
                     background-repeat: no-repeat;
                 }
                 .btn-section-{{ $service->id }}:hover:before {
-                    background-image: url('{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
+                    background-image: url('{{ url('img/' . $service->icon_rollover) }}?w=146&amp;h=146&amp;fit=max') !important;
+                    background-position-y: top;
                 }
             @endforeach
         </style>

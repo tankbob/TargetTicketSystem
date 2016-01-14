@@ -8,32 +8,6 @@
 	@endif
 @stop
 
-@section('scripts')
-	<script type="text/javascript">
-		var attachmentCounter = 1;
-
-		$(function() {
-			$("#attachmentDiv").on('change', '.fileInput', function (){
-				addFileInput(this);
-			});
-
-			$('.hourInput').mask("99:99",{placeholder:"00:00"});
-		});
-
-		function addFileInput(fileinput){
-			if($(fileinput).val() && $(fileinput).attr('attachmentID') == attachmentCounter){
-				attachmentCounter ++;
-				var html = '';
-				html += '<div>';
-		        	html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment-'+attachmentCounter+'" type="file">';
-		        html += '</div>';
-		        $('#attachmentDiv').append(html);
-		        $('#attachment_count').val(attachmentCounter);
-			}
-		}
-	</script>
-@stop
-
 @section('content')
 <div class="page-heading text-center">
     <h1>Ticket Details</h1>
@@ -45,15 +19,15 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1 form-horizontal">
 			<div class="form-group">
-				{!! Form::label('title', 'Ticket Title', ['class' => 'col-xs-4 form-label']) !!}
-				<div class="col-xs-8">
+				{!! Form::label('title', 'Ticket Title', ['class' => 'col-sm-4 form-label']) !!}
+				<div class="col-sm-8">
 					{!! Form::text('title', $ticket->title, ['class' => 'form-control', 'disabled']) !!}
 				</div>
 			</div>
 
             <div class="form-group">
-           		{!! Form::label('ref_no', 'Reference No.', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
+           		{!! Form::label('ref_no', 'Reference No.', ['class' => 'col-sm-4 form-label']) !!}
+           		<div class="col-sm-8">
            			{!! Form::text('ref_no', $ticket->id, ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
@@ -63,8 +37,8 @@
            	@endif
 
             <div class="form-group">
-           		{!! Form::label('type', 'Ticket Type', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
+           		{!! Form::label('type', 'Ticket Type', ['class' => 'col-sm-4 form-label']) !!}
+           		<div class="col-sm-8">
            			@if(auth()->user()->admin)
            				{!! Form::select('type', [1 => "Web Amends", 2 => "Add Content", 3 => "Get Quote", 4 => "Ask Question"], $ticket->type, ['class' => 'form-control']) !!}
            			@else
@@ -74,23 +48,23 @@
             </div>
 
             <div class="form-group">
-           		{!! Form::label('total_working_time', 'Time', ['class' => 'col-xs-4 form-label']) !!}
-           		<div class="col-xs-8">
+           		{!! Form::label('total_working_time', 'Time', ['class' => 'col-sm-4 form-label']) !!}
+           		<div class="col-sm-8">
            			{!! Form::text('total_working_time', $ticket->totalTime(), ['class' => 'form-control', 'disabled']) !!}
            		</div>
             </div>
 
             @if(auth()->user()->admin)
           		<div class="form-group">
-	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
-	           		<div class="col-xs-8">
+	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-sm-4 form-label']) !!}
+	           		<div class="col-sm-8">
 	           			{!! Form::text('cost', $ticket->cost, ['class' => 'form-control']) !!}
 	           		</div>
 	            </div>
            	@elseif($ticket->cost)
            		<div class="form-group">
-	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-xs-4 form-label']) !!}
-	           		<div class="col-xs-8">
+	           		{!! Form::label('cost', 'Cost (&pound;)', ['class' => 'col-sm-4 form-label']) !!}
+	           		<div class="col-sm-8">
 	           			{!! Form::text('cost', $ticket->cost, ['class' => 'form-control', 'disabled']) !!}
 	           		</div>
 	            </div>
@@ -171,7 +145,7 @@
 	           		@if($errors->has('content'))
 	           			<span class="alert-danger"> {{ $errors->first('content') }} </span>
 	           		@endif
-					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Enter your Response...']) !!}
+					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Add to ticket...']) !!}
 		        </div>
 
 				@include('includes.fileInput')
@@ -183,7 +157,11 @@
 		    	@endif
 
 				<div class="text-center">
-				    {!! Form::submit('Respond', ['class' => 'btn btn-success btn-ticket-respond']) !!}
+					@if(auth()->user()->admin)
+				    {!! Form::submit('Respond', ['class' => 'btn btn-success btn-ticket-respond target-btn target-btn-success']) !!}
+				    @else
+				    {!! Form::submit('Respond', ['class' => 'btn btn-info btn-ticket-respond target-btn target-btn-info']) !!}
+				    @endif			    
 				</div>
             {!! Form::close() !!}
 		</div>

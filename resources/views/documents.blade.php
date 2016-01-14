@@ -7,7 +7,12 @@
 @section('content')
 <div class="page-heading text-center">
     <h1>@if($type == 'seo') SEO DOCUMENTS @elseif($type == 'info') INFORMATION DOCUMENTS @endif</h1>
-    <p>Welcome to @if($type == 'seo') your SEO @elseif($type == 'info') our information @endif, Click a pdf to view</p>
+
+    @if($type == 'seo')
+    <p>Welcome to your SEO documents page, click a pdf to view</p>
+    @else
+    <p>Welcome to your information page, click a pdf to view</p>
+    @endif
 </div>
 
 <div class="page-content">
@@ -17,8 +22,11 @@
 				<table class="table table-ti-border">
 	            @foreach($files as $file)
 	            	<tr>
-						<td class="goto-column">
-							<a href="{{ config('app.asset_url') . $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
+						<td class="goto-column click-only">
+							<a href="{{ $file->filepath }}" class="show-on-hover icon-download" target="_blank"></a>
+						</td>
+						<td class="goto-column touch-only">
+							<a href="{{ $file->filepath }}" class="icon-download" target="_blank"></a>
 						</td>
 						<td class="td-adjust text-left">
 	            			{{ $file->filename }}

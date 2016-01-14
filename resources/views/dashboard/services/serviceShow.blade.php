@@ -11,9 +11,7 @@
 	    	@foreach($client->services as $service)
 	    		<tr id="service-row-{{ $service->id }}">
 					<td class="td-adjust text-center">
-						@if(file_exists(public_path() . '/files/services/' . $service->icon))
-						<img src="{{ url('files/services/' . $service->icon) }}">
-						@endif
+						<img src="{{ url('img/' . $service->icon) }}?w=73&amp;h=73&amp;fit=max">
 					</td>
 	                <td class="td-adjust">{{ $service->heading }}</td>
 	                <td class="td-adjust">{{ $client->email }}</td>
