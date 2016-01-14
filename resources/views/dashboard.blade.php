@@ -154,7 +154,7 @@
 
                     @if(count(auth()->user()->services))
                         @foreach(auth()->user()->services as $service)
-                             <a href="{{  $service->link }}" target="#blank" class="btn-section-link btn-section-{{ $service->id }}">
+                            <a href="{{ $service->link }}" target="#blank" class="btn-section-link btn-section-{{ $service->id }}">
                                 <strong>{{ $service->heading }}</strong>
                                 <p>{!! nl2br($service->text) !!}</p>
                             </a>
@@ -179,12 +179,13 @@
             @foreach(auth()->user()->services as $service)
                 .btn-section-{{ $service->id }}:before {
                     background:none;
-                    background-image: url('{{ $service->icon }}?w=146&amp;h=146&amp;fit=max') !important;
+                    background-image: url('{{ url('img/' . $service->icon) }}?w=146&amp;h=146&amp;fit=max') !important;
                     background-position-y: top;
                     background-repeat: no-repeat;
                 }
                 .btn-section-{{ $service->id }}:hover:before {
-                    background-image: url('{{ $service->icon_rollover }}?w=146&amp;h=146&amp;fit=max') !important;
+                    background-image: url('{{ url('img/' . $service->icon_rollover) }}?w=146&amp;h=146&amp;fit=max') !important;
+                    background-position-y: top;
                 }
             @endforeach
         </style>
