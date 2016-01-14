@@ -190,15 +190,6 @@
                                                                                         @yield('content')
 
                                                                                         <p>Best Regards<br>Support</p>
-
-                                                                                        <div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:left;line-height:120%;">
-                                                                                            <div>
-                                                                                                Target Ink Ltd<br>
-                                                                                                support@maintenanceaccounts.co.uk<br>
-                                                                                                01892 800 400<br>
-                                                                                                www.targetink.co.uk<br>
-                                                                                            </div>
-                                                                                        </div>
                                                                                     </div>
                                                                                 </td>
                                                                             </tr>
