@@ -8,34 +8,6 @@
 	@endif
 @stop
 
-@section('scripts')
-	<script type="text/javascript">
-	/*
-		var attachmentCounter = 1;
-
-		$(function() {
-			$("#attachmentDiv").on('change', '.fileInput', function (){
-				addFileInput(this);
-			});
-
-			$('.hourInput').mask("99:99",{placeholder:"00:00"});
-		});
-
-		function addFileInput(fileinput){
-			if($(fileinput).val() && $(fileinput).attr('attachmentID') == attachmentCounter){
-				attachmentCounter ++;
-				var html = '';
-				html += '<div>';
-		        	html += '<input class="fileInput" attachmentid="'+attachmentCounter+'" name="attachment-'+attachmentCounter+'" type="file">';
-		        html += '</div>';
-		        $('#attachmentDiv').append(html);
-		        $('#attachment_count').val(attachmentCounter);
-			}
-		}
-		*/
-	</script>
-@stop
-
 @section('content')
 <div class="page-heading text-center">
     <h1>Ticket Details</h1>
