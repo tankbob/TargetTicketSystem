@@ -17,7 +17,7 @@ validateInit.push(function () {
 		ignore: "<?php echo $validator['ignore']; ?>",
 		<?php endif; ?>
 		success: function(element) {
-			$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+			$(element).closest('.form-group').removeClass('has-error');
 		},
 		focusInvalid: false,
 		<?php if (Config::get('jsvalidation.focus_on_error')): ?>
@@ -25,7 +25,6 @@ validateInit.push(function () {
 			if (!validator.numberOfInvalids()) {
 				return;
 			}
-
 			$('html, body').animate({
 				scrollTop: $(validator.errorList[0].element).offset().top
 			}, <?php echo Config::get('jsvalidation.duration_animate') ?>);
