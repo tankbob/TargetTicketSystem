@@ -31,4 +31,8 @@
     </tbody>
 </table>
 
-<div id="clientFormDiv" class="row"></div>
+<div id="clientFormDiv" class="row">
+    @if(request()->segment(1) == 'clients' && (request()->segment(2) == 'create' || request()->segment(3) == 'edit'))
+    {!! $clientForm !!}
+    @endif
+</div>

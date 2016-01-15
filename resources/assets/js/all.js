@@ -52,7 +52,7 @@ function togglePage($element, $ajaxUri, $slug) {
         startProgress();
 
         // Change the history
-        window.history.pushState("", "", "/?" + $slug);
+        window.history.pushState("", "", "/" + $slug);
 
         // Hide all open windows
         $('.ajaxable').slideUp();
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
         // Banners
         $('.btn-banners').on('click', function (e) {
-            togglePage($('#banners-div'), '/banners', 'banners');
+            togglePage($('#banners-div'), '/adverts', 'adverts');
             e.preventDefault();
         });
 
@@ -140,12 +140,14 @@ $(document).ready(function () {
         });
 
         // When clicking create or a client, load the data and scroll to the view
-        $('#clients-div').on('click', '.clientFormToggler', function (e) {
+        $('body').on('click', '.clientFormToggler', function (e) {
             if ($(this).attr('clientId') == 0) {
                 var loadURI = '/clients/create';
             } else {
                 var loadURI = '/clients/' + $(this).attr('clientId') + '/edit';
             }
+
+            window.history.pushState("", "", loadURI);
 
             startProgress();
             $.ajax({
@@ -175,9 +177,11 @@ $(document).ready(function () {
             if(clientId != '') {
                 startProgress();
                 $('.clientValue').val(clientId);
+                var loadURI = '/adverts/' + clientId;
+                window.history.pushState("", "", loadURI);
                 $.ajax({
                     type: 'GET',
-                    url: '/banners/' + clientId,
+                    url: loadURI,
                     success: function (response) {
                         $("#banner-table-div").html(response);
                         $("#banner-table-div").slideDown();
@@ -196,7 +200,7 @@ $(document).ready(function () {
             if (window.confirm('Are you sure you want to delete this advert permanently?')) {
                 $.ajax({
                     type: 'DELETE',
-                    url: '/banners/' + $(this).attr('bannerId'),
+                    url: '/adverts/' + $(this).attr('bannerId'),
                     success: function (response) {
                         var res = $.parseJSON(response);
                         $('#banner-row-' + res.id).remove();
@@ -213,7 +217,7 @@ $(document).ready(function () {
             startProgress();
             $.ajax({
                 type: 'GET',
-                url: '/banners/create',
+                url: '/adverts/create',
                 success: function (response) {
                     $("#banner-form-div").html(response);
                     $("#banner-form-div").slideDown();
@@ -243,7 +247,7 @@ $(document).ready(function () {
             }
         });
 
-        // When choosing a client show the adverts associated with them
+        // When choosing a client show the banners associated with them
         $('body').on('change', '#service-customer-select', function (e) {
             var clientId = $(this).val();
             if(clientId != '') {

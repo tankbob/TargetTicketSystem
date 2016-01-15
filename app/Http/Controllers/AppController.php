@@ -20,7 +20,7 @@ class AppController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $clients = null;
         if(auth()->user()->admin) {
@@ -34,17 +34,20 @@ class AppController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         return view('dashboard.advertEdit');
     }
 
-    public function showMaintenance() {
-        $clients = null;
-        if(auth()->user()->admin) {
-            $clients = User::where('admin', 0)->orderBy('company')->get();
+    public function showMaintenance(Request $request) {
+        $clients = User::where('admin', 0)->orderBy('company')->get();
+
+        $maintenanceList = view('dashboard.tickets.tickets', compact('clients'));
+        if($request->ajax()) {
+            return $maintenanceList;
+        } else {
+            return view('dashboard', compact('maintenanceList'));
         }
-        return view('dashboard.tickets.tickets', compact('clients'));
     }
 
     public function js() {

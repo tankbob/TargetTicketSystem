@@ -29,7 +29,7 @@ class ClientCreateRequest extends Request
     {
         return [
             'name' => 'required|max:255',
-            'website' => 'required|max:255',
+            'web' => 'required|url|max:255',
             'password' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,email',
         ];

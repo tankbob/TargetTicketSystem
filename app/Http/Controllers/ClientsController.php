@@ -26,13 +26,16 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = null;
-        if(auth()->user()->admin) {
-            $clients = User::where('admin', 0)->orderBy('company')->get();
+        $clients = User::where('admin', 0)->orderBy('company')->get();
+
+        $clientList = view('dashboard.clients.clientList', compact('clients'));
+        if($request->ajax()) {
+            return $clientList;
+        } else {
+            return view('dashboard', compact('clientList'));
         }
-        return view('dashboard.clients.clientList', compact('clients'));
     }
 
     /**
@@ -40,9 +43,17 @@ class ClientsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('dashboard.clients.clientEdit');
+        $client_id = 0;
+        $clientForm = view('dashboard.clients.clientEdit', compact('client_id'));
+        if($request->ajax()) {
+            return $clientForm;
+        } else {
+            $clients = User::where('admin', 0)->orderBy('company')->get();
+            $clientList = view('dashboard.clients.clientList', compact('clients', 'clientForm'));
+            return view('dashboard', compact('clientList'));
+        }  
     }
 
     /**
@@ -104,10 +115,18 @@ class ClientsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $client = User::where('admin', 0)->find($id);
-        return view('dashboard.clients.clientEdit', compact('client'));
+        $client_id = $client->id;
+        $clientForm = view('dashboard.clients.clientEdit', compact('client', 'client_id'));
+        if($request->ajax()) {
+            return $clientForm;
+        } else {
+            $clients = User::where('admin', 0)->orderBy('company')->get();
+            $clientList = view('dashboard.clients.clientList', compact('clients', 'clientForm'));
+            return view('dashboard', compact('clientList'));
+        } 
     }
 
     /**
@@ -120,36 +139,40 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $client = User::find($id);
-
-        // Check the email
-        if($client->email != $request->get('email')) {
-            // We are changing the email
-            $emailCheck = User::where('email', $request->get('email'))->get();
-            if($emailCheck) {
-                // Someone else has this email already
-                return json_encode([
-                    'error'     => 'That email is already taken.',
-                    'success'   => false,
-                    'method'    => 'update',
-                    'id'        => $client->id,
-                    'email'     => $client->email,
-                    'name'      => $client->name,
-                ]);
-            }
-        }
-
         $client->fill($request->except(['password']));
+
         if($request->has('password')) {
            $client->password = bcrypt($request->get('password'));
         }
+
+        if($request->hasFile('company_logo') && $request->file('company_logo')->isValid()) {
+            $file = $request->file('company_logo');
+            $extension = $file->getClientOriginalExtension();
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            $counter = 2;
+            $fcache = $filename;
+            while(Storage::disk('s3')->has($filename . '.' . $extension)) {
+                $filename = $fcache . '_' . $counter;
+                $counter++;
+            }
+
+            $filename = $filename . '.' . $extension;
+
+            // Sanitize
+            $filename = mb_ereg_replace("([^\w\s\d\-_~,;:\[\]\(\).])", '', $filename);
+            $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
+
+            Storage::disk('s3')->put($filename, file_get_contents($request->file('company_logo')->getRealPath()));
+
+            $file->filepath = config('app.asset_url') . $filename;
+            $client->company_logo = $filename;
+        }
+
+        // Save the client
         $client->save();
-        return json_encode([
-            'success'   => 'The Client has been updated.',
-            'method'    => 'update',
-            'id'        => $client->id,
-            'email'     => $client->email,
-            'name'      => $client->name
-        ]);
+
+        return redirect()->back()->with('success', 'The client has been updated')->with('client', $client);
     }
 
     /**

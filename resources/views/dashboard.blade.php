@@ -34,10 +34,9 @@
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
-                    <div class="ajaxable" id="maintenance-support-div" @if(!isset($_GET['maintenance'])) style="display:none;" @endif>
-                        @if(isset($_GET['maintenance']))
-                        <?php $c = new TargetInk\Http\Controllers\AppController; ?>
-                        {!! $c->showMaintenance() !!}
+                    <div class="ajaxable" id="maintenance-support-div" @if(request()->segment(1) != 'maintenance') style="display:none;" @endif>
+                        @if(request()->segment(1) == 'maintenance')
+                        {!! $maintenanceList !!}
                         @endif
                     </div>
 
@@ -46,10 +45,9 @@
                         <strong>Clients</strong>
                         <p>Create a new client, add new clients and determine who receives emails and how you would like us to respond.</p>
                     </a>
-                    <div class="ajaxable" id="clients-div" @if(!isset($_GET['clients'])) style="display:none;" @endif>
-                        @if(isset($_GET['clients']))
-                        <?php $c = new TargetInk\Http\Controllers\ClientsController; ?>
-                        {!! $c->index() !!}
+                    <div class="ajaxable" id="clients-div" @if(request()->segment(1) != 'clients') style="display:none;" @endif>
+                        @if(request()->segment(1) == 'clients')
+                        {!! $clientList !!}
                         @endif
                     </div>
 
@@ -59,10 +57,9 @@
                         <p>Click here to manage adverts displayed to clients.</p>
                     </a>
                     <div class="clearfix banners-container">
-                        <div class="col-md-12 ajaxable" id="banners-div" @if(!isset($_GET['banners'])) style="display:none;" @endif>
-                            @if(isset($_GET['banners']))
-                            <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
-                            {!! $c->index() !!}
+                        <div class="col-md-12 ajaxable" id="banners-div" @if(request()->segment(1) != 'adverts') style="display:none;" @endif>
+                            @if(request()->segment(1) == 'adverts')
+                            {!! $advertList !!}
                             @endif
                         </div>
                         <div class="col-md-12 ajaxable" id="banner-table-div">
@@ -123,7 +120,7 @@
                     </a>
                     <div class="clearfix services-container">
                         <div class="col-md-12 ajaxable" id="info-div" @if(!isset($_GET['info'])) style="display:none;" @endif>
-                            @if(isset($_GET['info']))
+                            @if(isset($_GET['info']))   
                             <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
                             {!! $c->index('info') !!}
                             @endif

@@ -1,17 +1,17 @@
 <div clas="row">
     <div class="col-md-10 col-md-offset-1">
         @if(isset($client))
-        {!! Form::model($client, ['url' => '/clients/' . $client->id, 'method' => 'PUT', 'id' => 'update-client-form', 'class' => 'form-horizontal', 'files' => true]) !!}
+        {!! Form::model($client, ['route' => ['clients.update', $client->id], 'method' => 'patch', 'id' => 'update-client-form', 'class' => 'form-horizontal', 'files' => true]) !!}
         @else
-        {!! Form::open(['url' => '/clients', 'method' => 'POST', 'id' => 'new-client-form', 'class' => 'form-horizontal', 'files' => true]) !!}
+        {!! Form::open(['route' => ['clients.store'], 'id' => 'new-client-form', 'class' => 'form-horizontal', 'files' => true]) !!}
         @endif
-            {!! Form::text('client_id', '', ['class' => 'hidden', 'id' => 'client_id']) !!}
+            {!! Form::hidden('client_id', $client_id, ['id' => 'client_id']) !!}
             {!! FormHelper::bs('text', 'name', 'Full Name:') !!}
             {!! FormHelper::bs('text', 'email', 'Email Address:') !!}
             {!! FormHelper::bs('text', 'phone', 'Phone Number:') !!}
             {!! FormHelper::bs('password', 'password', 'Password:') !!}
             {!! FormHelper::bs('text', 'company', 'Company Name:') !!}
-            {!! FormHelper::bs('text', 'website', 'Website URL:') !!}
+            {!! FormHelper::bs('text', 'web', 'Website URL:') !!}
             {!! FormHelper::bs('text', 'type', 'Account Type:') !!}
             {!! FormHelper::bs('text', 'start_date', 'Account Start Date:') !!}
             @include('includes.fileInputSingle', ['name' => 'company_logo', 'label' => 'Company Logo:'])

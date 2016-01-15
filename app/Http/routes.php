@@ -21,8 +21,9 @@ Route::any('test/mail/html', function () {
 Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 
 // Backend
+Route::get('maintenance', 'AppController@showMaintenance');
 Route::resource('clients', 'ClientsController');
-Route::resource('banners', 'AdvertController');
+Route::resource('adverts', 'AdvertController');
 Route::resource('services', 'ServicesController');
 
 Route::get('documents/{type}', 'AdminDocumentsController@index');

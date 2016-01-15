@@ -24,13 +24,16 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = null;
-        if(auth()->user()->admin) {
-            $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
+        $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
+
+        $advertList = view('dashboard.adverts.advertList', compact('clients'));
+        if($request->ajax()) {
+            return $advertList;
+        } else {
+            return view('dashboard', compact('advertList'));
         }
-        return view('dashboard.adverts.advertList', compact('clients'));
     }
 
     /**
