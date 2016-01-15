@@ -4,7 +4,7 @@ namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
-use TargetInk\Http\Requests\CreateClientRequest;
+use TargetInk\Http\Requests\ClientCreateRequest;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
@@ -51,7 +51,7 @@ class ClientsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateClientRequest $request)
+    public function store(ClientCreateRequest $request)
     {
         $client = new User;
         $client->fill($request->except(['password']));

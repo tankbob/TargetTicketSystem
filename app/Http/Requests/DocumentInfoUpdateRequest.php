@@ -4,7 +4,7 @@ namespace TargetInk\Http\Requests;
 
 use TargetInk\Http\Requests\Request;
 
-class CreateClientRequest extends Request
+class DocumentInfoUpdateRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,9 @@ class CreateClientRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'website' => 'required|max:255',
-            'password' => 'required|max:255',
-            'email' => 'required|email|unique:users|max:255',
+            'client_id' => 'required|exists:users',
+            'file' => 'mimes:pdf,doc,docx,doc,csv,jpeg,jpg,gif,png,txt',
+            'filename' => 'required|max:255',
         ];
     }
 }

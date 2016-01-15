@@ -49,7 +49,20 @@ class AppController extends Controller
 
     public function js() {
         $adminValidators = [
-            'TargetInk\Http\Requests\CreateClientRequest' => '#clientForm',
+            'TargetInk\Http\Requests\ClientCreateRequest' => '#new-client-form',
+            'TargetInk\Http\Requests\ClientUpdateRequest' => '#update-client-form',
+
+            'TargetInk\Http\Requests\AdvertCreateRequest' => '#new-advert-form',
+            'TargetInk\Http\Requests\AdvertUpdateRequest' => '#update-advert-form',
+
+            'TargetInk\Http\Requests\ServiceCreateRequest' => '#new-service-form',
+            'TargetInk\Http\Requests\ServiceUpdateRequest' => '#update-service-form',
+
+            'TargetInk\Http\Requests\DocumentSeoCreateRequest' => '#new-seo-form',
+            'TargetInk\Http\Requests\DocumentSeoUpdateRequest' => '#update-seo-form',
+
+            'TargetInk\Http\Requests\DocumentInfoCreateRequest' => '#new-info-form',
+            'TargetInk\Http\Requests\DocumentInfoUpdateRequest' => '#update-info-form',
         ];
 
         $userValidators = [

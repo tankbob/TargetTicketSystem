@@ -3,10 +3,10 @@
 namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use TargetInk\Http\Requests;
+use TargetInk\Http\Requests\DocumentSeoCreateRequest;
+use TargetInk\Http\Requests\DocumentSeoDeleteRequest;
 use TargetInk\Http\Controllers\Controller;
-
 use TargetInk\User;
 use TargetInk\File;
 use Storage;
@@ -51,7 +51,7 @@ class AdminDocumentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($type, Request $request)
+    public function store(DocumentSeoCreateRequest $request, $type)
     {
         $fileobj = new File;
         $fileobj->fill($request->all());
@@ -119,7 +119,7 @@ class AdminDocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($type, $id)
+    public function destroy(DocumentSeoDeleteRequest $request, $type, $id)
     {
         $file = File::find($id);
         $file->delete();
