@@ -7,6 +7,8 @@ Route::controllers([
 
 Route::get('/', 'AppController@index');
 
+Route::get('/js/validation.js', 'AppController@js');
+
 // Failsafe redirect
 Route::any('home', function () {
     return redirect('/');

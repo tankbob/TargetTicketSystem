@@ -6,6 +6,8 @@
 
 var attachmentCounter = 1;
 
+var validateInit = [];
+
 function is_touch_device() {
   return 'ontouchstart' in window        // works on most browsers 
       || navigator.maxTouchPoints;       // works on IE10/11 and Surface
@@ -69,6 +71,12 @@ function togglePage($element, $ajaxUri, $slug) {
 
 // Validate
 function setUpValidation() {
+    var index;
+    for (index = 0; index < validateInit.length; ++index) {
+        validateInit[index]();
+    }
+
+    /*
     jQuery.validator.setDefaults({});
     $('#clientForm').validate({
         rules: {
@@ -160,6 +168,7 @@ function setUpValidation() {
             }
         }
     });
+*/
 }
 
 // Adapt the menu so mobile devices

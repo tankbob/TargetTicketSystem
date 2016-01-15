@@ -164,6 +164,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
+        Proengsoft\JsValidation\JsValidationServiceProvider::class,
 
     ],
 
@@ -219,6 +220,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Flash'     => Laracasts\Flash\Flash::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
     ],
 
 ];

@@ -5,8 +5,8 @@ namespace TargetInk\Http\Controllers;
 use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
-
 use TargetInk\User;
+use JsValidator;
 
 class AppController extends Controller
 {
@@ -45,5 +45,27 @@ class AppController extends Controller
             $clients = User::where('admin', 0)->orderBy('company')->get();
         }
         return view('dashboard.tickets.tickets', compact('clients'));
+    }
+
+    public function js() {
+        $adminValidators = [
+            'TargetInk\Http\Requests\CreateClientRequest' => '#clientForm',
+        ];
+
+        $userValidators = [
+        ];
+        
+        if(auth()->user()->admin) {
+            $v = $adminValidators;
+        } else {
+            $v = $userValidators;
+        }
+
+        $content = '';
+        foreach($v as $requestClass => $formSelector) {
+            $content .= JsValidator::formRequest($requestClass, $formSelector);
+        }
+
+        return response($content)->header('Content-Type', 'text/javascript');
     }
 }
