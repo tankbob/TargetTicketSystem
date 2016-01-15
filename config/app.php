@@ -1,6 +1,15 @@
 <?php
 
+@exec('git rev-parse --verify HEAD 2> /dev/null', $output);
+if(isset($output) && is_array($output)) {
+    $hash = $output[0];
+} else {
+    $hash = '';
+}
+
 return [
+
+    'hash' => $hash,
 
     /*
     |--------------------------------------------------------------------------
