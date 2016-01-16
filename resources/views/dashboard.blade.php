@@ -58,17 +58,14 @@
                     </a>
                     <div class="clearfix banners-container">
                         <div class="col-md-12 ajaxable" id="banners-div" @if(request()->segment(1) != 'adverts') style="display:none;" @endif>
-                            @if(request()->segment(1) == 'adverts')
-                            {!! $advertList !!}
-                            @endif
+                            {!! @$advertList !!}
                         </div>
                         <div class="col-md-12 ajaxable" id="banner-table-div">
-                            @if(isset($_GET['banners']) && request()->input('client_id'))
-                            <?php $c = new TargetInk\Http\Controllers\AdvertController; ?>
-                            {!! $c->show(request()->input('client_id')) !!}
-                            @endif
+                            {!! @$advertTable !!}
                         </div>
-                        <div class="col-md-12 ajaxable" id="banner-form-div" style="display:none;"></div>
+                        <div class="col-md-12 ajaxable" id="banner-form-div">
+                           {!! @$advertForm !!}
+                        </div>
                     </div>
 
                     {{-- Services Section --}}

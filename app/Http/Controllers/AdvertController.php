@@ -24,12 +24,10 @@ class AdvertController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
-
-        $advertList = view('dashboard.adverts.advertList', compact('clients'));
-        if($request->ajax()) {
+        $advertList = view('dashboard.adverts.advertList');
+        if(request()->ajax()) {
             return $advertList;
         } else {
             return view('dashboard', compact('advertList'));
@@ -42,8 +40,14 @@ class AdvertController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('dashboard.adverts.advertEdit');
+    {   
+        $advertForm = view('dashboard.adverts.advertEdit');
+        if(request()->ajax()) {
+            return $advertForm;
+        } else {
+            $advertList = view('dashboard.adverts.advertList');
+            return view('dashboard', compact('advertList', 'advertForm'));
+        }
     }
 
     /**
@@ -56,6 +60,8 @@ class AdvertController extends Controller
     {
         $advert = new Advert;
         $advert->fill($request->all());
+
+        $this->pro
 
         if($request->hasFile('image') && $request->file('image')->isValid()) {
             $file = $request->file('image');
@@ -83,7 +89,7 @@ class AdvertController extends Controller
 
         $advert->save();
 
-        return redirect('/?banners&client_id=' . $request->get('client_id') . '#advertDiv');
+        return redirect()->back()->with('success', 'The Advert has been added');
     }
 
     /**
