@@ -31,6 +31,7 @@ elixir(function(mix) {
 			'plugins/nprogress.js',
 			'plugins/jquery.smooth-scroll.js',
 			'plugins/jquery.growl.js',
+			'plugins/bootbox.min.js',
 			'app.js'
 		], 'public/build/js/app.js')
 		.version(['build/css/app.css', 'build/js/app.js']);

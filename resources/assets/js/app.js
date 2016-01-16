@@ -4,14 +4,33 @@
 */
 "use strict";
 
-var attachmentCounter = 1;
+/**
+ *
+ * Set default variables.
+ *
+ */
 
+var attachmentCounter = 1;
 var validateInit = [];
+
+
+/**
+ *
+ * Detect touch devices.
+ *
+ */
 
 function is_touch_device() {
   return 'ontouchstart' in window        // works on most browsers 
       || navigator.maxTouchPoints;       // works on IE10/11 and Surface
 };
+
+
+/**
+ *
+ * Adapt menu for mobiles.
+ *
+ */
 
 function adaptMenu() {
     if ($(window).width() < 720) {
@@ -24,6 +43,13 @@ function adaptMenu() {
         $('.main-nav').removeClass('btn-block');
     }
 }
+
+
+/**
+ *
+ * Start and stop page progress.
+ *
+ */
 
 function startProgress() {
     // Start nprogress
@@ -40,6 +66,13 @@ function stopProgress() {
     // Remove the loading class
     $('body').removeClass('loading');
 }
+
+
+/**
+ *
+ * Toggle Page Function.
+ *
+ */
 
 function togglePage($element, $ajaxUri, $slug) {
     if ($element.is(":visible") == true) {
@@ -69,7 +102,12 @@ function togglePage($element, $ajaxUri, $slug) {
     }
 }
 
-// Validate
+
+/**
+ *
+ * Set up validation function.
+ *
+ */
 function setUpValidation() {
     var index;
     for (index = 0; index < validateInit.length; ++index) {
@@ -77,19 +115,93 @@ function setUpValidation() {
     }
 }
 
-// Adapt the menu so mobile devices
+
+/**
+ *
+ * Ticket Creation Toggle Function.
+ *
+ */
+function toggleFormFields(typeValue){
+    switch(typeValue) {
+        case '1':
+            $('#publishedAtDiv').addClass('hidden');
+            $('#authorDiv').addClass('hidden');
+            $('#categoriesDiv').addClass('hidden');
+            $('#artitcleTitleDiv').addClass('hidden');
+            $('#scheduleDiv').addClass('hidden');
+            $('#content').attr('placeholder', 'Amend Description e.g. Please put the new attached logo within my homepage associates section...');
+            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. Update homepage image');
+            break;
+        case '2':
+            $('#publishedAtDiv').removeClass('hidden');
+            $('#authorDiv').removeClass('hidden');
+            $('#categoriesDiv').removeClass('hidden');
+            $('#artitcleTitleDiv').removeClass('hidden');
+            $('#scheduleDiv').addClass('hidden');
+            $('#content').attr('placeholder', 'Notes (For content ideally please submit a word or text doc. below)');
+            $('.form-title-input').attr('placeholder', 'Title of content e.g. My blog post');
+            break;
+        case '3':
+            $('#publishedAtDiv').addClass('hidden');
+            $('#authorDiv').addClass('hidden');
+            $('#categoriesDiv').addClass('hidden');
+            $('#artitcleTitleDiv').addClass('hidden');
+            $('#scheduleDiv').removeClass('hidden');
+            $('#content').attr('placeholder', 'Your Text');
+            $('.form-title-input').attr('placeholder', 'Title');
+            break;
+        case '4':
+            $('#publishedAtDiv').addClass('hidden');
+            $('#authorDiv').addClass('hidden');
+            $('#categoriesDiv').addClass('hidden');
+            $('#artitcleTitleDiv').addClass('hidden');
+            $('#scheduleDiv').addClass('hidden');
+            $('#content').attr('placeholder', 'How can we help...');
+            $('.form-title-input').attr('placeholder', 'Title');
+            break;
+        default:
+            break;
+    }
+}
+
+
+/**
+ *
+ * Adapt the menu so mobile devices.
+ *
+ */
+
 $(window).resize(function () {
     adaptMenu();
 });
 adaptMenu();
 
+/**
+ *
+ * Document Ready Functions.
+ *
+ */
+
 $(document).ready(function () {
-    // Set up the csrf token for all ajax requests
+
+    /**
+     *
+     * Set up the csrf token for all ajax requests.
+     *
+     */
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+
+    /**
+     *
+     * Set up validation for any existing content.
+     *
+     */
 
     setUpValidation();
 
@@ -163,6 +275,7 @@ $(document).ready(function () {
 
                     // Scroll to the form
                     $.smoothScroll({
+                        offset: -100,
                         scrollTarget: '#clientFormDiv'
                     });
                 }
@@ -171,258 +284,114 @@ $(document).ready(function () {
             e.preventDefault();
         });
 
-        // When choosing a client show the adverts associated with them
-        $('body').on('change', '#banner-customer-select', function (e) {
-            var clientId = $(this).val();
-            if(clientId != '') {
-                startProgress();
-                $('.clientValue').val(clientId);
-                var loadURI = '/adverts/' + clientId;
-                window.history.pushState("", "", loadURI);
-                $.ajax({
-                    type: 'GET',
-                    url: loadURI,
-                    success: function (response) {
-                        $("#banner-table-div").html(response);
-                        $("#banner-table-div").slideDown();
-                        stopProgress();
-                    }
-                });
-            } else {
-                $('#banner-table-div').html('');
-                $('#banner-table-div').slideUp();
-            }
+        // All Form Toggle Buttons
+        $('body').on('click', '.form-toggler', function (e) {
+            var $uri = $(this).data('uri');
+            var $target = $(this).data('target');
+            var $selecttarget = $(this).data('selecttarget');
 
-            e.preventDefault();
-        });
-
-        $('body').on('click', '.bannerDelete', function (e) {
-            if (window.confirm('Are you sure you want to delete this advert permanently?')) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/adverts/' + $(this).attr('bannerId'),
-                    success: function (response) {
-                        var res = $.parseJSON(response);
-                        $('#banner-row-' + res.id).remove();
-                        $('#banner-form-div').html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
-                    }
-                });
-            }
-
-            e.preventDefault();
-        });
-
-        // When you click the add banner button load in the form
-        $('body').on('click', '.bannerFormToggler', function (e) {
             startProgress();
+
+            window.history.pushState("", "", $uri);
+
             $.ajax({
                 type: 'GET',
-                url: '/adverts/create',
+                url: $uri,
                 success: function (response) {
-                    $("#banner-form-div").html(response);
-                    $("#banner-form-div").slideDown();
+                    $($target).html(response);
+                    $($target).slideDown();
 
-                    $('.clientValue').val($('#banner-customer-select').val());
+                    $('.clientValue').val($($selecttarget).val());
                     setUpValidation();
                     stopProgress();
+
+                    // Scroll to the form
+                    $.smoothScroll({
+                        offset: -100,
+                        scrollTarget: $target
+                    });
                 }
             });
             e.preventDefault();
         });
 
-        $('#clients-div').on('click', '.clientDelete', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+        // All delete buttons
+        $('body').on('click', '.ajax-delete', function (e) {
+            var $type = $(this).data('type');
+            var $contentid = $(this).data('contentid');
+            var $uri = $(this).data('uri') + $contentid;
+            var $delrow = $(this).data('delrow');
 
-            if (window.confirm("Are you sure you want to delete this user permanently?")) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/clients/' + $(this).attr('clientId'),
-                    success: function (response) {
-                        var res = $.parseJSON(response);
-                        $("#client-row-" + res.id).remove();
-                        $("#clientFormDiv").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
-                    }
-                });
-            }
+            bootbox.confirm('Are you sure you want to delete this ' + $type + ' permanently?', function(result) {
+                if(result == true) {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: $uri,
+                        success: function (response) {
+                            var res = $.parseJSON(response);
+                            $($delrow).remove();
+                            $.growl.notice({ title: "Success", message: res.success});
+                        }
+                    });
+                }
+            }); 
+
+            e.preventDefault();
+            e.stopPropagation();
         });
 
-        // When choosing a client show the banners associated with them
-        $('body').on('change', '#service-customer-select', function (e) {
-            var clientId = $(this).val();
-            if(clientId != '') {
+        // All Client Dropdowns
+        $('body').on('change', '.ajax-dropdown', function (e) {
+            var $clientid = $(this).val();
+            var $target = $(this).data('target');
+            var $uri = $(this).data('uri') + $clientid;
+
+            // Set global client ID
+            window.history.pushState("", "", $uri);
+
+            if($clientid != '') {
                 startProgress();
-                $('.clientValue').val(clientId);
+                $('.clientValue').val($clientid);
                 $.ajax({
                     type: 'GET',
-                    url: '/services/' + clientId,
+                    url: $uri,
                     success: function (response) {
-                        $("#services-table-div").html(response);
-                        $("#services-table-div").slideDown();
+                        $($target).html(response);
+                        $($target).slideDown();
                         stopProgress();
                     }
                 });
             } else {
-                $('#services-table-div').html('');
-                $('#services-table-div').slideUp();
+                $($target).html('');
+                $($target).slideUp();
             }
 
             e.preventDefault();
-        });
-
-        // When you click the add service button load in the form
-        $('body').on('click', '.services-form-toggler', function (e) {
-            startProgress();
-            $.ajax({
-                type: 'GET',
-                url: '/services/create',
-                success: function (response) {
-                    $("#services-form-div").html(response);
-                    $("#services-form-div").slideDown();
-
-                    $('.clientValue').val($('#service-customer-select').val());
-                    setUpValidation();
-                    stopProgress();
-                }
-            });
-            e.preventDefault();
-        });
-
-        $('#services-table-div').on('click', '.serviceDelete', function (event) {
-            event.preventDefault();
-            if (window.confirm("Are you sure you want to delete this document permanently?")) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/services/' + $(this).attr('serviceId'),
-                    success: function (response) {
-                        var res = $.parseJSON(response);
-                        $("#service-row-" + res.id).remove();
-                        $("#services-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
-                    }
-                });
-            }
-        });
-
-        // When choosing a client show the seo documents associated with them
-        $('body').on('change', '#seo-customer-select', function (e) {
-            var clientId = $(this).val();
-            if(clientId != '') {
-                startProgress();
-                $('.clientValue').val($('#seo-customer-select').val());
-                $.ajax({
-                    type: 'GET',
-                    url: '/documents/seo/' + clientId,
-                    success: function (response) {
-                        $("#seo-table-div").html(response);
-                        $("#seo-table-div").slideDown();
-                        stopProgress();
-                    }
-                });
-            } else {
-                $('#seo-table-div').html('');
-                $('#seo-table-div').slideUp();
-            }
-
-            e.preventDefault();
-        });
-
-        // When you click the add seo button load in the form
-        $('body').on('click', '.seo-form-toggler', function (e) {
-            startProgress();
-            $.ajax({
-                type: 'GET',
-                url: '/documents/seo/create',
-                success: function (response) {
-                    $("#seo-form-div").html(response);
-                    $("#seo-form-div").slideDown();
-
-                    $('.clientValue').val($('#seo-customer-select').val());
-                    setUpValidation();
-                    stopProgress();
-                }
-            });
-            e.preventDefault();
-        });
-
-        $('body').on('click', '.seoDelete', function (e) {
-            if (window.confirm("Are you sure you want to delete this document permanently?")) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/documents/seo/' + $(this).attr('fileId'),
-                    success: function (response) {
-                        var res = $.parseJSON(response);
-                        $("#seo-row-" + res.id).remove();
-                        $("#seo-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
-                    }
-                });
-            }
-            e.preventDefault();
-        });
-
-        $('body').on('click', '.infoDelete', function (e) {
-            if (window.confirm("Are you sure you want to delete this document permanently?")) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/documents/info/' + $(this).attr('fileId'),
-                    success: function (response) {
-                        var res = $.parseJSON(response);
-                        $("#info-row-" + res.id).remove();
-                        $("#info-form-div").html('<div class="col-md-12"><div class="alert alert-success">' + res.success + '</div></div>');
-                    }
-                });
-            }
-            e.preventDefault();
-        });
-
-        // When choosing a client show the info documents associated with them
-        $('body').on('change', '#info-customer-select', function (e) {
-            var clientId = $(this).val();
-            if(clientId != '') {
-                startProgress();
-                $('.clientValue').val(clientId);
-                $.ajax({
-                    type: 'GET',
-                    url: '/documents/info/' + clientId,
-                    success: function (response) {
-                        $("#info-table-div").html(response);
-                        $("#info-table-div").slideDown();
-                        stopProgress();
-                    }
-                });
-            } else {
-                $('#info-table-div').html('');
-                $('#info-table-div').slideUp();
-            }
-            e.preventDefault();
-        });
-
-        // When you click the add info button load in the form
-        $('body').on('click', '.info-form-toggler', function (e) {
-            startProgress();
-            $.ajax({
-                type: 'GET',
-                url: '/documents/info/create',
-                success: function (response) {
-                    $("#info-form-div").html(response);
-                    $("#info-form-div").slideDown();
-
-                    $('.clientValue').val($('#info-customer-select').val());
-                    setUpValidation();
-                    stopProgress();
-                }
-            });
-            e.preventDefault();
+            e.stopPropagation();
         });
 
         $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
     }
 
-    // Ticket creation
+
+    /**
+     *
+     * Ticket Creation Toggle.
+     *
+     */
+
     $('.type').on('change', function(){
         toggleFormFields($('.type:checked').val());
     });
 
     toggleFormFields($('.type:checked').val());
+
+
+    /**
+     *
+     * Sortable tables.
+     *
+     */
 
     $('.sorted_table').sortable({
         containerSelector: 'table',
@@ -455,7 +424,12 @@ $(document).ready(function () {
         }
     });
 
-    // File Input
+
+    /**
+     *
+     * File Inputs.
+     *
+     */
     var fileInputCounter = 1;
     function addInput() {
         if($('.file-view-template').length) {
@@ -525,45 +499,3 @@ $(document).ready(function () {
     });
 });
 
-function toggleFormFields(typeValue){
-    switch(typeValue) {
-        case '1':
-            $('#publishedAtDiv').addClass('hidden');
-            $('#authorDiv').addClass('hidden');
-            $('#categoriesDiv').addClass('hidden');
-            $('#artitcleTitleDiv').addClass('hidden');
-            $('#scheduleDiv').addClass('hidden');
-            $('#content').attr('placeholder', 'Amend Description e.g. Please put the new attached logo within my homepage associates section...');
-            $('.form-title-input').attr('placeholder', 'Title of amend required e.g. Update homepage image');
-            break;
-        case '2':
-            $('#publishedAtDiv').removeClass('hidden');
-            $('#authorDiv').removeClass('hidden');
-            $('#categoriesDiv').removeClass('hidden');
-            $('#artitcleTitleDiv').removeClass('hidden');
-            $('#scheduleDiv').addClass('hidden');
-            $('#content').attr('placeholder', 'Notes (For content ideally please submit a word or text doc. below)');
-            $('.form-title-input').attr('placeholder', 'Title of content e.g. My blog post');
-            break;
-        case '3':
-            $('#publishedAtDiv').addClass('hidden');
-            $('#authorDiv').addClass('hidden');
-            $('#categoriesDiv').addClass('hidden');
-            $('#artitcleTitleDiv').addClass('hidden');
-            $('#scheduleDiv').removeClass('hidden');
-            $('#content').attr('placeholder', 'Your Text');
-            $('.form-title-input').attr('placeholder', 'Title');
-            break;
-        case '4':
-            $('#publishedAtDiv').addClass('hidden');
-            $('#authorDiv').addClass('hidden');
-            $('#categoriesDiv').addClass('hidden');
-            $('#artitcleTitleDiv').addClass('hidden');
-            $('#scheduleDiv').addClass('hidden');
-            $('#content').attr('placeholder', 'How can we help...');
-            $('.form-title-input').attr('placeholder', 'Title');
-            break;
-        default:
-            break;
-    }
-}

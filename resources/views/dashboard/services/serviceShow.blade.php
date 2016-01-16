@@ -16,7 +16,9 @@
 	                <td class="td-adjust">{{ $service->heading }}</td>
 	                <td class="td-adjust">{{ $client->email }}</td>
 	                <td class="td-adjust"><a href="{{ $service->link }}">{{ $service->link }}</a></td>
-					<td class="td-adjust text-center"><a href="#" class="serviceDelete icon-delete" serviceId="{{ $service->id }}"></a></td>
+					<td class="td-adjust text-center">
+						<a href="/services/delete" class="ajax-delete icon-delete" data-type="service" data-contentid="{{ $service->id }}" data-uri="/services/" data-delrow="#service-row-{{ $service->id }}"></a>
+					</td>
 	            </tr>
 	    	@endforeach
 	    </tbody>

@@ -25,7 +25,9 @@
                 <td class="td-adjust hidden-xs" id="client-email-{{ $client->id }}">{{ $client->email }}</td>
                 <td class="td-adjust" id="client-name-{{ $client->id }}">{{ $client->name }}</td>
                 <td class="td-adjust hidden-sm hidden-xs"></td>
-                <td><a href="#" class="clientDelete icon-delete" clientId="{{ $client->id }}"></a></td>
+                <td>
+                    <a href="/clients/delete" class="ajax-delete icon-delete" data-type="client" data-contentid="{{ $client->id }}" data-uri="/clients/" data-delrow="#client-row-{{ $client->id }}"></a>
+                </td>
             </tr>
         @endforeach
     </tbody>

@@ -34,4 +34,11 @@ class AdvertCreateRequest extends Request
             'name' => 'required|max:255',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'client_id.required' => 'Please select a client first!'
+        ];
+    }
 }
