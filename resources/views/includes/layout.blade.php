@@ -7,7 +7,7 @@
         <title>@yield('sectionTitle') | Target Ink</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Montserrat" rel="stylesheet" type="text/css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
+        <link rel="stylesheet" href="{{ elixir('build/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -41,7 +41,7 @@
         <div class="container">
             @yield('content')
         </div>
-        <script src="{{ elixir('js/all.js') }}"></script>
+        <script src="{{ elixir('build/js/app.js') }}"></script>
         <script src="/js/validation.js?{{ config('app.hash') }}"></script>
         @yield('scripts')
     </body>

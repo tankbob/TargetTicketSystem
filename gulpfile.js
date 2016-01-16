@@ -18,8 +18,9 @@ elixir(function(mix) {
 	return mix
 		.styles([
 			'plugins/bootstrap.min.css',
-			'all.css'
-		])
+			'plugins/jquery.growl.css',
+			'app.css'
+		], 'public/build/css/app.css')
 		.scripts([
 			'plugins/jquery-1.11.3.min.js',
 			'plugins/bootstrap.min.js',
@@ -29,7 +30,8 @@ elixir(function(mix) {
 			'plugins/additional-methods.min.js',
 			'plugins/nprogress.js',
 			'plugins/jquery.smooth-scroll.js',
-			'all.js'
-		])
-		.version(['css/all.css', 'js/all.js']);
+			'plugins/jquery.growl.js',
+			'app.js'
+		], 'public/build/js/app.js')
+		.version(['build/css/app.css', 'build/js/app.js']);
 });
