@@ -61,8 +61,6 @@ class AdvertController extends Controller
         $advert = new Advert;
         $advert->fill($request->all());
 
-        $this->pro
-
         if($request->hasFile('image') && $request->file('image')->isValid()) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
