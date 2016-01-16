@@ -42,7 +42,9 @@
             @yield('content')
         </div>
         <script src="{{ elixir('build/js/app.js') }}"></script>
-        <script src="/js/validation.js?{{ config('app.hash') }}"></script>
-        @yield('scripts')
+        @if(auth()->check())
+            <script src="/js/validation.js?{{ config('app.hash') }}"></script>
+            @yield('scripts')
+        @endif
     </body>
 </html>
