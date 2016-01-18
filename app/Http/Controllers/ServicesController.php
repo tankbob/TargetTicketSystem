@@ -3,7 +3,6 @@
 namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
@@ -13,13 +12,12 @@ use Storage;
 
 class ServicesController extends Controller
 {
-   //should be admin
+    // Should be admin
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('admin');
     }
-
 
     /**
      * Display a listing of the resource.
@@ -28,11 +26,12 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        $clients = null;
-        if(auth()->user()->admin) {
-            $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
+        $serviceList = view('dashboard.services.serviceList');
+        if(request()->ajax()) {
+            return $serviceList;
+        } else {
+            return view('dashboard', compact('serviceList'));
         }
-        return view('dashboard.services.serviceList', compact('clients'));
     }
 
     /**
@@ -42,7 +41,13 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        return view('dashboard.services.serviceEdit');
+        $serviceForm = view('dashboard.services.serviceEdit');
+        if(request()->ajax()) {
+            return $serviceForm;
+        } else {
+            $serviceList = view('dashboard.services.serviceList');
+            return view('dashboard', compact('serviceList', 'serviceForm'));
+        }
     }
 
     /**
@@ -105,7 +110,7 @@ class ServicesController extends Controller
         }
 
         $service->save();
-        return redirect('/?services&client_id=' . $request->get('client_id') . '#services-div');
+        return redirect()->back()->with('success', 'The Service has been added');
     }
 
     /**
@@ -120,7 +125,16 @@ class ServicesController extends Controller
         if(auth()->user()->admin && $id) {
             $client = User::with('services')->find($id);
         }
-        return view('dashboard.services.serviceShow', compact('client'));
+
+        $serviceTable = view('dashboard.services.serviceShow', compact('client'));
+        if(request()->ajax()) {
+            return $serviceTable;
+        } else {
+            // Always show the form for direct hits
+            $serviceForm = view('dashboard.services.serviceEdit');
+            $serviceList = view('dashboard.services.serviceList');
+            return view('dashboard', compact('serviceList', 'serviceTable', 'serviceForm'));
+        }
     }
 
     /**

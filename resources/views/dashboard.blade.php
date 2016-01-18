@@ -57,14 +57,14 @@
                         <p>Click here to manage adverts displayed to clients.</p>
                     </a>
                     <div class="clearfix banners-container">
-                        <div class="col-md-12 ajaxable" id="banners-div" @if(request()->segment(1) != 'adverts') style="display:none;" @endif>
-                            {!! @$advertList !!}
+                        <div class="col-md-12 ajaxable" id="banners-div" @if(!isset($advertList)) style="display:none;" @endif>
+                            @if(isset($advertList)){!! $advertList !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="banner-table-div">
-                            {!! @$advertTable !!}
+                        <div class="col-md-12 ajaxable" id="banner-table-div" @if(!isset($advertTable)) style="display:none;" @endif>
+                            @if(isset($advertTable)){!! $advertTable !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="banner-form-div">
-                           {!! @$advertForm !!}
+                        <div class="col-md-12 ajaxable" id="banner-form-div" @if(!isset($advertForm)) style="display:none;" @endif>
+                            @if(isset($advertForm)){!! $advertForm !!}@endif
                         </div>
                     </div>
 
@@ -74,19 +74,15 @@
                         <p>This icon alows you to add products to your list of links on your clients landing pages - products appear on all client pages.</p>
                     </a>
                     <div class="clearfix services-container">
-                        <div class="col-md-12 ajaxable" id="services-div" @if(!isset($_GET['services'])) style="display:none;" @endif>
-                            @if(isset($_GET['services']))
-                            <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
-                            {!! $c->index() !!}
-                            @endif
+                        <div class="col-md-12 ajaxable" id="services-div" @if(!isset($serviceList)) style="display:none;" @endif>
+                            @if(isset($serviceList)){!! $serviceList !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="services-table-div">
-                            @if(isset($_GET['services']) && request()->input('client_id'))
-                            <?php $c = new TargetInk\Http\Controllers\ServicesController; ?>
-                            {!! $c->show(request()->input('client_id')) !!}
-                            @endif
+                        <div class="col-md-12 ajaxable" id="services-table-div" @if(!isset($serviceTable)) style="display:none;" @endif>
+                            @if(isset($serviceTable)){!! $serviceTable !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="services-form-div" style="display:none;"></div>
+                        <div class="col-md-12 ajaxable" id="services-form-div" @if(!isset($serviceForm)) style="display:none;" @endif>
+                            @if(isset($serviceForm)){!! $serviceForm !!}@endif
+                        </div>
                     </div>
 
                     {{-- SEO Section --}}
@@ -95,19 +91,15 @@
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
                     <div class="clearfix services-container">
-                        <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($_GET['seo'])) style="display:none;" @endif>
-                            @if(isset($_GET['seo']))
-                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
-                            {!! $c->index('seo') !!}
-                            @endif
+                        <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($documentList) && request()->segment(2) == 'seo') style="display:none;" @endif>
+                            @if(isset($documentList) && request()->segment(2) == 'seo'){!! $documentList !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="seo-table-div">
-                            @if(isset($_GET['seo']) && request()->input('client_id'))
-                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
-                            {!! $c->show('seo', request()->input('client_id')) !!}
-                            @endif
+                        <div class="col-md-12 ajaxable" id="seo-table-div" @if(!isset($documentTable) && request()->segment(2) == 'seo') style="display:none;" @endif>
+                            @if(isset($documentTable) && request()->segment(2) == 'seo'){!! $documentTable !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="seo-form-div" style="display:none;"></div>
+                        <div class="col-md-12 ajaxable" id="seo-form-div" @if(!isset($documentForm) && request()->segment(2) == 'seo') style="display:none;" @endif>
+                            @if(isset($documentForm) && request()->segment(2) == 'seo'){!! $documentForm !!}@endif
+                        </div>
                     </div>
 
                     {{-- Information Section --}}
@@ -116,19 +108,15 @@
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
                     <div class="clearfix services-container">
-                        <div class="col-md-12 ajaxable" id="info-div" @if(!isset($_GET['info'])) style="display:none;" @endif>
-                            @if(isset($_GET['info']))   
-                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
-                            {!! $c->index('info') !!}
-                            @endif
+                        <div class="col-md-12 ajaxable" id="info-div" @if(!isset($documentList) && request()->segment(2) == 'info') style="display:none;" @endif>
+                            @if(isset($documentList) && request()->segment(2) == 'info'){!! $documentList !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="info-table-div">
-                            @if(isset($_GET['info']) && request()->input('client_id'))
-                            <?php $c = new TargetInk\Http\Controllers\AdminDocumentsController; ?>
-                            {!! $c->show('info', request()->input('client_id')) !!}
-                            @endif
+                        <div class="col-md-12 ajaxable" id="info-table-div" @if(!isset($infoDocumentTable) && request()->segment(2) == 'info') style="display:none;" @endif>
+                            @if(isset($documentTable) && request()->segment(2) == 'info'){!! $documentTable !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="info-form-div" style="display:none;"></div>
+                        <div class="col-md-12 ajaxable" id="info-form-div" @if(!isset($infoDocumentForm) && request()->segment(2) == 'info') style="display:none;" @endif>
+                            @if(isset($documentForm) && request()->segment(2) == 'info'){!! $documentForm !!}@endif
+                        </div>
                     </div>
                 @else
                     <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">

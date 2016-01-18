@@ -241,13 +241,13 @@ $(document).ready(function () {
 
         // Seo
         $('.btn-seo-reports-admin').on('click', function (e) {
-            togglePage($("#seo-div"), '/documents/seo', 'seo');
+            togglePage($("#seo-div"), '/documents/seo', 'documents/seo');
             e.preventDefault();
         });
 
         // Info
         $('.btn-information-documents-admin').on('click', function (e) {
-            togglePage($("#info-div"), '/documents/info', 'info');
+            togglePage($("#info-div"), '/documents/info', 'documents/info');
             e.preventDefault();
         });
 
