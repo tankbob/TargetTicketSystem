@@ -102,7 +102,16 @@ class AdvertController extends Controller
         if(auth()->user()->admin && $id) {
             $client = User::with('adverts')->find($id);
         }
-        return view('dashboard.adverts.advertShow', compact('client'));
+
+        $advertTable = view('dashboard.adverts.advertShow', compact('client'));
+        if(request()->ajax()) {
+            return $advertTable;
+        } else {
+            // Always show the form for direct hits
+            $advertForm = view('dashboard.adverts.advertEdit');
+            $advertList = view('dashboard.adverts.advertList');
+            return view('dashboard', compact('advertList', 'advertTable', 'advertForm'));
+        }
     }
 
     /**
