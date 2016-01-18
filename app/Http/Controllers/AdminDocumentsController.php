@@ -89,7 +89,7 @@ class AdminDocumentsController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('file')->getRealPath()));
 
-            $fileobj->filepath = config('app.asset_url') . $filename;
+            $fileobj->filepath = $filename;
         }
 
         $client = User::find($fileobj->client_id);

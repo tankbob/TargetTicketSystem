@@ -90,7 +90,6 @@ class ClientsController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('company_logo')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
             $client->company_logo = $filename;
         }
 
@@ -165,7 +164,6 @@ class ClientsController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('company_logo')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
             $client->company_logo = $filename;
         }
 

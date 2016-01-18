@@ -81,7 +81,6 @@ class AdvertController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('image')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
             $advert->image = $filename;
         }
 

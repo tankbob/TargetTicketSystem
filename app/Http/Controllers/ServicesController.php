@@ -81,7 +81,6 @@ class ServicesController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('icon')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
             $service->icon = $filename;
         }
 
@@ -105,7 +104,6 @@ class ServicesController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('icon_rollover')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
             $service->icon_rollover = $filename;
         }
 
