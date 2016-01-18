@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
+use TargetInk\Http\Requests\ServiceCreateRequest;
+
 use TargetInk\User;
 use TargetInk\Service;
 use Storage;
@@ -56,7 +58,7 @@ class ServicesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServiceCreateRequest $request)
     {
         $service = new Service;
         $service->fill($request->all());
