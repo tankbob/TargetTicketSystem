@@ -67,7 +67,7 @@ return [
             'key'    => env('AWS_KEY', ''),
             'secret' => env('AWS_SECRET', ''),
             'region' => 'eu-west-1',
-            'bucket' => 'target-ink-system',
+            'bucket' => env('AWS_BUCKET', 'target-ink-system-testing'),
         ],
 
         'rackspace' => [
