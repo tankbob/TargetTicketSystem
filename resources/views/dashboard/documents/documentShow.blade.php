@@ -1,4 +1,4 @@
-@if(count($client->files))
+@if(($type == 'seo' && count($client->seoFiles()->get())) || ($type == 'info' && count($client->infoFiles()->get())))
 	<table class="table ticket-table" id="document-table">
 		 <thead>
 	        <th>Title</th>
