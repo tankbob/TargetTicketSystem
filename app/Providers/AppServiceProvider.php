@@ -16,14 +16,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $init = ['' => 'Choose a Client...'];
-        $this->clientDropList = \TargetInk\User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
+        if(!app()->runningInConsole()) {
+            $init = ['' => 'Choose a Client...'];
+            $this->clientDropList = \TargetInk\User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
 
-        if($this->clientDropList) {
-            $init = $init + $this->clientDropList;
+            if($this->clientDropList) {
+                $init = $init + $this->clientDropList;
+            }
+
+            view()->share('clientDropList', $init);
         }
-
-        view()->share('clientDropList', $init);
     }
 
     /**
