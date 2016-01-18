@@ -28,7 +28,7 @@ class DocumentInfoCreateRequest extends Request
     public function rules()
     {
         return [
-            'client_id' => 'required|exists:users',
+            'client_id' => 'required|exists:users,id',
             'file' => 'mimes:pdf,doc,docx,doc,csv,jpeg,jpg,gif,png,txt',
             'filename' => 'required|max:255',
         ];

@@ -28,7 +28,7 @@ class ServiceCreateRequest extends Request
     public function rules()
     {
         return [
-            'client_id' => 'required|exists:users',
+            'client_id' => 'required|exists:users,id',
             'icon' => 'required|image',
             'icon_rollover' => 'required|image',
             'heading' => 'required|max:255',

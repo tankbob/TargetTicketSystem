@@ -28,7 +28,7 @@ class AdvertUpdateRequest extends Request
     public function rules()
     {
         return [
-            'client_id' => 'required|exists:users',
+            'client_id' => 'required|exists:users,id',
             'image' => 'required|image',
             'url' => 'required|url|max:255',
             'name' => 'required|max:255',
