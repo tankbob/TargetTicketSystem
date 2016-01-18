@@ -3,10 +3,10 @@
 namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use TargetInk\Http\Requests;
+use TargetInk\Http\Requests\DocumentSeoCreateRequest;
+use TargetInk\Http\Requests\DocumentSeoDeleteRequest;
 use TargetInk\Http\Controllers\Controller;
-
 use TargetInk\User;
 use TargetInk\File;
 use Storage;
@@ -28,11 +28,12 @@ class AdminDocumentsController extends Controller
      */
     public function index($type)
     {
-        $clients = null;
-        if(auth()->user()->admin) {
-            $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
+        $documentList = view('dashboard.documents.documentList', compact('type'));
+        if(request()->ajax()) {
+            return $documentList;
+        } else {
+            return view('dashboard', compact('documentList'));
         }
-        return view('dashboard.documents.documentList', compact('clients', 'type'));
     }
 
     /**
@@ -42,7 +43,13 @@ class AdminDocumentsController extends Controller
      */
     public function create($type)
     {
-        return view('dashboard.documents.documentEdit', compact('type'));
+        $documentForm = view('dashboard.documents.documentEdit', compact('type'));
+        if(request()->ajax()) {
+            return $documentForm;
+        } else {
+            $documentList = view('dashboard.documents.documentList', compact('type'));
+            return view('dashboard', compact('documentList', 'documentForm'));
+        }
     }
 
     /**
@@ -51,7 +58,7 @@ class AdminDocumentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($type, Request $request)
+    public function store(DocumentSeoCreateRequest $request, $type)
     {
         $fileobj = new File;
         $fileobj->fill($request->all());
@@ -82,7 +89,7 @@ class AdminDocumentsController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('file')->getRealPath()));
 
-            $fileobj->filepath = config('app.asset_url') . $filename;
+            $fileobj->filepath = $filename;
         }
 
         $client = User::find($fileobj->client_id);
@@ -93,7 +100,7 @@ class AdminDocumentsController extends Controller
         });
 
         $fileobj->save();
-        return redirect('/?' . $type . '&client_id=' . $request->get('client_id') . '#' . $type . '-div');
+        return redirect()->back()->with('success', 'The ' . ucfirst($type) . ' Document has been added');
     }
 
     /**
@@ -105,12 +112,19 @@ class AdminDocumentsController extends Controller
     public function show($type, $id)
     {
         $client = null;
-
         if(auth()->user()->admin && $id) {
             $client = User::find($id);
         }
 
-        return view('dashboard.documents.documentShow', compact('client', 'type'));
+        $documentTable = view('dashboard.documents.documentShow', compact('client', 'type'));
+        if(request()->ajax()) {
+            return $documentTable;
+        } else {
+            // Always show the form for direct hits
+            $documentForm = view('dashboard.documents.documentEdit', compact('type'));
+            $documentList = view('dashboard.documents.documentList', compact('type'));
+            return view('dashboard', compact('documentList', 'documentTable', 'documentForm'));
+        }
     }
 
     /**
@@ -119,7 +133,7 @@ class AdminDocumentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($type, $id)
+    public function destroy(DocumentSeoDeleteRequest $request, $type, $id)
     {
         $file = File::find($id);
         $file->delete();

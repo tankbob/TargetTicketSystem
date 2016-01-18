@@ -1,4 +1,4 @@
-@if(count($client->files))
+@if(($type == 'seo' && count($client->seoFiles()->get())) || ($type == 'info' && count($client->infoFiles()->get())))
 	<table class="table ticket-table" id="document-table">
 		 <thead>
 	        <th>Title</th>
@@ -13,7 +13,9 @@
 	                    <td class="td-adjust">{{ $file->filename }}</td>
 	                    <td class="td-adjust">{{ $client->company }}</td>
 	                    <td class="td-adjust hidden-sm hidden-xs">{{ date('d/m/y', strtotime($file->created_at)) }}</td>
-	                    <td class="td-adjust text-center"><a href="#" class="seoDelete icon-delete" fileId="{{ $file->id }}"></a></td>
+	                    <td class="td-adjust text-center">
+							<a href="/document/seo/delete" class="ajax-delete icon-delete" data-type="document" data-contentid="{{ $file->id }}" data-uri="/documents/seo/" data-delrow="#seo-row-{{ $file->id }}"></a>
+						</td>
 	                </tr>
 	        	@endforeach
 	        @else
@@ -22,7 +24,9 @@
 	                    <td class="td-adjust">{{ $file->filename }}</td>
 	                    <td class="td-adjust">{{ $client->company }}</td>
 	                    <td class="td-adjust hidden-sm hidden-xs">{{ date('d/m/y', strtotime($file->created_at)) }}</td>
-	                    <td class="td-adjust text-center"><a href="#" class="infoDelete icon-delete" fileId="{{ $file->id }}"></a></td>
+	                    <td class="td-adjust text-center">
+							<a href="/document/info/delete" class="ajax-delete icon-delete" data-type="document" data-contentid="{{ $file->id }}" data-uri="/documents/info/" data-delrow="#info-row-{{ $file->id }}"></a>
+						</td>
 	                </tr>
 	            @endforeach
 	        @endif

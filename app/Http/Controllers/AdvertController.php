@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 
+use TargetInk\Http\Requests\AdvertCreateRequest;
+
 use TargetInk\User;
 use TargetInk\Advert;
 use Storage;
@@ -26,11 +28,12 @@ class AdvertController extends Controller
      */
     public function index()
     {
-        $clients = null;
-        if(auth()->user()->admin) {
-            $clients = User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
+        $advertList = view('dashboard.adverts.advertList');
+        if(request()->ajax()) {
+            return $advertList;
+        } else {
+            return view('dashboard', compact('advertList'));
         }
-        return view('dashboard.adverts.advertList', compact('clients'));
     }
 
     /**
@@ -39,8 +42,14 @@ class AdvertController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('dashboard.adverts.advertEdit');
+    {   
+        $advertForm = view('dashboard.adverts.advertEdit');
+        if(request()->ajax()) {
+            return $advertForm;
+        } else {
+            $advertList = view('dashboard.adverts.advertList');
+            return view('dashboard', compact('advertList', 'advertForm'));
+        }
     }
 
     /**
@@ -49,7 +58,7 @@ class AdvertController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdvertCreateRequest $request)
     {
         $advert = new Advert;
         $advert->fill($request->all());
@@ -74,13 +83,12 @@ class AdvertController extends Controller
 
             Storage::disk('s3')->put($filename, file_get_contents($request->file('image')->getRealPath()));
 
-            $file->filepath = config('app.asset_url') . $filename;
             $advert->image = $filename;
         }
 
         $advert->save();
 
-        return redirect('/?banners&client_id=' . $request->get('client_id') . '#advertDiv');
+        return redirect()->back()->with('success', 'The Advert has been added');
     }
 
     /**
@@ -95,7 +103,16 @@ class AdvertController extends Controller
         if(auth()->user()->admin && $id) {
             $client = User::with('adverts')->find($id);
         }
-        return view('dashboard.adverts.advertShow', compact('client'));
+
+        $advertTable = view('dashboard.adverts.advertShow', compact('client'));
+        if(request()->ajax()) {
+            return $advertTable;
+        } else {
+            // Always show the form for direct hits
+            $advertForm = view('dashboard.adverts.advertEdit');
+            $advertList = view('dashboard.adverts.advertList');
+            return view('dashboard', compact('advertList', 'advertTable', 'advertForm'));
+        }
     }
 
     /**

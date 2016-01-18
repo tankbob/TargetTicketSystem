@@ -7,7 +7,7 @@
         <title>@yield('sectionTitle') | Target Ink</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Montserrat" rel="stylesheet" type="text/css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="{{ elixir('css/all.css') }}">
+        <link rel="stylesheet" href="{{ elixir('build/css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -41,7 +41,16 @@
         <div class="container">
             @yield('content')
         </div>
-        <script src="{{ elixir('js/all.js') }}"></script>
-        @yield('scripts')
+        <script src="{{ elixir('build/js/app.js') }}"></script>
+        @if(auth()->check())
+            <script src="/js/validation.js?{{ config('app.hash') }}"></script>
+            @yield('scripts')
+        @endif
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/airbrake-js/0.5.8/client.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+        var airbrake = new airbrakeJs.Client({projectId: '6e24fe7e9906ef1d07138da38487bc64', projectKey: '6e24fe7e9906ef1d07138da38487bc64'});
+        airbrake.setHost("https://helio-errbit.herokuapp.com/");
+        </script>
     </body>
 </html>

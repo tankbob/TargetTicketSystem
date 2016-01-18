@@ -1088,3 +1088,14 @@ p.document {
 .your-services-icon:hover {
     background-position: bottom left;
 }
+
+.fake-hidden {
+    height:0px !important;
+    display:block;
+    opacity:0;
+}
+
+.no-mp {
+    margin:0px;
+    padding:0px;
+}

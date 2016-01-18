@@ -16,7 +16,9 @@
 	                <td class="td-adjust">{{ $advert->name }}</td>
 	                <td class="td-adjust hidden-sm hidden-xs">{{ $client->email }}</td>
 	                <td class="td-adjust text-center hidden-sm hidden-xs">{{ date('d/m/y', strtotime($advert->created_at)) }}</td>
-					<td class="td-adjust text-center"><a href="#" class="bannerDelete icon-delete" bannerId="{{ $advert->id }}"></a></td>
+					<td class="td-adjust text-center">
+						<a href="/adverts/delete" class="ajax-delete icon-delete" data-type="advert" data-contentid="{{ $advert->id }}" data-uri="/adverts/" data-delrow="#banner-row-{{ $advert->id }}"></a>
+					</td>
 	            </tr>
 	    	@endforeach
 	    </tbody>

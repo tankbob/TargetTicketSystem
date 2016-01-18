@@ -1,6 +1,15 @@
 <?php
 
+@exec('git rev-parse --verify HEAD 2> /dev/null', $output);
+if(isset($output) && is_array($output)) {
+    $hash = @$output[0];
+} else {
+    $hash = '';
+}
+
 return [
+
+    'hash' => $hash,
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +49,7 @@ return [
     */
 
     'url' => 'http://localhost',
-    'asset_url' => 'https://s3-eu-west-1.amazonaws.com/target-ink-system/',
+    'asset_url' => 'https://s3-eu-west-1.amazonaws.com/' . env('AWS_BUCKET', 'target-ink-system-testing') . '/',
 
     /*
     |--------------------------------------------------------------------------
@@ -164,6 +173,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
+        Proengsoft\JsValidation\JsValidationServiceProvider::class,
 
     ],
 
@@ -219,6 +229,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Flash'     => Laracasts\Flash\Flash::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
     ],
 
 ];
