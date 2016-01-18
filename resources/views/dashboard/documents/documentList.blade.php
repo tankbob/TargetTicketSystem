@@ -10,7 +10,7 @@
     </div>
     <div class="col-sm-8 clearfix text-right client-chooser">
         <label for="{{ $type }}-customer-select" class="hidden-xs hidden-sm">Choose a Client:</label>
-        {!! Form::select('client_id', $clientDropList, request()->input('client_id'), [
+        {!! Form::select('client_id', $clientDropList, request()->segment(3), [
             'id' => $type . '-customer-select',
             'class' => 'form-control ajax-dropdown',
             'data-target' => '#' . $type . '-table-div',

@@ -91,13 +91,13 @@
                         <p>This icon allows you to upload SEO Reports to clients accounts.</p>
                     </a>
                     <div class="clearfix services-container">
-                        <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($documentList) && request()->segment(2) == 'seo') style="display:none;" @endif>
+                        <div class="col-md-12 ajaxable" id="seo-div" @if(!isset($documentList) && request()->segment(2) != 'seo') style="display:none;" @endif>
                             @if(isset($documentList) && request()->segment(2) == 'seo'){!! $documentList !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="seo-table-div" @if(!isset($documentTable) && request()->segment(2) == 'seo') style="display:none;" @endif>
+                        <div class="col-md-12 ajaxable" id="seo-table-div" @if(!isset($documentTable) && request()->segment(2) != 'seo') style="display:none;" @endif>
                             @if(isset($documentTable) && request()->segment(2) == 'seo'){!! $documentTable !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="seo-form-div" @if(!isset($documentForm) && request()->segment(2) == 'seo') style="display:none;" @endif>
+                        <div class="col-md-12 ajaxable" id="seo-form-div" @if(!isset($documentForm) && request()->segment(2) != 'seo') style="display:none;" @endif>
                             @if(isset($documentForm) && request()->segment(2) == 'seo'){!! $documentForm !!}@endif
                         </div>
                     </div>
@@ -108,13 +108,13 @@
                         <p>This icon allows you to upload information documents for clients to refer to.</p>
                     </a>
                     <div class="clearfix services-container">
-                        <div class="col-md-12 ajaxable" id="info-div" @if(!isset($documentList) && request()->segment(2) == 'info') style="display:none;" @endif>
+                        <div class="col-md-12 ajaxable" id="info-div" @if(!isset($documentList) && request()->segment(2) != 'info') style="display:none;" @endif>
                             @if(isset($documentList) && request()->segment(2) == 'info'){!! $documentList !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="info-table-div" @if(!isset($infoDocumentTable) && request()->segment(2) == 'info') style="display:none;" @endif>
+                        <div class="col-md-12 ajaxable" id="info-table-div" @if(!isset($infoDocumentTable) && request()->segment(2) != 'info') style="display:none;" @endif>
                             @if(isset($documentTable) && request()->segment(2) == 'info'){!! $documentTable !!}@endif
                         </div>
-                        <div class="col-md-12 ajaxable" id="info-form-div" @if(!isset($infoDocumentForm) && request()->segment(2) == 'info') style="display:none;" @endif>
+                        <div class="col-md-12 ajaxable" id="info-form-div" @if(!isset($infoDocumentForm) && request()->segment(2) != 'info') style="display:none;" @endif>
                             @if(isset($documentForm) && request()->segment(2) == 'info'){!! $documentForm !!}@endif
                         </div>
                     </div>
