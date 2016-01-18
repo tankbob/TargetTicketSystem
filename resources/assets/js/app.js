@@ -382,6 +382,20 @@ $(document).ready(function () {
 
     $('.type').on('change', function(){
         toggleFormFields($('.type:checked').val());
+
+        // Scroll down the the form
+        $.smoothScroll({
+            offset: -100,
+            scrollTarget: '.ticket-form'
+        });
+    });
+
+    $('.type').on('click', function(){
+        // Scroll down the the form
+        $.smoothScroll({
+            offset: -100,
+            scrollTarget: '.ticket-form'
+        });
     });
 
     toggleFormFields($('.type:checked').val());
