@@ -29,7 +29,7 @@ class DocumentInfoCreateRequest extends Request
     {
         return [
             'client_id' => 'required|exists:users,id',
-            'file' => 'mimes:pdf,doc,docx,doc,csv,jpeg,jpg,gif,png,txt',
+            'file' => 'required|mimes:pdf,doc,docx,doc,csv,jpeg,jpg,gif,png,txt',
             'filename' => 'required|max:255',
         ];
     }

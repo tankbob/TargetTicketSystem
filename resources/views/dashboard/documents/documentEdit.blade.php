@@ -5,7 +5,7 @@
         
         <div class="form-group no-mp">
             <div class="col-sm-10 col-sm-offset-2">
-                <input type="text" name="client_id" type="text" value="0" class="clientValue fake-hidden">
+                <input type="text" name="client_id" type="text" value="{{ request()->segment(3) }}" class="clientValue fake-hidden">
             </div>
         </div>
         
