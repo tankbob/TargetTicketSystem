@@ -9,6 +9,7 @@ use TargetInk\User;
 use JsValidator;
 use League\Glide\ServerFactory;
 use League\Glide\Responses\LaravelResponseFactory;
+use Debugbar;
 
 class AppController extends Controller
 {
@@ -90,7 +91,7 @@ class AppController extends Controller
     public function glide(Request $request, $path)
     {
         Debugbar::disable();
-        
+
         // Image builder for glide
         $filesystem = config('filesystems.cloud');
         $client = \Aws\S3\S3Client::factory([
