@@ -319,7 +319,9 @@ class TicketController extends Controller
         $response->fill($request->all());
         if($request->has('working_time')) {
             $wt = explode(':', $request->get('working_time'));
-            $response->working_time = 60*$wt[0]+$wt[1];
+            if(is_array($wt) && isset($wt[0]) && isset($wt[1])) {
+                $response->working_time = 60*$wt[0]+$wt[1];
+            }
         }
         $response->admin = \Auth::user()->admin;
         $response->ticket_id = $ticket_id;
