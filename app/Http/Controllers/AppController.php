@@ -102,13 +102,18 @@ class AppController extends Controller
             'region' => config('filesystems.disks.' . $filesystem . '.region'),
             'version' => 'latest',
         ]);
-        $server = \League\Glide\ServerFactory::create([
+        $server = ServerFactory::create([
             'source' => new \League\Flysystem\Filesystem(new \League\Flysystem\AwsS3v3\AwsS3Adapter($client, config('filesystems.disks.' . $filesystem . '.bucket'))),
             'cache' => new \League\Flysystem\Filesystem(new \League\Flysystem\Adapter\Local(storage_path() . '/app')),
             'cache_path_prefix' => 'cache',
             'response' => new LaravelResponseFactory(),
         ]);
-
-        $server->outputImage($path, $request->all());
+/*
+        header('Content-Type:'.$cache->getMimetype($path));
+        header('Content-Length:'.$cache->getSize($path));
+        header('Cache-Control:'.'max-age=31536000, public');
+        header('Expires:'.date_create('+1 years')->format('D, d M Y H:i:s').' GMT');
+*/
+        return $server->outputImage($path, $request->all());
     }
 }
