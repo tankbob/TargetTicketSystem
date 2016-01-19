@@ -89,6 +89,8 @@ class AppController extends Controller
 
     public function glide(Request $request, $path)
     {
+        Debugbar::disable();
+        
         // Image builder for glide
         $filesystem = config('filesystems.cloud');
         $client = \Aws\S3\S3Client::factory([
