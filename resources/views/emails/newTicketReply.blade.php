@@ -15,7 +15,7 @@
 <p>Priority: <strong>{{ $ticket->getPriority() }}</strong></p>
 <p>Title: <strong>{{ $ticket->title }}</strong></p>
 
-@if($instant)
+@if(isset($instant) && $instant)
 <p>Direct Link: <a href="{{ url($user->company_slug . '/tickets/' . $ticket->id . '?i=' . $user->instant) }}">{{ url($user->company_slug . '/tickets/' . $ticket->id . '?i=' . $user->instant) }}</a></p>
 @else
 <p>Direct Link: <a href="{{ url($user->company_slug . '/tickets/' . $ticket->id) }}">{{ url($user->company_slug . '/tickets/' . $ticket->id) }}</a></p>
