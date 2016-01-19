@@ -18,6 +18,14 @@ Route::any('test/mail/html', function () {
     return view('emails.newTicket', ['response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()]);
 });
 
+
+Route::any('test/mail', function () {
+    Mail::send('emails.newTicket', ['instant' => false, 'response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()], function ($message) {
+        $message->to('adam@genyx.co.uk');
+        $message->subject('Testing Logo');
+    });
+});
+
 Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 
 // Api
@@ -47,23 +55,4 @@ Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'Ticket
 Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
 
 // Images
-Route::get('img/{path}', function(Illuminate\Http\Request $request, $path) {
-    // Image builder for glide
-    $filesystem = config('filesystems.cloud');
-    $client = Aws\S3\S3Client::factory([
-        'credentials' => [
-            'key'    => config('filesystems.disks.' . $filesystem . '.key'),
-            'secret' => config('filesystems.disks.' . $filesystem . '.secret'),
-        ],
-        'region' => config('filesystems.disks.' . $filesystem . '.region'),
-        'version' => 'latest',
-    ]);
-    $server = League\Glide\ServerFactory::create([
-        'source' => new League\Flysystem\Filesystem(new League\Flysystem\AwsS3v3\AwsS3Adapter($client, config('filesystems.disks.' . $filesystem . '.bucket'))),
-        'cache' => new League\Flysystem\Filesystem(new League\Flysystem\Adapter\Local(storage_path() . '/app')),
-        'source_path_prefix' => '',
-        'cache_path_prefix' => 'cache',
-    ]);
-
-	$server->outputImage($request->segment(2), $request->all());
-})->where('path', '.+');
+Route::get('img/{path}', 'AppController@glide')->where('path', '.+');

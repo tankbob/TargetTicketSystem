@@ -7,6 +7,8 @@ use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 use TargetInk\User;
 use JsValidator;
+use League\Glide\ServerFactory;
+use League\Glide\Responses\LaravelResponseFactory;
 
 class AppController extends Controller
 {
@@ -83,5 +85,27 @@ class AppController extends Controller
         }
 
         return response($content)->header('Content-Type', 'text/javascript');
+    }
+
+    public function glide(Request $request, $path)
+    {
+        // Image builder for glide
+        $filesystem = config('filesystems.cloud');
+        $client = \Aws\S3\S3Client::factory([
+            'credentials' => [
+                'key'    => config('filesystems.disks.' . $filesystem . '.key'),
+                'secret' => config('filesystems.disks.' . $filesystem . '.secret'),
+            ],
+            'region' => config('filesystems.disks.' . $filesystem . '.region'),
+            'version' => 'latest',
+        ]);
+        $server = \League\Glide\ServerFactory::create([
+            'source' => new \League\Flysystem\Filesystem(new \League\Flysystem\AwsS3v3\AwsS3Adapter($client, config('filesystems.disks.' . $filesystem . '.bucket'))),
+            'cache' => new \League\Flysystem\Filesystem(new \League\Flysystem\Adapter\Local(storage_path() . '/app')),
+            'cache_path_prefix' => 'cache',
+            'response' => new LaravelResponseFactory(),
+        ]);
+
+        $server->outputImage($request->segment(2), $request->all());
     }
 }
