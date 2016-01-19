@@ -62,7 +62,6 @@
                 table[id="emailHeader"], table[id="emailBody"], table[id="emailFooter"], table[class="flexibleContainer"] {width:100% !important;}
                 td[class="flexibleContainerBox"], td[class="flexibleContainerBox"] table {display: block;width: 100%;text-align: left;}
 
-                td[class="imageContent"] img {height:auto !important; width:100% !important; max-width:100% !important;}
                 img[class="flexibleImage"]{height:auto !important; width:100% !important;max-width:100% !important;}
                 img[class="flexibleImageSmall"]{height:auto !important; width:auto !important;}
 
