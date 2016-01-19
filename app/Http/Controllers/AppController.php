@@ -114,6 +114,6 @@ class AppController extends Controller
         header('Cache-Control:'.'max-age=31536000, public');
         header('Expires:'.date_create('+1 years')->format('D, d M Y H:i:s').' GMT');
 */
-        return $server->outputImage($path, $request->all());
+        return $server->getImageResponse($path, $request->all());
     }
 }
