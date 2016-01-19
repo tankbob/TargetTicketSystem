@@ -1,23 +1,26 @@
 <?php
 
+// Auth controllers
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
 
-Route::get('/', 'AppController@index');
-
+// Javascript Validation
 Route::get('/js/validation.js', 'AppController@js');
+
+// Images
+Route::get('img/{path}', 'AppController@glide')->where('path', '.+');
 
 // Failsafe redirect
 Route::any('home', function () {
     return redirect('/');
 });
 
+
 Route::any('test/mail/html', function () {
     return view('emails.newTicket', ['response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()]);
 });
-
 
 Route::any('test/mail', function () {
     Mail::send('emails.newTicket', ['instant' => false, 'response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()], function ($message) {
@@ -26,33 +29,40 @@ Route::any('test/mail', function () {
     });
 });
 
-Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 
-// Api
-Route::post('api/ticketsort', 'TicketController@setOrder');
-Route::post('api/getclientinfo', 'UserController@getInfo');
-Route::get('api/move/ticket/{direction}/{user_id}/{ticket_id}/{archived}', 'TicketController@move');
+/*
+|
+| Authenticated Users
+|
+*/
 
-// Backend
-Route::get('maintenance', 'AppController@showMaintenance');
-Route::resource('clients', 'ClientsController');
-Route::resource('adverts', 'AdvertController');
-Route::resource('services', 'ServicesController');
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/', 'AppController@index');
+    Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 
-Route::get('documents/{type}', 'AdminDocumentsController@index');
-Route::get('documents/{type}/create', 'AdminDocumentsController@create');
-Route::post('documents/{type}', 'AdminDocumentsController@store');
-Route::get('documents/{type}/{id}', 'AdminDocumentsController@show');
-Route::delete('documents/{type}/{id}', 'AdminDocumentsController@destroy');
+    // Api
+    Route::post('api/ticketsort', 'TicketController@setOrder');
+    Route::post('api/getclientinfo', 'UserController@getInfo');
+    Route::get('api/move/ticket/{direction}/{user_id}/{ticket_id}/{archived}', 'TicketController@move');
 
-// Frontend
-Route::resource('{company_slug}/tickets', 'TicketController');
-Route::get('{company_slug}/tickets/{id}/archive', 'TicketController@archive');
-Route::get('{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
-Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
-Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
+    // Backend
+    Route::get('maintenance', 'AppController@showMaintenance');
+    Route::resource('clients', 'ClientsController');
+    Route::resource('adverts', 'AdvertController');
+    Route::resource('services', 'ServicesController');
 
-Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
+    Route::get('documents/{type}', 'AdminDocumentsController@index');
+    Route::get('documents/{type}/create', 'AdminDocumentsController@create');
+    Route::post('documents/{type}', 'AdminDocumentsController@store');
+    Route::get('documents/{type}/{id}', 'AdminDocumentsController@show');
+    Route::delete('documents/{type}/{id}', 'AdminDocumentsController@destroy');
 
-// Images
-Route::get('img/{path}', 'AppController@glide')->where('path', '.+');
+    // Frontend
+    Route::resource('{company_slug}/tickets', 'TicketController');
+    Route::get('{company_slug}/tickets/{id}/archive', 'TicketController@archive');
+    Route::get('{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
+    Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
+    Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
+
+    Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
+});
