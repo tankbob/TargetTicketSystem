@@ -17,19 +17,6 @@ Route::any('home', function () {
     return redirect('/');
 });
 
-
-Route::any('test/mail/html', function () {
-    return view('emails.newTicket', ['response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()]);
-});
-
-Route::any('test/mail', function () {
-    Mail::send('emails.newTicket', ['instant' => false, 'response' => TargetInk\Response::first(), 'user' => auth()->user(), 'ticket' => TargetInk\Ticket::first()], function ($message) {
-        $message->to('adam@genyx.co.uk');
-        $message->subject('Testing Logo');
-    });
-});
-
-
 /*
 |
 | Authenticated Users
