@@ -143,7 +143,7 @@
 
             	<div class="form-group @if($errors->has('content')) has-error dark @endif ">
 	           		@if($errors->has('content'))
-	           			<span class="alert-danger"> {{ $errors->first('content') }} </span>
+	           			<span class="alert-warning"> {{ $errors->first('content') }} </span>
 	           		@endif
 					{!! Form::textarea('content', '', ['class' => 'form-control', 'placeholder' => 'Add to ticket...']) !!}
 		        </div>

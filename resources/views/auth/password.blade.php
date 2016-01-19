@@ -11,13 +11,13 @@
 
 		{!! Form::open(array('url' => '/password/email')) !!}
 			@if (session('status'))
-				<div class="alert alert-success">
+				<div class="alert alert-info">
 					{{ session('status') }}
 				</div>
 			@endif
 
 			@if (count($errors) > 0)
-				<div class="alert alert-danger">
+				<div class="alert alert-warning">
 					<strong>Whoops!</strong> There were some problems with your input.<br><br>
 					<ul>
 						@foreach ($errors->all() as $error)
