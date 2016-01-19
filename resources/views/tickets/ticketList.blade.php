@@ -21,7 +21,7 @@
 
 @if(!auth()->user()->admin)
 <div class="page-heading text-center">
-    <a href="{{ url($client->company_slug . '/tickets/create') }}" class="btn btn-info btn-new-ticket">CREATE A NEW TICKET</a>
+    <a href="{{ url($client->company_slug . '/tickets/create') }}" class="btn btn-info target-btn btn-new-ticket">CREATE A NEW TICKET</a>
 </div>
 @else
 <div class="page-heading text-center">
