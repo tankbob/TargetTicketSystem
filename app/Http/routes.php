@@ -20,6 +20,11 @@ Route::any('test/mail/html', function () {
 
 Route::get('dashboard/maintenance', 'AppController@showMaintenance');
 
+// Api
+Route::post('api/ticketsort', 'TicketController@setOrder');
+Route::post('api/getclientinfo', 'UserController@getInfo');
+Route::get('api/move/ticket/{direction}/{user_id}/{ticket_id}/{archived}', 'TicketController@move');
+
 // Backend
 Route::get('maintenance', 'AppController@showMaintenance');
 Route::resource('clients', 'ClientsController');
@@ -40,11 +45,6 @@ Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResp
 Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
 
 Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
-
-// Api
-Route::post('api/ticketsort', 'TicketController@setOrder');
-Route::post('api/getclientinfo', 'UserController@getInfo');
-Route::get('api/move/ticket/{direction}/{user_id}/{ticket_id}/{archived}', 'TicketController@move');
 
 // Images
 Route::get('img/{path}', function(Illuminate\Http\Request $request, $path) {

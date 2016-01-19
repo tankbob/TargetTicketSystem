@@ -60,7 +60,7 @@ class User extends Model implements AuthenticatableContract,
 
     public function tickets()
     {
-        return $this->hasMany('TargetInk\Ticket', 'client_id');
+        return $this->hasMany('TargetInk\Ticket', 'client_id')->orderBy('order', 'desc');
     }
 
     public function seoFiles()

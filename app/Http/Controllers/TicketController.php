@@ -24,7 +24,6 @@ class TicketController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('ownCompany');
     }
 
     /**
@@ -34,20 +33,22 @@ class TicketController extends Controller
      */
     public function index(Request $request, $company_slug)
     {
+        $this->middleware('ownCompany');
+
         if($request->has('archived')) {
             $archived = 1;
         } else {
             $archived = 0;
         }
-        $client = User::where('company_slug', $company_slug)->first();
-        if($client) {
-            $tickets = $client->tickets()->where('archived', '=', $archived)->orderBy('order', 'desc')->get();
-        } else {
-            abort(404);
-        }
+
+        $client = User::where('company_slug', $company_slug)->with(['tickets' => function ($q) use ($request, $archived) {
+            $q->where('archived', '=', $archived);
+        }, 'tickets.client', 'tickets.responses'])->first();
+
+        $tickets = $client->tickets;
 
         $counter = 0;
-        foreach($tickets as $ticket) {
+        foreach($client->tickets as $ticket) {
             $counter++;
             if($counter == 1) {
                 $ticket->first = true;
@@ -55,14 +56,14 @@ class TicketController extends Controller
                 $ticket->first = false;
             }
 
-            if($counter == count($tickets)) {
+            if($counter == count($client->tickets)) {
                 $ticket->last = true;
             } else {
                 $ticket->last = false;
             }
         }
 
-        return view('tickets.ticketList', compact('archived', 'tickets', 'client'));
+        return view('tickets.ticketList', compact('archived', 'client'));
     }
 
     /**
@@ -72,6 +73,7 @@ class TicketController extends Controller
      */
     public function create($company_slug)
     {
+        $this->middleware('ownCompany');
         return view('tickets.ticketEdit', compact('company_slug'));
     }
 
@@ -83,6 +85,7 @@ class TicketController extends Controller
      */
     public function store($company_slug, TicketRequest $request)
     {
+        $this->middleware('ownCompany');
         $client = User::where('company_slug', $company_slug)->first();
 
         if($request->published_at) {
@@ -145,6 +148,7 @@ class TicketController extends Controller
      */
     public function show($company_slug, $ticket_id)
     {
+        $this->middleware('ownCompany');
         $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -162,6 +166,7 @@ class TicketController extends Controller
     public function edit($id)
     {
         /*
+        $this->middleware('ownCompany');
         $ticket = Ticket::find($id);
         return view('tickets.ticketEdit', compact('ticket'));
         */
@@ -176,6 +181,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, $company_slug, $id)
     {
+        $this->middleware('ownCompany');
         $ticket = Ticket::find($id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -195,6 +201,7 @@ class TicketController extends Controller
      */
     public function destroy($company_slug, $id)
     {
+        $this->middleware('ownCompany');
         $ticket = Ticket::find($id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -204,7 +211,9 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function archive($company_slug, $ticket_id) {
+    public function archive($company_slug, $ticket_id)
+    {
+        $this->middleware('ownCompany');
         $ticket = Ticket::find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -223,7 +232,9 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function unarchive($company_slug, $ticket_id) {
+    public function unarchive($company_slug, $ticket_id)
+    {
+        $this->middleware('ownCompany');
         $ticket = Ticket::find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -242,7 +253,8 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function setOrder(Request $request) {
+    public function setOrder(Request $request)
+    {
         $user_id = $request->input('user_id');
         $archived = $request->input('archived');
         $new_order = $request->input('new_order');
@@ -269,7 +281,8 @@ class TicketController extends Controller
         \DB::update($query);
     }
 
-    public function move(Request $request, $direction, $user_id, $ticket_id, $archived) {
+    public function move(Request $request, $direction, $user_id, $ticket_id, $archived)
+    {
         $tickets = Ticket::where('client_id', $user_id)->where('archived', $archived)->orderBy('order', 'asc')->get();
 
         // Set initial order in case it has never been set
@@ -324,6 +337,7 @@ class TicketController extends Controller
 
     public function addResponse($company_slug, $ticket_id, ResponseRequest $request)
     {
+        $this->middleware('ownCompany');
         $response = new Response;
         $response->fill($request->all());
         if($request->has('working_time')) {
@@ -364,7 +378,8 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function processFileUpload($request, $response_id) {
+    public function processFileUpload($request, $response_id)
+    {
         // Loop through attachments
         foreach($request->all() as $request_key => $request_val) {
             if(substr($request_key, 0, 10) == 'attachment') {
@@ -398,7 +413,8 @@ class TicketController extends Controller
         }
     }
 
-    public function editResponseTime(Request $request, $company_slug, $ticket_id, $response_id) {
+    public function editResponseTime(Request $request, $company_slug, $ticket_id, $response_id)
+    {
         $ticket = Ticket::find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');

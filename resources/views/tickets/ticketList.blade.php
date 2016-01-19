@@ -42,10 +42,10 @@
     <div class="col-xs-12">
         <table class="table text-muted table-muted table-no-borders no-margin">
             <tr>
-                <td class="hidden-sm hidden-xs goto-column">
+                <td class="click-only goto-column">
                     <i class="icon-goto"></i>
                 </td>
-                <td class="td-adjust click-only">
+                <td class="td-adjust click-only hidden-xs">
                     Double Click to View Ticket
                 </td>
                 <td class="td-adjust text-right click-only">
@@ -64,11 +64,11 @@
         </table>
     </div>
     <div class="col-xs-12">
-        @if(count($tickets))
+        @if(count($client->tickets))
             <table class="table ticket-table sorted_table" id="ticket_table">
                 <thead>
                     <tr>
-                        <th class="hidden-sm hidden-xs goto-column"></th>
+                        <th class="click-only goto-column"></th>
                         <th>Ticket Title</th>
                         <th class="hidden-sm hidden-xs">Ref No.</th>
                         <th class="hidden-xs">Ticket Type</th>
@@ -87,9 +87,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($tickets as $ticket)
-                        <tr id="{{ $ticket->id }}">
-                            <td class="hidden-sm hidden-xs"><a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}" class="show-on-hover icon-goto"></a></td>
+                    @foreach($client->tickets as $ticket)
+                        <tr id="{{ $ticket->id }}" class="tappable-row" data-url="{{ $ticket->getUrl() }}">
+                            <td class="click-only"><a href="{{ $ticket->getUrl() }}" class="show-on-hover icon-goto"></a></td>
                             <td class="td-adjust">{{ $ticket->title }}</td>
                             <td class="td-adjust hidden-sm hidden-xs">{{ $ticket->getRef() }}</td>
                             <td class="td-adjust hidden-xs">{{ $ticket->getType() }}</td>

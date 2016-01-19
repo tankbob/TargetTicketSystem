@@ -209,6 +209,10 @@ $(document).ready(function () {
     if(is_touch_device()) {
         $('.click-only').addClass('hidden');
         $('.touch-only').removeClass('hidden');
+
+        $('.tappable-row').on('click', function() {
+            window.location.href = $(this).data('url');
+        });
     } else {
         $('.click-only').removeClass('hidden');
         $('.touch-only').addClass('hidden');
