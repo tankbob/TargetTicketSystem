@@ -15,7 +15,7 @@ class AppController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        
     }
 
     /**
@@ -25,6 +25,7 @@ class AppController extends Controller
      */
     public function index(Request $request)
     {
+        $this->middleware('auth');
         $clients = null;
         if(auth()->user()->admin) {
             $clients = User::where('admin', 0)->orderBy('company')->get();
@@ -39,10 +40,13 @@ class AppController extends Controller
      */
     public function create(Request $request)
     {
+        $this->middleware('auth');
         return view('dashboard.advertEdit');
     }
 
-    public function showMaintenance(Request $request) {
+    public function showMaintenance(Request $request)
+    {
+        $this->middleware('auth');
         $clients = User::where('admin', 0)->orderBy('company')->get();
 
         $maintenanceList = view('dashboard.tickets.tickets', compact('clients'));
