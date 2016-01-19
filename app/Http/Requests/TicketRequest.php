@@ -25,7 +25,7 @@ class TicketRequest extends Request
     {
         $rules = [
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
         ];
 
         for($i = 1; $i <= $this->get('attachment_count'); $i++){

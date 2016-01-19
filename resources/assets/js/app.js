@@ -370,7 +370,7 @@ $(document).ready(function () {
             e.stopPropagation();
         });
 
-        $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
+        $('.dateInput').mask("99/99/9999");
     }
 
 
@@ -382,6 +382,7 @@ $(document).ready(function () {
 
     $('.type').on('change', function(){
         toggleFormFields($('.type:checked').val());
+        $('.dateInput').mask("99/99/9999");
 
         // Scroll down the the form
         $.smoothScroll({
@@ -399,6 +400,7 @@ $(document).ready(function () {
     });
 
     toggleFormFields($('.type:checked').val());
+    $('.dateInput').mask("99/99/9999");
 
 
     /**

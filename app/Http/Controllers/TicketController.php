@@ -84,21 +84,30 @@ class TicketController extends Controller
     public function store($company_slug, TicketRequest $request)
     {
         $client = User::where('company_slug', $company_slug)->first();
+
         if($request->published_at) {
             $published_at_date = explode('/', $request->published_at);
-            $published_at_date = $published_at_date[2]. '-' . $published_at_date[1]. '-' . $published_at_date[0];
+            if(is_array($published_at_date) && isset($published_at_date[0]) && isset($published_at_date[1]) && isset($published_at_date[2])) {
+                $published_at_date = $published_at_date[2]. '-' . $published_at_date[1]. '-' . $published_at_date[0];
+            } else {
+                $published_at_date = '0000-00-00';
+            }
         } else {
             $published_at_date = '0000-00-00';
         }
+
         $ticket = new Ticket;
         $ticket->fill($request->all());
         $ticket->client_id = $client->id;
+       
         $order = Ticket::where('client_id', '=', $client->id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        
         if($order) {
             $order = $order->order +1;
         } else {
             $order = 1;
         }
+        
         $ticket->order = $order;
         $ticket->save();
 
