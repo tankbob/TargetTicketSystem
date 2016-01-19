@@ -109,6 +109,6 @@ class AppController extends Controller
             'response' => new LaravelResponseFactory(),
         ]);
 
-        $server->outputImage($request->segment(2), $request->all());
+        $server->outputImage($path, $request->all());
     }
 }
