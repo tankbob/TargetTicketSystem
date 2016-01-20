@@ -172,7 +172,7 @@ div, .btn {
     background-position: -146px 0;
 }
 
-.btn-seo-reports:hover:before {
+.btn-seo-reports:hover:before, .btn-seo-reports-admin:hover:before {
     background-position: -146px bottom;
 }
 
