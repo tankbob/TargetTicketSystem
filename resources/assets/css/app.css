@@ -82,7 +82,7 @@ div, .btn {
     width: 146px;
     height: 146px;
     background-image: url(/images/admin-icons.png);
-    background-position-y: top;
+    background-position: top;
     background-repeat: no-repeat;
     margin-top: -30px;
 }
@@ -92,7 +92,7 @@ div, .btn {
 }
 
 .btn-section-link:hover:before {
-    background-position-y: bottom;
+    background-position: bottom;
 }
 
 .btn-section-link:hover, .btn-section-link:active, .btn-section-link:focus {
@@ -121,7 +121,11 @@ div, .btn {
 }
 
 .btn-maintenance-support:before {
-    background-position-x: 0;
+    background-position: 0 top;
+}
+
+.btn-maintenance-support:hover:before {
+    background-position: 0 bottom;
 }
 
 .btn-maintenance-support strong {
@@ -129,7 +133,11 @@ div, .btn {
 }
 
 .btn-clients:before {
-    background-position-x: -584px;
+    background-position: -584px 0;
+}
+
+.btn-clients:hover:before {
+    background-position: -584px bottom;
 }
 
 .btn-clients strong {
@@ -137,7 +145,11 @@ div, .btn {
 }
 
 .btn-banners:before {
-    background-position-x: -438px;
+    background-position: -438px 0;
+}
+
+.btn-banners:hover:before {
+    background-position: -438px bottom;
 }
 
 .btn-banners strong {
@@ -145,7 +157,11 @@ div, .btn {
 }
 
 .btn-services:before {
-    background-position-x: -292px;
+    background-position: -292px 0;
+}
+
+.btn-services:hover:before {
+    background-position: -292px bottom;
 }
 
 .btn-services strong {
@@ -153,7 +169,11 @@ div, .btn {
 }
 
 .btn-seo-reports:before, .btn-seo-reports-admin:before {
-    background-position-x: -146px;
+    background-position: -146px 0;
+}
+
+.btn-seo-reports:hover:before {
+    background-position: -146px bottom;
 }
 
 .btn-seo-reports strong, .btn-seo-reports-admin strong {
@@ -161,7 +181,11 @@ div, .btn {
 }
 
 .btn-information-documents:before, .btn-information-documents-admin:before {
-    background-position-x: -730px;
+    background-position: -730px 0;
+}
+
+.btn-information-documents:hover:before, .btn-information-documents-admin:hover:before {
+    background-position: -730px bottom;
 }
 
 .btn-information-documents strong, .btn-information-documents-admin strong {
@@ -504,7 +528,7 @@ tr:hover .show-on-hover {
     width: 146px;
     height: 146px;
     background-image: url(/images/user-icons.png);
-    background-position-y: top;
+    background-position: top;
     background-repeat: no-repeat;
 }
 
@@ -512,12 +536,7 @@ tr:hover .show-on-hover {
 .btn-add-content:hover,
 .btn-get-quote:hover,
 .btn-ask-question:hover {
-    background-position-y: bottom;
     cursor:pointer;
-}
-
-input[type="radio"].type:checked+label{
-    background-position-y: bottom;
 }
 
 input[type="radio"].type {
@@ -525,19 +544,35 @@ input[type="radio"].type {
 }
 
 .btn-web-amends {
-    background-position-x: 0px;
+    background-position: 0px top;
 }
 
 .btn-add-content {
-    background-position-x: -146px;
+    background-position: -146px top;
 }
 
 .btn-get-quote {
-    background-position-x: -292px;
+    background-position: -292px top;
 }
 
 .btn-ask-question {
-    background-position-x: -438px;
+    background-position: -438px top;
+}
+
+.btn-web-amends:hover, .btn-web-amends.selected {
+    background-position: 0px bottom;
+}
+
+.btn-add-content:hover, .btn-add-content.selected {
+    background-position: -146px bottom;
+}
+
+.btn-get-quote:hover, .btn-get-quote.selected {
+    background-position: -292px bottom;
+}
+
+.btn-ask-question:hover, .btn-ask-question.selected {
+    background-position: -438px bottom;
 }
 
 .ticket-form .form-control, .ticket-form textarea {
@@ -549,12 +584,6 @@ input[type="radio"].type {
     margin-bottom:15px;
 }
 
-/*
-.ticket-form input[type=file] {
-    border:#ccc 1px dashed;
-}
-*/
-
 .icon-container {
     margin-bottom:60px;
 }
@@ -563,34 +592,6 @@ input[type="radio"].type {
     min-height:300px;
 }
 
-/*
-label.file-label input[type="file"] {
-    position: fixed;
-    top: -1000px;
-}
-
-.file-label {
-    display:block;
-    width:100%;
-    height:57px;
-    padding:17px !important;
-    margin-bottom:15px;
-    border:#ccc 1px dashed;
-    cursor: pointer;
-}
-
-.file-label:hover {
-    background: #eee;
-}
-
-.file-label:active {
-    background: #ccc;
-}
-
-.file-label :invalid + span {
-    color: #A44;
-}
-*/
 .btn-submit-ticket {
     width:139px;
     height:53px;

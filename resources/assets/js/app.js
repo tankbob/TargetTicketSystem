@@ -122,6 +122,14 @@ function setUpValidation() {
  *
  */
 function toggleFormFields(typeValue){
+
+    $('.icon-container label').removeClass('selected');
+    $selectedTab = $('input[name=type]:checked', '.object-editor').val();
+    $labelFor = $('input[name=type][value=' + $selectedTab + ']').attr('id');
+    $('label[for="' + $labelFor + '"]').addClass('selected');
+
+    $('.dateInput').mask("99/99/9999");
+
     switch(typeValue) {
         case '1':
             $('#publishedAtDiv').addClass('hidden');
@@ -386,7 +394,6 @@ $(document).ready(function () {
 
     $('.type').on('change', function(){
         toggleFormFields($('.type:checked').val());
-        $('.dateInput').mask("99/99/9999");
 
         // Scroll down the the form
         $.smoothScroll({
