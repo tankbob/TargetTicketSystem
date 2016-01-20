@@ -865,10 +865,6 @@ body.loading, body.loading * {
     }
 }
 
-.banners-container, .services-container {
-    margin-bottom:15px;
-}
-
 @media (min-width: 768px) {
     .form-horizontal .control-label {
         padding-top: 13px !important;
