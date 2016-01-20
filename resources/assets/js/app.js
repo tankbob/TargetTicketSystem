@@ -98,6 +98,10 @@ function togglePage($element, $ajaxUri, $slug) {
             $element.html(html).slideDown();
             setUpValidation();
             stopProgress();
+        })
+        .error(function(html) {
+            $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+            stopProgress();
         });
     }
 }
@@ -290,6 +294,10 @@ $(document).ready(function () {
                         offset: -100,
                         scrollTarget: '#clientFormDiv'
                     });
+                },
+                error: function(html) {
+                    $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                    stopProgress();
                 }
             });
 
@@ -322,6 +330,10 @@ $(document).ready(function () {
                         offset: -100,
                         scrollTarget: $target
                     });
+                },
+                error: function(html) {
+                    $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                    stopProgress();
                 }
             });
             e.preventDefault();
@@ -343,6 +355,10 @@ $(document).ready(function () {
                             var res = $.parseJSON(response);
                             $($delrow).remove();
                             $.growl.notice({ title: "Success", message: res.success});
+                        },
+                        error: function(html) {
+                            $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                            stopProgress();
                         }
                     });
                 }
@@ -370,6 +386,10 @@ $(document).ready(function () {
                     success: function (response) {
                         $($target).html(response);
                         $($target).slideDown();
+                        stopProgress();
+                    },
+                    error: function(html) {
+                        $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
                         stopProgress();
                     }
                 });
