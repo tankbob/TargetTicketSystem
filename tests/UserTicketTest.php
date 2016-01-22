@@ -10,6 +10,7 @@ class UserTicketTest extends TestCase
     public function testTicketCreation()
     {
         $user = factory(TargetInk\User::class)->create();
+        $admin = factory(TargetInk\User::class, 'admin')->create();
 
         $ticketName = 'Ticket Sample ' . rand(0, 9999);
 
@@ -53,13 +54,67 @@ class UserTicketTest extends TestCase
              ->visit($user->company_slug . '/tickets')
              ->see($ticketName)
 
+             // Get admin to reply
+             ->click('Logout')
+             ->visit('auth/login')
+             ->type($admin->email, 'email')
+             ->type('secret', 'password')
+             ->press('Login')
+             ->visit('maintenance')
+             ->see($user->company)
+             ->visit($user->company_slug . '/tickets')
+             ->see($ticketName)
+             ->click('goto-ticket')
+             ->see('TICKET DETAILS')
+             ->type('Sample reply from admin', 'content')
+             ->press('Respond')
+             ->see('The response has been sent')
+             ->visit($user->company_slug . '/tickets')
+             ->see('icon-response')
+
+             // Get user to reply
+             ->click('Logout')
+             ->visit('auth/login')
+             ->type($user->email, 'email')
+             ->type('secret', 'password')
+             ->press('Login')
+             ->visit($user->company_slug . '/tickets')
+             ->see('icon-response')
+             ->click('goto-ticket')
+             ->see('TICKET DETAILS')
+             ->see('Sample reply from admin')
+             ->type('Sample reply from user', 'content')
+
+             // Get admin to archive
+             ->click('Logout')
+             ->visit('auth/login')
+             ->type($admin->email, 'email')
+             ->type('secret', 'password')
+             ->press('Login')
+             ->visit($user->company_slug . '/tickets?archived=1')
+             ->see('There are no tickets to show')
+             ->visit($user->company_slug . '/tickets')
+             ->click('archive-ticket')
+             ->see('The ticket has been successfully archived')
+             ->visit($user->company_slug . '/tickets?archived=1')
+             ->see($ticketName)
+             ->click('unarchive-ticket')
+             ->see('The ticket has been successfully unarchived')
+             ->visit($user->company_slug . '/tickets')
+             ->see($ticketName)
+
+             // Get admin to delete
+             ->press('delete-ticket')
+             ->see('The ticket has been deleted')
+
              // Logout
              ->click('Logout')
              ->seePageIs('auth/login')
              ;
 
-        // Remove user from database
+        // Remove users from database
         $user->delete();
+        $admin->delete();
     }
 
 }

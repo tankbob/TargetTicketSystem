@@ -30,7 +30,7 @@
             <div class="btn-section row">
                 @if(auth()->user()->admin)
                     {{-- Tickets Section --}}
-                    <a href="#" class="btn-section-link btn-maintenance-support" id="btn-maintenance-support">
+                    <a href="#" class="btn-section-link btn-maintenance-support" name="btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
@@ -41,7 +41,7 @@
                     </div>
 
                     {{-- Clients Section --}}
-                    <a href="#" class="btn-section-link btn-clients" id="btn-clients">
+                    <a href="#" class="btn-section-link btn-clients" name="btn-clients">
                         <strong>Clients</strong>
                         <p>Create a new client, add new clients and determine who receives emails and how you would like us to respond.</p>
                     </a>
