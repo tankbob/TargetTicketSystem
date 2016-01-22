@@ -42,6 +42,8 @@ class AuthTest extends TestCase
              ->see('Information Documents')
              ->dontSee('Create a new client')
              ->dontSee('Click here to manage adverts')
+
+             // Logout
              ->click('Logout')
              ->seePageIs('auth/login')
 

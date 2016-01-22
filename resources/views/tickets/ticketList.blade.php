@@ -101,11 +101,11 @@
                             </td>
                             @if($archived)
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive" name="unarchive-ticket"></a>
                             </td>
                             @else
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive" name="archive-ticket"></a>
                             </td>
                             @endif
                             @if(auth()->user()->admin)

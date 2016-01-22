@@ -30,7 +30,7 @@
             <div class="btn-section row">
                 @if(auth()->user()->admin)
                     {{-- Tickets Section --}}
-                    <a href="#" class="btn-section-link btn-maintenance-support">
+                    <a href="#" class="btn-section-link btn-maintenance-support" id="btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
@@ -41,7 +41,7 @@
                     </div>
 
                     {{-- Clients Section --}}
-                    <a href="#" class="btn-section-link btn-clients">
+                    <a href="#" class="btn-section-link btn-clients" id="btn-clients">
                         <strong>Clients</strong>
                         <p>Create a new client, add new clients and determine who receives emails and how you would like us to respond.</p>
                     </a>
@@ -119,17 +119,17 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support">
+                    <a href="{{ url(auth()->user()->company_slug . '/tickets') }}" class="btn-section-link btn-maintenance-support" id="btn-maintenance-support">
                         <strong>Maintenance &amp; Support</strong>
                         <p>Click here to upload a request for web development, blog posts, ask a question about your website, download SEO documents or get a quote.</p>
                     </a>
 
-                    <a href="{{ url(auth()->user()->company_slug . '/documents/seo') }}" class="btn-section-link btn-seo-reports">
+                    <a href="{{ url(auth()->user()->company_slug . '/documents/seo') }}" class="btn-section-link btn-seo-reports" id="btn-seo-reports">
                         <strong>SEO Documents</strong>
                         <p>Click here to view your current &amp; previous SEO Docs.</p>
                     </a>
 
-                    <a href="{{ url(auth()->user()->company_slug . '/documents/info') }}" class="btn-section-link btn-information-documents">
+                    <a href="{{ url(auth()->user()->company_slug . '/documents/info') }}" class="btn-section-link btn-information-documents" id="btn-information-documents">
                         <strong>Information Documents</strong>
                         <p>Click here to view your documents. Information, instructions and Terms &amp; Conditions.</p>
                     </a>
