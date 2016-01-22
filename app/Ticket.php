@@ -64,4 +64,8 @@ class Ticket extends Model
         }
     }
 
+    public function getUrl()
+    {
+        return url($this->client->company_slug . '/tickets/' . $this->id);
+    }
 }

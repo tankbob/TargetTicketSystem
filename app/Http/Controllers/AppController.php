@@ -7,12 +7,15 @@ use TargetInk\Http\Requests;
 use TargetInk\Http\Controllers\Controller;
 use TargetInk\User;
 use JsValidator;
+use League\Glide\ServerFactory;
+use League\Glide\Responses\LaravelResponseFactory;
+use Debugbar;
 
 class AppController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        
     }
 
     /**
@@ -39,7 +42,8 @@ class AppController extends Controller
         return view('dashboard.advertEdit');
     }
 
-    public function showMaintenance(Request $request) {
+    public function showMaintenance(Request $request)
+    {
         $clients = User::where('admin', 0)->orderBy('company')->get();
 
         $maintenanceList = view('dashboard.tickets.tickets', compact('clients'));
@@ -83,5 +87,34 @@ class AppController extends Controller
         }
 
         return response($content)->header('Content-Type', 'text/javascript');
+    }
+
+    public function glide(Request $request, $path)
+    {
+        Debugbar::disable();
+
+        // Image builder for glide
+        $filesystem = config('filesystems.cloud');
+        $client = \Aws\S3\S3Client::factory([
+            'credentials' => [
+                'key'    => config('filesystems.disks.' . $filesystem . '.key'),
+                'secret' => config('filesystems.disks.' . $filesystem . '.secret'),
+            ],
+            'region' => config('filesystems.disks.' . $filesystem . '.region'),
+            'version' => 'latest',
+        ]);
+        $server = ServerFactory::create([
+            'source' => new \League\Flysystem\Filesystem(new \League\Flysystem\AwsS3v3\AwsS3Adapter($client, config('filesystems.disks.' . $filesystem . '.bucket'))),
+            'cache' => new \League\Flysystem\Filesystem(new \League\Flysystem\Adapter\Local(storage_path() . '/app')),
+            'cache_path_prefix' => 'cache',
+            'response' => new LaravelResponseFactory(),
+        ]);
+/*
+        header('Content-Type:'.$cache->getMimetype($path));
+        header('Content-Length:'.$cache->getSize($path));
+        header('Cache-Control:'.'max-age=31536000, public');
+        header('Expires:'.date_create('+1 years')->format('D, d M Y H:i:s').' GMT');
+*/
+        return $server->getImageResponse($path, $request->all());
     }
 }

@@ -62,7 +62,6 @@
                 table[id="emailHeader"], table[id="emailBody"], table[id="emailFooter"], table[class="flexibleContainer"] {width:100% !important;}
                 td[class="flexibleContainerBox"], td[class="flexibleContainerBox"] table {display: block;width: 100%;text-align: left;}
 
-                td[class="imageContent"] img {height:auto !important; width:100% !important; max-width:100% !important;}
                 img[class="flexibleImage"]{height:auto !important; width:100% !important;max-width:100% !important;}
                 img[class="flexibleImageSmall"]{height:auto !important; width:auto !important;}
 
@@ -156,9 +155,9 @@
                                                                 <tbody><tr>
                                                                     <td valign="top" align="center" class="imageContent">
                                                                         @if(isset($user->company_logo) && $user->company_logo)
-                                                                        <img src="{{ url('img/' . $user->company_logo) }}?w=500&amp;h=100&amp;fit=max"  style="max-width:500px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
+                                                                        <img src="{{ url('img/' . $user->company_logo) }}?w=500&h=100&fit=max"  style="max-width:500px;max-height:100px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
                                                                         @else
-                                                                        <img src="{{ url('img/logo.png') }}?w=500&amp;h=100&amp;fit=max"  style="max-width:500px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
+                                                                        <img src="{{ url('img/logo.png') }}?w=500&h=100&fit=max"  style="max-width:500px;max-height:100px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
                                                                         @endif
                                                                     </td>
                                                                 </tr>

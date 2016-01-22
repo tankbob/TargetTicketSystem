@@ -28,7 +28,7 @@
 
 	           	<div @if($errors->has('title')) has-error dark @endif>
 	           		@if($errors->has('title'))
-	           			 <span class="alert-danger"> {{ $errors->first('title') }} </span>
+	           			 <span class="alert-warning"> {{ $errors->first('title') }} </span>
 	           		@endif
 					{!! Form::text('title', @$ticket->title, ['class' => 'form-control form-title-input', 'placeholder' => 'Title']) !!}
 		        </div>
@@ -39,7 +39,7 @@
 		        </div>
 	           	<div @if($errors->has('content')) has-error dark @endif>
 	           		@if($errors->has('content'))
-	           			<span class="alert-danger"> {{ $errors->first('content') }} </span>
+	           			<span class="alert-warning"> {{ $errors->first('content') }} </span>
 	           		@endif
 					{!! Form::textarea('content', @$ticket->content, ['placeholder' => 'Your Text', 'id' => 'content', 'class' => 'ticket-content']) !!}
 		        </div>

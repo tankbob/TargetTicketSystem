@@ -98,6 +98,10 @@ function togglePage($element, $ajaxUri, $slug) {
             $element.html(html).slideDown();
             setUpValidation();
             stopProgress();
+        })
+        .error(function(html) {
+            $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+            stopProgress();
         });
     }
 }
@@ -122,6 +126,14 @@ function setUpValidation() {
  *
  */
 function toggleFormFields(typeValue){
+
+    $('.icon-container label').removeClass('selected');
+    $selectedTab = $('input[name=type]:checked', '.object-editor').val();
+    $labelFor = $('input[name=type][value=' + $selectedTab + ']').attr('id');
+    $('label[for="' + $labelFor + '"]').addClass('selected');
+
+    $('.dateInput').mask("99/99/9999");
+
     switch(typeValue) {
         case '1':
             $('#publishedAtDiv').addClass('hidden');
@@ -209,6 +221,10 @@ $(document).ready(function () {
     if(is_touch_device()) {
         $('.click-only').addClass('hidden');
         $('.touch-only').removeClass('hidden');
+
+        $('.tappable-row').on('click', function() {
+            window.location.href = $(this).data('url');
+        });
     } else {
         $('.click-only').removeClass('hidden');
         $('.touch-only').addClass('hidden');
@@ -278,6 +294,10 @@ $(document).ready(function () {
                         offset: -100,
                         scrollTarget: '#clientFormDiv'
                     });
+                },
+                error: function(html) {
+                    $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                    stopProgress();
                 }
             });
 
@@ -310,6 +330,10 @@ $(document).ready(function () {
                         offset: -100,
                         scrollTarget: $target
                     });
+                },
+                error: function(html) {
+                    $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                    stopProgress();
                 }
             });
             e.preventDefault();
@@ -331,6 +355,10 @@ $(document).ready(function () {
                             var res = $.parseJSON(response);
                             $($delrow).remove();
                             $.growl.notice({ title: "Success", message: res.success});
+                        },
+                        error: function(html) {
+                            $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                            stopProgress();
                         }
                     });
                 }
@@ -359,6 +387,10 @@ $(document).ready(function () {
                         $($target).html(response);
                         $($target).slideDown();
                         stopProgress();
+                    },
+                    error: function(html) {
+                        $.growl.error({ title: "Error", message: 'You have been logged out, please reload the page to login again'});
+                        stopProgress();
                     }
                 });
             } else {
@@ -370,7 +402,7 @@ $(document).ready(function () {
             e.stopPropagation();
         });
 
-        $('.dateInput').mask("99/99/9999",{placeholder:"DD/MM/YYYY"});
+        $('.dateInput').mask("99/99/9999");
     }
 
 
@@ -399,6 +431,7 @@ $(document).ready(function () {
     });
 
     toggleFormFields($('.type:checked').val());
+    $('.dateInput').mask("99/99/9999");
 
 
     /**
