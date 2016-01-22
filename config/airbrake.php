@@ -20,7 +20,7 @@ return [
   /**
    * Which enviroments should be ingored? (ex. local)
    */
-  'ignore_environments' => ['local'],
+  'ignore_environments' => ['local', 'testing', 'development'],
 
   /**
    * Ignore these exceptions

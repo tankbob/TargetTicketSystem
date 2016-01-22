@@ -36,3 +36,11 @@ $factory->defineAs(TargetInk\User::class, 'admin', function ($faker) use ($facto
 
     return array_merge($user, ['admin' => true]);
 });
+
+$factory->define(TargetInk\Advert::class, function (Faker\Generator $faker) {
+    return [
+        'name' => 'Sample Advert',
+        'url' => 'http://www.example.com',
+        'image' => 'skyscraper-example.gif',
+    ];
+});
