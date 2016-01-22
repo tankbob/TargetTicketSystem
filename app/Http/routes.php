@@ -1,5 +1,10 @@
 <?php
 
+// Remove Registration
+Route::any('auth/register', function () {
+    return abort(404);
+});
+
 // Auth controllers
 Route::controllers([
     'auth' => 'Auth\AuthController',
