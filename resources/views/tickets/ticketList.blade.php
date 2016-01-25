@@ -89,7 +89,7 @@
                 <tbody>
                     @foreach($client->tickets as $ticket)
                         <tr id="{{ $ticket->id }}" class="tappable-row" data-url="{{ $ticket->getUrl() }}">
-                            <td class="click-only"><a href="{{ $ticket->getUrl() }}" class="show-on-hover icon-goto"></a></td>
+                            <td class="click-only"><a href="{{ $ticket->getUrl() }}" class="show-on-hover icon-goto" name="goto-ticket"></a></td>
                             <td class="td-adjust">{{ $ticket->title }}</td>
                             <td class="td-adjust hidden-sm hidden-xs">{{ $ticket->getRef() }}</td>
                             <td class="td-adjust hidden-xs">{{ $ticket->getType() }}</td>
@@ -101,18 +101,18 @@
                             </td>
                             @if($archived)
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive" name="unarchive-ticket"></a>
                             </td>
                             @else
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive" name="archive-ticket"></a>
                             </td>
                             @endif
                             @if(auth()->user()->admin)
                                 <th class="td-adjust hidden-xs">{{$ticket->totalTime()}}</th>
                                 <td class="td-adjust text-center hidden-xs">
                                     {!! Form::open(['url' => '/'.$client->company_slug.'/tickets/'.$ticket->id, 'method' => 'DELETE']) !!}
-                                        {!! Form::submit('', ['class' => 'btn-delete icon-delete']) !!}
+                                        {!! Form::submit('', ['class' => 'btn-delete icon-delete', 'name' => 'delete-ticket']) !!}
                                     {!! Form::close() !!}
                                 </td>
                             @endif

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(!app()->runningInConsole()) {
+        if(!app()->runningInConsole() || env('PHPUNIT', false)) {
             $init = ['' => 'Choose a Client...'];
             $this->clientDropList = \TargetInk\User::where('admin', 0)->orderBy('company')->lists('web', 'id')->toArray();
 

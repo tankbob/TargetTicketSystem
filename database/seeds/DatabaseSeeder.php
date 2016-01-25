@@ -69,21 +69,8 @@ class DatabaseSeeder extends Seeder
 
         $usersToSeed = 25;
         for ($i = 1; $i <= $usersToSeed; $i++) {
-            $company = $faker->company;
-            $company_slug = strtolower(str_replace(' ', '_', $company));
-            $company_slug = str_replace(',', '', $company_slug);
-            $company_slug = str_replace('.', '', $company_slug);
-
-            $user = User::create([
-                'name' => $faker->name,
-                'email' => $faker->email,
-                'company' => $company,
-                'company_slug' => $company_slug,
-                'web' => $faker->domainName,
-                'admin' => false,
-                'password' => bcrypt('secret'),
-                'instant' => sha1($faker->name . $faker->email . $company),
-            ]);
+            $user = factory(TargetInk\User::class)->make();
+            $user->save();
 
             // Create tickets
             for($t = 1; $t < rand(1, 6); $t++){
