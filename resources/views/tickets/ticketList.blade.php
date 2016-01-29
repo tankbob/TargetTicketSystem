@@ -46,10 +46,10 @@
                     <i class="icon-goto"></i>
                 </td>
                 <td class="td-adjust click-only hidden-xs">
-                    Double Click to View Ticket
+                    Click on the arrow to view ticket
                 </td>
                 <td class="td-adjust text-right click-only">
-                    Click &amp; Drag to Reprioritise Ticket
+                    Click, hold &amp; drag icon to Reprioritise
                 </td>
                 <td class="td-adjust touch-only hidden">
                     Tap to View Ticket
