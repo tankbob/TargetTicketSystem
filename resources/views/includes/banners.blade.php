@@ -3,7 +3,7 @@
 	@foreach(auth()->user()->adverts as $advert)
 	<div class="sponsor">
 	    <a href="{{ $advert->url }}" target="_blank">
-			<img src="{{ url('img/' . $advert->image) }}?w=120&amp;h=240&amp;fit=max" alt="{{ $advert->name }}">
+			<img src="{{ 'https://s3-eu-west-1.amazonaws.com/' . config('filesystems.disks.s3.bucket') . '/' . $advert->image }}" alt="{{ $advert->name }}">
 	    </a>
 	</div>
 	@endforeach
