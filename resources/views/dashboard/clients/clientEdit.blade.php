@@ -23,7 +23,7 @@
                     @if(isset($client->company_logo) && $client->company_logo)
                         <img src="{{ url('img/' . $client->company_logo) }}?w=150&amp;h=150&amp;fit=max" alt="" title="">
                     @else
-                        <img src="{{ url('img/logo.png') }}?w=150&amp;h=150&amp;fit=max" alt="" title="">
+                        <img src="{{ url('images/logo.svg') }}" alt="" title="" style="max-width:150px;">
                     @endif
                 </div>
             </div>

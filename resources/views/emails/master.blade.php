@@ -155,9 +155,9 @@
                                                                 <tbody><tr>
                                                                     <td valign="top" align="center" class="imageContent">
                                                                         @if(isset($user->company_logo) && $user->company_logo)
-                                                                        <img src="{{ url('img/' . $user->company_logo) }}?w=500&h=100&fit=max"  style="max-width:500px;max-height:100px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
+                                                                        <img src="{{ url('img/' . $user->company_logo) }}?w=500&h=100&fit=max" style="max-width:500px;max-height:100px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
                                                                         @else
-                                                                        <img src="{{ url('img/logo.png') }}?w=500&h=100&fit=max"  style="max-width:500px;max-height:100px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
+                                                                        <img src="{{ url('images/logo.svg') }}" style="max-width:500px;max-height:100px;display:block;margin:0 auto;padding:10px 0;" alt="" title="">
                                                                         @endif
                                                                     </td>
                                                                 </tr>

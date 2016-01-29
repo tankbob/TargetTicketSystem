@@ -5,7 +5,7 @@
     <div class="auth-form col-md-8 col-md-offset-2">
         <div class="text-center">
             <a href="{{ url('/') }}" class="target-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="">
+                <img src="{{ asset('images/logo.svg') }}" alt="">
             </a>
         </div>
         @if (count($errors) > 0)
