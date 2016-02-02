@@ -62,16 +62,19 @@
         <div class="container">
             @yield('content')
         </div>
+
         <script src="{{ elixir('build/js/app.js') }}"></script>
         @if(auth()->check())
             <script src="/js/validation.js?{{ config('app.hash') }}"></script>
             @yield('scripts')
         @endif
 
+        @if(app()->environment() != 'local')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/airbrake-js/0.5.8/client.min.js" type="text/javascript"></script>
         <script type="text/javascript">
         var airbrake = new airbrakeJs.Client({projectId: '6e24fe7e9906ef1d07138da38487bc64', projectKey: '6e24fe7e9906ef1d07138da38487bc64'});
         airbrake.setHost("https://helio-errbit.herokuapp.com/");
         </script>
+        @endif
     </body>
 </html>
