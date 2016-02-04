@@ -72,7 +72,7 @@ class AuthTest extends TestCase
         $this->assertEquals(404, $response->status());
 
         $response = $this->call('POST', 'auth/register');
-        $this->assertEquals(302, $response->status());
+        $this->assertEquals(404, $response->status());
     }
 
     public function testResetPasswordEmail()
