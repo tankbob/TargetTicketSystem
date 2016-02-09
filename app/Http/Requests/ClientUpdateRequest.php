@@ -29,12 +29,9 @@ class ClientUpdateRequest extends Request
     {
         return [
             'name' => 'required|max:255',
-            'web' => 'required|url|max:255',
+            'web' => 'required|max:255',
             'password' => 'max:255',
-            // Can't enable until:
-            // https://github.com/proengsoft/laravel-jsvalidation/issues/128
-            //'email' => 'required|email|max:255|unique:users,email,' . request()->input('client_id'),
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . request()->input('client_id'),
         ];
     }
 }

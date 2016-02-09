@@ -5,6 +5,7 @@ namespace TargetInk\Http\Controllers;
 use Illuminate\Http\Request;
 use TargetInk\Http\Requests;
 use TargetInk\Http\Requests\ClientCreateRequest;
+use TargetInk\Http\Requests\ClientUpdateRequest;
 use TargetInk\Http\Controllers\Controller;
 
 use TargetInk\User;
@@ -135,7 +136,7 @@ class ClientsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientUpdateRequest $request, $id)
     {
         $client = User::find($id);
         $client->fill($request->except(['password']));

@@ -43,16 +43,16 @@
         "post-install-cmd": [
             "php artisan clear-compiled",
             "php artisan optimize",
-            "cp -R vendor/twbs/bootstrap/dist/css/* resources/assets/css/plugins",
-            "cp -R vendor/twbs/bootstrap/dist/js/* resources/assets/js/plugins"
+            "php -r \"copy('vendor/twbs/bootstrap/dist/css/bootstrap.min.css', 'resources/assets/css/plugins/bootstrap.min.css');\"",
+            "php -r \"copy('vendor/twbs/bootstrap/dist/js/bootstrap.min.js', 'resources/assets/js/plugins/bootstrap.min.js');\""
         ],
         "pre-update-cmd": [
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
             "php artisan optimize",
-            "cp -R vendor/twbs/bootstrap/dist/css/* resources/assets/css/plugins",
-            "cp -R vendor/twbs/bootstrap/dist/js/* resources/assets/js/plugins"
+            "php -r \"copy('vendor/twbs/bootstrap/dist/css/bootstrap.min.css', 'resources/assets/css/plugins/bootstrap.min.css');\"",
+            "php -r \"copy('vendor/twbs/bootstrap/dist/js/bootstrap.min.js', 'resources/assets/js/plugins/bootstrap.min.js');\""
         ],
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""

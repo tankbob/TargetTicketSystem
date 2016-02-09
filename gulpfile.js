@@ -22,7 +22,7 @@ elixir(function(mix) {
 			'app.css'
 		], 'public/build/css/app.css')
 		.scripts([
-			'plugins/jquery-1.11.3.min.js',
+			'plugins/jquery.min.js',
 			'plugins/bootstrap.min.js',
 			'plugins/jquery-sortable.js',
 			'plugins/jquery.maskedinput.min.js',
