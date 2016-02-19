@@ -118,6 +118,7 @@ class ClientsController extends Controller
     public function edit(Request $request, $id)
     {
         $client = User::where('admin', 0)->find($id);
+        $client->password = null;
         $client_id = $client->id;
         $clientForm = view('dashboard.clients.clientEdit', compact('client', 'client_id'));
         if($request->ajax()) {
