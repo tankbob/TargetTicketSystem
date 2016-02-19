@@ -45,7 +45,7 @@
                 <a href="{{ url('password/email') }}" class="pull-right">Reset password</a>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-login pull-left">Login</button>
+            <button type="submit" class="btn btn-primary target-btn btn-login pull-left">Login</button>
            
         </form>
     </div>
