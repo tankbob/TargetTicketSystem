@@ -804,11 +804,11 @@ body.loading, body.loading * {
 }
 
 .target-btn-success {
-
+    background: #2fcd9d;
 }
 
 .target-btn-success:hover {
-
+    background: #258f6f;
 }
 
 .target-btn-info {
