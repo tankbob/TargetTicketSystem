@@ -33,6 +33,11 @@
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password">
             </div>
 
+            <div class="form-group">
+                <input type="text" class="form-control captcha-input" id="captcha" placeholder="Captcha" name="captcha">
+                {!! captcha_img() !!}
+            </div>
+
             <div class="checkbox">
                 <label>
                     <input type="checkbox" name="remember" value="1"> Remember Me

@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'email_to' => env('EMAIL_TO', 'adam.tester@heliocentrix.co.uk'),
+    'email_to' => env('EMAIL_TO', 'info@heliocentrix.co.uk'),
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +174,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
         Proengsoft\JsValidation\JsValidationServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
 
     ],
 
@@ -230,6 +231,8 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
+
     ],
 
 ];

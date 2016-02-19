@@ -1095,3 +1095,7 @@ p.document {
     margin:0px;
     padding:0px;
 }
+
+.captcha-input {
+    margin-bottom:15px;
+}
