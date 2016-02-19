@@ -8,8 +8,9 @@
             {!! Form::hidden('client_id', $client_id, ['id' => 'client_id']) !!}
             {!! FormHelper::bs('text', 'name', 'Full Name:') !!}
             {!! FormHelper::bs('text', 'email', 'Email Address:') !!}
+            {!! FormHelper::bs('text', 'second_email', 'Secondary Email Address:') !!}
             {!! FormHelper::bs('text', 'phone', 'Phone Number:') !!}
-            {!! FormHelper::bs('password', 'password', 'Password:') !!}
+            {!! FormHelper::bs('text', 'password', 'Password:') !!}
             {!! FormHelper::bs('text', 'company', 'Company Name:') !!}
             {!! FormHelper::bs('text', 'web', 'Website URL:') !!}
             {!! FormHelper::bs('text', 'type', 'Account Type:') !!}

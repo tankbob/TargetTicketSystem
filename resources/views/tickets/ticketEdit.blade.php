@@ -11,7 +11,7 @@
 @section('content')
 <div class="page-heading text-center">
     <h1>Choose a ticket</h1>
-    <p>Choose wich kind of request to submit from the following:</p>
+    <p>Choose which kind of request to submit from the following:</p>
 </div>
 <div class="page-content">
     <div class="row">

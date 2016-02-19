@@ -33,6 +33,11 @@
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password">
             </div>
 
+            <div class="form-group">
+                <input type="text" class="form-control captcha-input" id="captcha" placeholder="Captcha" name="captcha">
+                {!! captcha_img() !!}
+            </div>
+
             <div class="checkbox">
                 <label>
                     <input type="checkbox" name="remember" value="1"> Remember Me
@@ -40,7 +45,7 @@
                 <a href="{{ url('password/email') }}" class="pull-right">Reset password</a>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-login pull-left">Login</button>
+            <button type="submit" class="btn btn-primary target-btn btn-login pull-left">Login</button>
            
         </form>
     </div>

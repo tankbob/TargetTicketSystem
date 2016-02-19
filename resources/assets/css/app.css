@@ -804,11 +804,11 @@ body.loading, body.loading * {
 }
 
 .target-btn-success {
-
+    background: #2fcd9d;
 }
 
 .target-btn-success:hover {
-
+    background: #258f6f;
 }
 
 .target-btn-info {
@@ -1094,4 +1094,8 @@ p.document {
 .no-mp {
     margin:0px;
     padding:0px;
+}
+
+.captcha-input {
+    margin-bottom:15px;
 }

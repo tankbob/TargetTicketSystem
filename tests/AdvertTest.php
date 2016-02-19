@@ -17,8 +17,15 @@ class AdvertTest extends TestCase
         // Run the tests
         $this->visit('/')
              // Add an avert
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($admin->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->seePageIs('/')
              ->see('Click here to manage adverts displayed to clients')
@@ -28,8 +35,15 @@ class AdvertTest extends TestCase
              // Check if it exists
              ->click('Logout')
              ->visit('auth/login')
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($user->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->see('class="sponsor"')
              ->see('skyscraper-example.gif')

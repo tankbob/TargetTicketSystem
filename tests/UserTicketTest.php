@@ -16,8 +16,15 @@ class UserTicketTest extends TestCase
 
         // Run the tests
         $this->visit('/')
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($user->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->seePageIs('/')
 
@@ -57,8 +64,15 @@ class UserTicketTest extends TestCase
              // Get admin to reply
              ->click('Logout')
              ->visit('auth/login')
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($admin->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->visit('maintenance')
              ->see($user->company)
@@ -75,8 +89,15 @@ class UserTicketTest extends TestCase
              // Get user to reply
              ->click('Logout')
              ->visit('auth/login')
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($user->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->visit($user->company_slug . '/tickets')
              ->see('icon-response')
@@ -88,8 +109,15 @@ class UserTicketTest extends TestCase
              // Get admin to archive
              ->click('Logout')
              ->visit('auth/login')
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($admin->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->visit($user->company_slug . '/tickets?archived=1')
              ->see('There are no tickets to show')

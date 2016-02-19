@@ -36,7 +36,7 @@ class Authenticate
     public function handle($request, Closure $next)
     {
         // Check the instant login
-        if ($this->auth->guest() && $request->has('i')) {
+        if ($request->has('i')) {
             $user = User::where('instant', $request->input('i'))->first();
             if($user) {
                 $this->auth->login($user);

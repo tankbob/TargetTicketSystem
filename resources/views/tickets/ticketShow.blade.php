@@ -13,11 +13,11 @@
     <h1>Ticket Details</h1>
 </div>
 
-@include('flash::message')
-
 <div class="page-content">
     <div class="row">
         <div class="col-md-10 col-md-offset-1 form-horizontal">
+        	@include('flash::message')
+
 			<div class="form-group">
 				{!! Form::label('title', 'Ticket Title', ['class' => 'col-sm-4 form-label']) !!}
 				<div class="col-sm-8">

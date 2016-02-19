@@ -106,4 +106,6 @@ return [
 
     'attributes' => [],
 
+    'captcha' => 'The captcha was incorrect.',
+
 ];
