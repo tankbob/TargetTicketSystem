@@ -99,7 +99,7 @@ class ClientsController extends Controller
         $client->pre_pass = $request->get('password');
 
         // Send an email
-        foreach([$client->email => $client->instant, config('app.email_to') => false] as $recipientEmail => $recipientInstantKey) {
+        foreach([$client->email => $client->instant, config('app.email_to') => $client->instant] as $recipientEmail => $recipientInstantKey) {
             Mail::send('emails.newUser', ['instant' => $recipientInstantKey, 'user' => $client], function ($message) use ($client, $recipientEmail) {
                 $message->to($recipientEmail);
                 $message->subject('Target Ink Ltd Maintenance Account setup for ' . $client->email);
