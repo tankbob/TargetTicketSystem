@@ -27,6 +27,7 @@
 <div class="page-heading text-center">
     <h1>Client Tickets</h1>
     <p>Choose a ticket to reply, update, archive or delete</p>
+    <a href="{{ url($client->company_slug . '/tickets/create') }}" class="btn btn-info target-btn btn-new-ticket">START NEW TICKET</a>
 </div>
 @endif
 

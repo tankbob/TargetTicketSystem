@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-@if(!auth()->user()->admin && session('ticket_success') && session('company_slug'))
+@if(session('ticket_success') && session('company_slug'))
 @include('tickets.ticketSuccess', ['company_slug' => session('company_slug')]);
 @else
 
