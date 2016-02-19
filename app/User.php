@@ -29,14 +29,28 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'company', 'company_slug', 'password', 'phone', 'web', 'type', 'start_date'];
+    protected $fillable = [
+        'name',
+        'email',
+        'second_email',
+        'company',
+        'company_slug',
+        'password',
+        'phone',
+        'web',
+        'type',
+        'start_date'
+    ];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
 
     public function scopeCompanies($query)
     {

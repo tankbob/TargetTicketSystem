@@ -32,6 +32,7 @@ class ClientUpdateRequest extends Request
             'web' => 'required|max:255',
             'password' => 'max:255',
             'email' => 'required|email|max:255|unique:users,email,' . request()->input('client_id'),
+            'second_email' => 'email|max:255',
         ];
     }
 }

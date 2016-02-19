@@ -32,6 +32,7 @@ class ClientCreateRequest extends Request
             'web' => 'required|max:255',
             'password' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,email',
+            'second_email' => 'email|max:255',
         ];
     }
 }
