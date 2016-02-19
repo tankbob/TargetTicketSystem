@@ -29,11 +29,18 @@ class AuthTest extends TestCase
              ->type('a@a.com', 'email')
              ->type('asdf', 'password')
              ->press('Login')
-             ->see('These credentials do not match our records')
+             ->see('The captcha field is required')
 
              // User Login
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($user->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->seePageIs('/')
              ->see('CHOOSE A SERVICE')
@@ -48,8 +55,15 @@ class AuthTest extends TestCase
              ->seePageIs('auth/login')
 
              // Admin Login
+             ->withSession([
+                'captcha' => [
+                    'sensitive' => false,
+                    'key' => bcrypt('asdfgh')
+                ]
+             ])
              ->type($admin->email, 'email')
              ->type('secret', 'password')
+             ->type('asdfgh', 'captcha')
              ->press('Login')
              ->seePageIs('/')
              ->see('Click here to manage adverts')
