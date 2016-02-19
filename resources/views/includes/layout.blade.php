@@ -46,13 +46,23 @@
             <div class="container">
                 @if(auth()->check() && auth()->user()->admin)
                 <div class="btn-group-justified main-nav" role="group">
+                    @if(request()->is('*/tickets/*'))
+                    <a href="{{ url(request()->segment(1) . '/tickets') }}" class="btn btn-default btn-menu">Back To Tickets</a>
+                    @else
                     <a href="{{ url('/') }}" class="btn btn-default btn-menu">Maintenance Accounts</a>
+                    @endif
+
                     <a href="{{ request()->url() }}" class="btn btn-default btn-menu active">@yield('sectionTitle')</a>
                     <a href="{{ url('auth/logout') }}" class="btn btn-default btn-menu btn-logout">Logout</a>
                 </div>
                 @elseif(auth()->check())
                 <div class="btn-group-justified main-nav" role="group">
+                    @if(request()->is('*/tickets/*'))
+                    <a href="{{ url(request()->segment(1) . '/tickets') }}" class="btn btn-default btn-menu">Back To Tickets</a>
+                    @else
                     <a href="{{ url('/') }}" class="btn btn-default btn-menu">Maintenance Accounts</a>
+                    @endif
+
                     <a href="{{ request()->url() }}" class="btn btn-default btn-menu active">@yield('sectionTitle')</a>
                     <a href="{{ url('auth/logout') }}" class="btn btn-default btn-menu btn-logout">Logout</a>
                 </div>
