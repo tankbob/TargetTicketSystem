@@ -73,7 +73,7 @@
             @if(auth()->user()->admin)
            		<div class="form-group">
            			<div class="col-xs-12">
-		           		{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary big-btn pull-right']) !!}
+		           		{!! Form::submit('Update Ticket', ['class' => 'btn btn-primary target-btn big-btn pull-right']) !!}
 	            		{!! Form::close() !!}
             		</div>
 	            </div>
