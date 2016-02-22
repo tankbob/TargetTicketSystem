@@ -194,7 +194,7 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = User::find($id);
-        $client->email = $client->email . '_old';
+        $client->email = $client->email . '_' . $id . '_' . md5($id);
         $client->save();
         $client->delete();
 
