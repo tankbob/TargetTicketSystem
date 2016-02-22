@@ -123,7 +123,7 @@ class ServicesController extends Controller
     {
         $client = null;
         if(auth()->user()->admin && $id) {
-            $client = User::with('services')->find($id);
+            $client = User::with('services')->findOrFail($id);
         }
 
         $serviceTable = view('dashboard.services.serviceShow', compact('client'));
