@@ -101,7 +101,7 @@ class AdvertController extends Controller
     {
         $client = null;
         if(auth()->user()->admin && $id) {
-            $client = User::with('adverts')->find($id);
+            $client = User::with('adverts')->findOrFail($id);
         }
 
         $advertTable = view('dashboard.adverts.advertShow', compact('client'));

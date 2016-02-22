@@ -149,7 +149,7 @@ class TicketController extends Controller
     public function show($company_slug, $ticket_id)
     {
         $this->middleware('ownCompany');
-        $ticket = Ticket::with('responses')->with('responses.attachments')->find($ticket_id);
+        $ticket = Ticket::with('responses')->with('responses.attachments')->findOrFail($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
         }

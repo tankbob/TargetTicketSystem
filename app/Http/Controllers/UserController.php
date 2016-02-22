@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function getInfo(Request $request) {
         $client_id = $request->input('client_id');
-        $client = User::where('admin', 0)->find($client_id)->toArray();
+        $client = User::where('admin', 0)->findOrFail($client_id)->toArray();
         echo json_encode($client);
     }
 

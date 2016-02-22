@@ -110,6 +110,16 @@ class ClientsController extends Controller
     }
 
     /**
+     * Redirect to the edit page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $id)
+    {
+        return redirect()->route('clients.edit', ['id' => $id]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -117,7 +127,7 @@ class ClientsController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $client = User::where('admin', 0)->find($id);
+        $client = User::where('admin', 0)->findOrFail($id);
         $client->password = null;
         $client_id = $client->id;
         $clientForm = view('dashboard.clients.clientEdit', compact('client', 'client_id'));
@@ -184,7 +194,7 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         $client = User::find($id);
-        $client->email = $client->email . '_old';
+        $client->email = $client->email . '_' . $id . '_' . md5($id);
         $client->save();
         $client->delete();
 
