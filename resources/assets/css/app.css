@@ -1068,7 +1068,7 @@ p.document {
 }
 
 #banner-form-div, #clientFormDiv, #services-form-div, #seo-form-div {
-    margin-bottom: 28px;
+    margin-bottom: 48px;
 }
 
 .your-tickets-icon, .your-services-icon {
@@ -1110,4 +1110,8 @@ p.document {
 
 .captcha-input {
     margin-bottom:15px;
+}
+
+#maintenance-support-div {
+    margin-bottom: 48px;
 }
