@@ -75,7 +75,7 @@ class AppController extends Controller
         $userValidators = [
         ];
         
-        if(auth()->user()->admin) {
+        if(auth()->check() && auth()->user()->admin) {
             $v = $adminValidators;
         } else {
             $v = $userValidators;
