@@ -124,7 +124,16 @@ class TicketController extends Controller
         self::processFileUpload($request, $response->id);
 
         // Send an email
-        foreach([$client->email => $client->instant, config('app.email_to') => false] as $recipientEmail => $recipientInstantKey) {
+        $recipients = [
+            $client->email => $client->instant,
+            config('app.email_to') => false,
+        ];
+
+        if($client->second_email) {
+            $recipients[$client->second_email] = $client->instant;
+        }
+
+        foreach($recipients as $recipientEmail => $recipientInstantKey) {
             Mail::send('emails.newTicket', ['instant' => $recipientInstantKey, 'user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipientEmail) {
                 $message->to($recipientEmail);
 
@@ -343,7 +352,7 @@ class TicketController extends Controller
         if($request->has('working_time')) {
             $wt = explode(':', $request->get('working_time'));
             if(is_array($wt) && isset($wt[0]) && isset($wt[1])) {
-                $response->working_time = 60*$wt[0]+$wt[1];
+                $response->working_time = 60 * $wt[0] + $wt[1];
             }
         }
         $response->admin = \Auth::user()->admin;
@@ -361,7 +370,11 @@ class TicketController extends Controller
         if(!auth()->user()->admin) {
             $recipients[config('app.email_to')] = false;
         }
-        
+
+        if($client->second_email) {
+            $recipients[$client->second_email] = $client->instant;
+        }
+
         foreach($recipients as $recipientEmail => $recipientInstantKey) {
             Mail::send('emails.newTicketReply', ['instant' => $recipientInstantKey, 'user' => $client, 'response' => $response, 'ticket' => $ticket], function ($message) use ($client, $response, $ticket, $recipientEmail) {
                 $message->to($recipientEmail);

@@ -96,6 +96,11 @@ class AdminDocumentsController extends Controller
 
         Mail::send('emails.newSeo', ['user' => $client, 'file' => $fileobj], function ($message) use ($client) {
             $message->to($client->email);
+
+            if($client->second_email) {
+                $message->bcc($client->second_email);
+            }
+
             $message->subject('Your latest SEO review from Target Ink Ltd - ' .  date('d/m/Y'));
         });
 
