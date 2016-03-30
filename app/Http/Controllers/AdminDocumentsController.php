@@ -101,7 +101,7 @@ class AdminDocumentsController extends Controller
                 $message->bcc($client->second_email);
             }
 
-            $message->subject('Your latest SEO review from Target Ink Ltd - ' .  date('d/m/Y'));
+            $message->subject('Your latest SEO review - ' .  date('d/m/Y'));
         });
 
         $fileobj->save();

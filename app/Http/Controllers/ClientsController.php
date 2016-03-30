@@ -111,7 +111,7 @@ class ClientsController extends Controller
         foreach($recipients as $recipientEmail => $recipientInstantKey) {
             Mail::send('emails.newUser', ['instant' => $recipientInstantKey, 'user' => $client], function ($message) use ($client, $recipientEmail) {
                 $message->to($recipientEmail);
-                $message->subject('Target Ink Ltd Maintenance Account setup for ' . $client->email);
+                $message->subject('Maintenance Account setup for ' . $client->email);
             });
         }
 
