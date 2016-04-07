@@ -27,7 +27,7 @@ build:
     tests:
         override:
             -
-                command: 'phpunit --coverage-clover=coverage.xml'
+                command: 'phpunit --coverage-clover=coverage.xml -d zend.enable_gc=0'
                 coverage:
                     file: 'coverage.xml'
                     format: 'php-clover'
