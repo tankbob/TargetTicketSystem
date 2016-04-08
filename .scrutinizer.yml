@@ -1,0 +1,42 @@
+# .scrutinizer.yml
+filter:
+    excluded_paths:
+        - vendor/*
+        - node_modules/*
+        - database/*
+        - tests/*
+        - app/Console/*
+build:
+    environment:
+        php:
+            version: 5.6
+        node: '5.1.0'
+
+    # Run after dependencies
+    project_setup:
+        before:
+            - mysql -e "CREATE DATABASE tim"
+            - cp .env.scrutinizer .env
+        
+        override:
+            - php artisan migrate --force
+            - php artisan db:seed --force
+            - npm install --global gulp
+            - gulp --production
+    
+    tests:
+        override:
+            -
+                command: 'phpunit --coverage-clover=coverage.xml'
+                coverage:
+                    file: 'coverage.xml'
+                    format: 'php-clover'
+    deployment:
+        -
+            branch: master
+            commands:
+                - wget https://forge.laravel.com/servers/59735/sites/127401/deploy/http?token=JhLebdwUIUeJas8uzBMIZFvMU96I82E17ASk64zZ
+        -
+            branch: development
+            commands:
+                - wget https://forge.laravel.com/servers/25695/sites/96302/deploy/http?token=xxZRgOEvDyZj5TWaprk8oVEcV1t4JMqTRbybLM0q
