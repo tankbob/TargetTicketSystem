@@ -96,7 +96,7 @@
                             <td class="td-adjust hidden-xs">{{ $ticket->getType() }}</td>
                             <td class="td-adjust hidden-xs">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
                             <td class="text-center">
-                                @if(@$ticket->responses->last()->admin)
+                                @if(@$ticket->responded)
                                 <i class="icon-response"></i>
                                 @endif
                             </td>
