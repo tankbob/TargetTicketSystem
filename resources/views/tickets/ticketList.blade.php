@@ -96,8 +96,16 @@
                             <td class="td-adjust hidden-xs">{{ $ticket->getType() }}</td>
                             <td class="td-adjust hidden-xs">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
                             <td class="text-center">
-                                @if(@$ticket->responded)
-                                <i class="icon-response"></i>
+                                @if(auth()->user()->admin)
+                                    @if(@$ticket->responded)
+                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unrespond" class="icon-response" name="responded-ticket"></a>
+                                    @else
+                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/respond" class="icon-delete" name="not-responded-ticket"></a>
+                                    @endif
+                                @else
+                                    @if(@$ticket->responded)
+                                        <i class="icon-response"></i>
+                                    @endif
                                 @endif
                             </td>
                             @if($archived)

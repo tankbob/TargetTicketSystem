@@ -262,6 +262,45 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
+    public function respond($company_slug, $ticket_id)
+    {
+        $this->middleware('ownCompany');
+        if(!\Auth::user()->admin){
+            return redirect()->to('/');
+        }
+
+        $ticket = Ticket::find($ticket_id);
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
+        }
+        $client_id = User::where('company_slug', $company_slug)->first()->id;
+        $ticket->responded = 1;
+
+        $ticket->save();
+        flash()->success('The ticket has been marked as responded.');
+        return redirect()->back();
+    }
+
+    public function unrespond($company_slug, $ticket_id)
+    {
+        $this->middleware('ownCompany');
+        if(!\Auth::user()->admin){
+            return redirect()->to('/');
+        }
+
+        $ticket = Ticket::find($ticket_id);
+        if($ticket->client->company_slug != $company_slug) {
+            return redirect('/');
+        }
+        $client_id = User::where('company_slug', $company_slug)->first()->id;
+        $ticket->responded = 0;
+        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
+        
+        $ticket->save();
+        flash()->success('The ticket has been marked as not responded.');
+        return redirect()->back();
+    }
+
     public function setOrder(Request $request)
     {
         $user_id = $request->input('user_id');

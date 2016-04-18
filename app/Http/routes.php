@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('{company_slug}/tickets', 'TicketController');
     Route::get('{company_slug}/tickets/{id}/archive', 'TicketController@archive');
     Route::get('{company_slug}/tickets/{id}/unarchive', 'TicketController@unarchive');
+    Route::get('{company_slug}/tickets/{id}/respond', 'TicketController@respond');
+    Route::get('{company_slug}/tickets/{id}/unrespond', 'TicketController@unrespond');
     Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
     Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
 
