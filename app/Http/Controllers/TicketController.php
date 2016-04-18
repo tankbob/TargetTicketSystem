@@ -362,10 +362,14 @@ class TicketController extends Controller
         self::processFileUpload($request, $response->id);
         flash()->success('The response has been sent.');
 
-        // Send an email
         $client = User::where('company_slug', $company_slug)->first();
         $ticket = Ticket::find($response->ticket_id);
 
+        // Update the responded flag
+        $ticket->responded = \Auth::user()->admin;
+        $ticket->save();
+
+        // Send an email
         $recipients = [$client->email => $client->instant];
         if(!auth()->user()->admin) {
             $recipients[config('app.email_to')] = false;
