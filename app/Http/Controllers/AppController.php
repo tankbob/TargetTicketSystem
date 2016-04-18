@@ -44,7 +44,7 @@ class AppController extends Controller
 
     public function showMaintenance(Request $request)
     {
-        $clients = User::where('admin', 0)->orderBy('company')->get();
+        $clients = User::with('openTickets')->where('admin', 0)->orderBy('company')->get();
 
         $maintenanceList = view('dashboard.tickets.tickets', compact('clients'));
         if($request->ajax()) {
