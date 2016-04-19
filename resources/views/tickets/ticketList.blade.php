@@ -128,10 +128,10 @@
                             <td class="click-only"><i class="show-on-hover icon-move"></i></td>
                             <td class="touch-only hidden">
                                 <div>
-                                    <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->first) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
+                                    <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket == $client->tickets->first()) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
                                 </div>
                                 <div>
-                                    <a href="{{ url('api/move/ticket/down/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->last) style="visibility:hidden" @endif><i class="fa fa-2x fa-caret-down"></i></a>
+                                    <a href="{{ url('api/move/ticket/down/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket == $client->tickets->last()) style="visibility:hidden" @endif><i class="fa fa-2x fa-caret-down"></i></a>
                                 </div>
                             </td>
                         </tr>

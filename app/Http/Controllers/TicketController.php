@@ -45,24 +45,6 @@ class TicketController extends Controller
             $q->where('archived', '=', $archived);
         }, 'tickets.client', 'tickets.responses'])->first();
 
-        $tickets = $client->tickets;
-
-        $counter = 0;
-        foreach($client->tickets as $ticket) {
-            $counter++;
-            if($counter == 1) {
-                $ticket->first = true;
-            } else {
-                $ticket->first = false;
-            }
-
-            if($counter == count($client->tickets)) {
-                $ticket->last = true;
-            } else {
-                $ticket->last = false;
-            }
-        }
-
         return view('tickets.ticketList', compact('archived', 'client'));
     }
 
