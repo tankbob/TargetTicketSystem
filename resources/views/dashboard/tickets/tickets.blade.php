@@ -6,7 +6,7 @@
         <th class="goto-column"></th>
         <th>Company</th>
         <th class="hidden-xs">Clients Name</th>
-        <th>Open Tickets</th>
+        <th>Response Needed</th>
     </thead>
     <tbody>
         @foreach($clients as $client)
@@ -14,7 +14,7 @@
                 <td><i class="show-on-hover icon-goto"></i></td>
                 <td class="td-adjust">{{ $client->company }}</td>
                 <td class="td-adjust hidden-xs">{{ $client->name }}</td>
-                <td class="td-adjust">{{ count($client->openTickets) }}</td>
+                <td class="td-adjust">{{ count($client->openTickets->where('responded', 0)) }}</td>
             </tr>
         @endforeach
     </tbody>
