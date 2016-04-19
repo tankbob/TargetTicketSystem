@@ -98,9 +98,9 @@
                             <td class="text-center">
                                 @if(auth()->user()->admin)
                                     @if(@$ticket->responded)
-                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unrespond" class="icon-response" name="responded-ticket"></a>
+                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/respond/0" class="icon-response" name="responded-ticket"></a>
                                     @else
-                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/respond" class="icon-delete" name="not-responded-ticket"></a>
+                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/respond/1" class="icon-delete" name="not-responded-ticket"></a>
                                     @endif
                                 @else
                                     @if(@$ticket->responded)
@@ -110,11 +110,11 @@
                             </td>
                             @if($archived)
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive" name="unarchive-ticket"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive/0" class="btn-unarchive" name="unarchive-ticket"></a>
                             </td>
                             @else
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive" name="archive-ticket"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive/1" class="btn-archive" name="archive-ticket"></a>
                             </td>
                             @endif
                             @if(auth()->user()->admin)

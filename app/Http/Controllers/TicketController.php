@@ -134,7 +134,7 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $company_slug
      * @return \Illuminate\Http\Response
      */
     public function show($company_slug, $ticket_id)
@@ -146,21 +146,6 @@ class TicketController extends Controller
         }
 
         return view('tickets.ticketShow', compact('ticket', 'company_slug'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        /*
-        $this->middleware('ownCompany');
-        $ticket = Ticket::find($id);
-        return view('tickets.ticketEdit', compact('ticket'));
-        */
     }
 
     /**
@@ -202,7 +187,7 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function archive($company_slug, $ticket_id)
+    public function archive($company_slug, $ticket_id, $archive)
     {
         $this->middleware('ownCompany');
         $ticket = Ticket::find($ticket_id);
@@ -210,8 +195,8 @@ class TicketController extends Controller
             return redirect('/');
         }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
-        $ticket->archived = 1;
-        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
+        $ticket->archived = $archive;
+        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', $archive)->orderBy('order', 'desc')->first();
         if($order) {
             $order = $order->order +1;
         } else {
@@ -219,32 +204,15 @@ class TicketController extends Controller
         }
         $ticket->order = $order;
         $ticket->save();
-        flash()->success('The ticket has been successfully archived.');
+        if($archive){
+            flash()->success('The ticket has been successfully archived.');
+        }else{
+            flash()->success('The ticket has been successfully unarchived.');
+        }
         return redirect()->back();
     }
 
-    public function unarchive($company_slug, $ticket_id)
-    {
-        $this->middleware('ownCompany');
-        $ticket = Ticket::find($ticket_id);
-        if($ticket->client->company_slug != $company_slug) {
-            return redirect('/');
-        }
-        $client_id = User::where('company_slug', $company_slug)->first()->id;
-        $ticket->archived = 0;
-        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
-        if($order) {
-            $order = $order->order +1;
-        } else {
-            $order = 1;
-        }
-        $ticket->order = $order;
-        $ticket->save();
-        flash()->success('The ticket has been successfully unarchived.');
-        return redirect()->back();
-    }
-
-    public function respond($company_slug, $ticket_id)
+    public function respond($company_slug, $ticket_id, $value)
     {
         $this->middleware('ownCompany');
         if(!\Auth::user()->admin){
@@ -256,30 +224,15 @@ class TicketController extends Controller
             return redirect('/');
         }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
-        $ticket->responded = 1;
+        $ticket->responded = $value;
 
         $ticket->save();
-        flash()->success('The ticket has been marked as responded.');
-        return redirect()->back();
-    }
-
-    public function unrespond($company_slug, $ticket_id)
-    {
-        $this->middleware('ownCompany');
-        if(!\Auth::user()->admin){
-            return redirect()->to('/');
+        if($value){
+            flash()->success('The ticket has been marked as responded.');
+        }else{
+            flash()->success('The ticket has been marked as not responded.');
         }
-
-        $ticket = Ticket::find($ticket_id);
-        if($ticket->client->company_slug != $company_slug) {
-            return redirect('/');
-        }
-        $client_id = User::where('company_slug', $company_slug)->first()->id;
-        $ticket->responded = 0;
-        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
         
-        $ticket->save();
-        flash()->success('The ticket has been marked as not responded.');
         return redirect()->back();
     }
 
