@@ -96,17 +96,25 @@
                             <td class="td-adjust hidden-xs">{{ $ticket->getType() }}</td>
                             <td class="td-adjust hidden-xs">@if($ticket->cost) &pound;{{ $ticket->cost }} @else N/A @endif</td>
                             <td class="text-center">
-                                @if(@$ticket->responses->last()->admin)
-                                <i class="icon-response"></i>
+                                @if(auth()->user()->admin)
+                                    @if(@$ticket->responded)
+                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/respond/0" class="icon-response" name="responded-ticket"></a>
+                                    @else
+                                        <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/respond/1" class="icon-delete" name="not-responded-ticket"></a>
+                                    @endif
+                                @else
+                                    @if(@$ticket->responded)
+                                        <i class="icon-response"></i>
+                                    @endif
                                 @endif
                             </td>
                             @if($archived)
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/unarchive" class="btn-unarchive" name="unarchive-ticket"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive/0" class="btn-unarchive" name="unarchive-ticket"></a>
                             </td>
                             @else
                             <td class="text-center hidden-xs">
-                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive" class="btn-archive" name="archive-ticket"></a>
+                                <a href="/{{$client->company_slug}}/tickets/{{$ticket->id}}/archive/1" class="btn-archive" name="archive-ticket"></a>
                             </td>
                             @endif
                             @if(auth()->user()->admin)
@@ -120,10 +128,10 @@
                             <td class="click-only"><i class="show-on-hover icon-move"></i></td>
                             <td class="touch-only hidden">
                                 <div>
-                                    <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->first) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
+                                    <a href="{{ url('api/move/ticket/up/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket == $client->tickets->first()) style="visibility:hidden" @endif ><i class="fa fa-2x fa-caret-up"></i></a>
                                 </div>
                                 <div>
-                                    <a href="{{ url('api/move/ticket/down/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket->last) style="visibility:hidden" @endif><i class="fa fa-2x fa-caret-down"></i></a>
+                                    <a href="{{ url('api/move/ticket/down/' . $client->id . '/' . $ticket->id . '/' . $archived) }}" class="mobile-order-icon" @if($ticket == $client->tickets->last()) style="visibility:hidden" @endif><i class="fa fa-2x fa-caret-down"></i></a>
                                 </div>
                             </td>
                         </tr>

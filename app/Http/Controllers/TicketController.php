@@ -45,24 +45,6 @@ class TicketController extends Controller
             $q->where('archived', '=', $archived);
         }, 'tickets.client', 'tickets.responses'])->first();
 
-        $tickets = $client->tickets;
-
-        $counter = 0;
-        foreach($client->tickets as $ticket) {
-            $counter++;
-            if($counter == 1) {
-                $ticket->first = true;
-            } else {
-                $ticket->first = false;
-            }
-
-            if($counter == count($client->tickets)) {
-                $ticket->last = true;
-            } else {
-                $ticket->last = false;
-            }
-        }
-
         return view('tickets.ticketList', compact('archived', 'client'));
     }
 
@@ -152,7 +134,7 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $company_slug
      * @return \Illuminate\Http\Response
      */
     public function show($company_slug, $ticket_id)
@@ -164,21 +146,6 @@ class TicketController extends Controller
         }
 
         return view('tickets.ticketShow', compact('ticket', 'company_slug'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        /*
-        $this->middleware('ownCompany');
-        $ticket = Ticket::find($id);
-        return view('tickets.ticketEdit', compact('ticket'));
-        */
     }
 
     /**
@@ -220,7 +187,7 @@ class TicketController extends Controller
         return redirect()->back();
     }
 
-    public function archive($company_slug, $ticket_id)
+    public function archive($company_slug, $ticket_id, $archive)
     {
         $this->middleware('ownCompany');
         $ticket = Ticket::find($ticket_id);
@@ -228,8 +195,8 @@ class TicketController extends Controller
             return redirect('/');
         }
         $client_id = User::where('company_slug', $company_slug)->first()->id;
-        $ticket->archived = 1;
-        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 1)->orderBy('order', 'desc')->first();
+        $ticket->archived = $archive;
+        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', $archive)->orderBy('order', 'desc')->first();
         if($order) {
             $order = $order->order +1;
         } else {
@@ -237,28 +204,34 @@ class TicketController extends Controller
         }
         $ticket->order = $order;
         $ticket->save();
-        flash()->success('The ticket has been successfully archived.');
+        if($archive){
+            flash()->success('The ticket has been successfully archived.');
+        }else{
+            flash()->success('The ticket has been successfully unarchived.');
+        }
         return redirect()->back();
     }
 
-    public function unarchive($company_slug, $ticket_id)
+    public function respond($company_slug, $ticket_id, $value)
     {
         $this->middleware('ownCompany');
+        if(!\Auth::user()->admin){
+            return redirect()->to('/');
+        }
+
         $ticket = Ticket::find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
         }
-        $client_id = User::where('company_slug', $company_slug)->first()->id;
-        $ticket->archived = 0;
-        $order = Ticket::where('client_id', '=', $client_id)->where('archived', '=', 0)->orderBy('order', 'desc')->first();
-        if($order) {
-            $order = $order->order +1;
-        } else {
-            $order = 1;
-        }
-        $ticket->order = $order;
+        $ticket->responded = $value;
+
         $ticket->save();
-        flash()->success('The ticket has been successfully unarchived.');
+        if($value){
+            flash()->success('The ticket has been marked as responded.');
+        }else{
+            flash()->success('The ticket has been marked as not responded.');
+        }
+        
         return redirect()->back();
     }
 
@@ -362,10 +335,14 @@ class TicketController extends Controller
         self::processFileUpload($request, $response->id);
         flash()->success('The response has been sent.');
 
-        // Send an email
         $client = User::where('company_slug', $company_slug)->first();
         $ticket = Ticket::find($response->ticket_id);
 
+        // Update the responded flag
+        $ticket->responded = \Auth::user()->admin;
+        $ticket->save();
+
+        // Send an email
         $recipients = [$client->email => $client->instant];
         if(!auth()->user()->admin) {
             $recipients[config('app.email_to')] = false;
