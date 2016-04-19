@@ -223,7 +223,6 @@ class TicketController extends Controller
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
         }
-        $client_id = User::where('company_slug', $company_slug)->first()->id;
         $ticket->responded = $value;
 
         $ticket->save();
