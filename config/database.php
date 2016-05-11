@@ -1,11 +1,5 @@
 <?php
 
-// Codeship Setup
-if(getenv('MYSQL_USER') !== false && getenv('MYSQL_PASSWORD') !== false) {
-    putenv("DB_USERNAME=" . getenv('MYSQL_USER'));
-    putenv("DB_PASSWORD=" . getenv('MYSQL_PASSWORD'));
-}
-
 return [
 
     /*
