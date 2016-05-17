@@ -28,14 +28,14 @@
                     @endif
                 </div>
             </div>
-            @endif
-
+            
             <div class="form-group">
                 <label for="web" class="col-sm-2 control-label">Instant Link:</label>
                 <div class="col-sm-10">
                     <input class="form-control" type="text" disabled value="{{ url('?i=' . $client->instant) }}">
                 </div>
             </div>
+            @endif
 
         	{!! Form::submit('Add / Update Client', ['class' => 'btn btn-info pull-right update-client-btn target-btn']) !!}
         {!! Form::close() !!}
