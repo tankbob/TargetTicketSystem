@@ -174,7 +174,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         rigor789\AirbrakeLaravel\AirbrakeServiceProvider::class,
         Proengsoft\JsValidation\JsValidationServiceProvider::class,
-        Mews\Captcha\CaptchaServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 
     ],
 
@@ -231,7 +231,6 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'JsValidator' => Proengsoft\JsValidation\Facades\JsValidatorFacade::class,
-        'Captcha' => Mews\Captcha\Facades\Captcha::class,
 
     ],
 

@@ -113,13 +113,7 @@
 		<div class="col-xs-12"></div>
 	@endif
 
-	@if($type == 'captcha')
-	{!! Form::text($name, null, ['class' => 'form-control', 'style' => 'margin-bottom:15px;']) !!}
-		@if ($errors->has($name))
-			<p class="help-block">{!! $errors->first($name) !!}</p>
-		@endif
-	{!! HTML::image(Captcha::img(), 'Captcha image') !!}
-	@elseif ($errors->has($name))
+	@if ($errors->has($name))
 		<p class="help-block">{!! $errors->first($name) !!}</p>
 	@endif
 
