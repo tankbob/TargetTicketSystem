@@ -34,8 +34,7 @@
             </div>
 
             <div class="form-group">
-                <input type="text" class="form-control captcha-input" id="captcha" placeholder="Captcha" name="captcha">
-                {!! captcha_img() !!}
+                {!! app('captcha')->display(); !!}
             </div>
 
             <div class="checkbox">
