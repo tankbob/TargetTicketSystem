@@ -11,6 +11,9 @@ build:
         php:
             version: 5.6
         node: '5.1.0'
+    dependencies:
+        override:
+            - composer install --prefer-source
 
     # Run after dependencies
     project_setup:
