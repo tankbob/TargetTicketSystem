@@ -65,8 +65,10 @@ class AdminDocumentsController extends Controller
 
         if($type == 'seo') {
             $fileobj->type = 0;
+            $emailView = 'newSeo';
         } else {
             $fileobj->type = 1;
+            $emailView = 'newDoc';
         }
 
         if($request->hasFile('file') && $request->file('file')->isValid()) {
@@ -94,7 +96,7 @@ class AdminDocumentsController extends Controller
 
         $client = User::find($fileobj->client_id);
 
-        Mail::send('emails.newSeo', ['user' => $client, 'file' => $fileobj], function ($message) use ($client) {
+        Mail::send('emails.' . $emailView, ['user' => $client, 'file' => $fileobj], function ($message) use ($client) {
             $message->to($client->email);
 
             if($client->second_email) {
