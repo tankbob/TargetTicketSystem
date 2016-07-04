@@ -65,8 +65,10 @@ class AdminDocumentsController extends Controller
 
         if($type == 'seo') {
             $fileobj->type = 0;
+            $emailView = 'newSeo';
         } else {
             $fileobj->type = 1;
+            $emailView = 'newDoc';
         }
 
         if($request->hasFile('file') && $request->file('file')->isValid()) {
@@ -94,14 +96,18 @@ class AdminDocumentsController extends Controller
 
         $client = User::find($fileobj->client_id);
 
-        Mail::send('emails.newSeo', ['user' => $client, 'file' => $fileobj], function ($message) use ($client) {
+        Mail::send('emails.' . $emailView, ['user' => $client, 'file' => $fileobj], function ($message) use ($client, $type) {
             $message->to($client->email);
 
             if($client->second_email) {
                 $message->bcc($client->second_email);
             }
 
-            $message->subject('Your latest SEO review - ' .  date('d/m/Y'));
+            if($type == 'seo') {
+                $message->subject('Your latest SEO review - ' .  date('d/m/Y'));
+            } else {
+                $message->subject('New Document Uploaded');
+            }
         });
 
         $fileobj->save();
