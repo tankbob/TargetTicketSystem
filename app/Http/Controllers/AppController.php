@@ -15,7 +15,7 @@ class AppController extends Controller
 {
     public function __construct()
     {
-        
+
     }
 
     /**
@@ -54,31 +54,26 @@ class AppController extends Controller
         }
     }
 
-    public function js() {
-        $adminValidators = [
-            'TargetInk\Http\Requests\ClientCreateRequest' => '#new-client-form',
-            'TargetInk\Http\Requests\ClientUpdateRequest' => '#update-client-form',
+    public function js()
+    {
+        $v = [];
+        if (auth()->check() && auth()->user()->admin) {
+            $v = [
+                'TargetInk\Http\Requests\ClientCreateRequest' => '#new-client-form',
+                'TargetInk\Http\Requests\ClientUpdateRequest' => '#update-client-form',
 
-            'TargetInk\Http\Requests\AdvertCreateRequest' => '#new-advert-form',
-            'TargetInk\Http\Requests\AdvertUpdateRequest' => '#update-advert-form',
+                'TargetInk\Http\Requests\AdvertCreateRequest' => '#new-advert-form',
+                'TargetInk\Http\Requests\AdvertUpdateRequest' => '#update-advert-form',
 
-            'TargetInk\Http\Requests\ServiceCreateRequest' => '#new-service-form',
-            'TargetInk\Http\Requests\ServiceUpdateRequest' => '#update-service-form',
+                'TargetInk\Http\Requests\ServiceCreateRequest' => '#new-service-form',
+                'TargetInk\Http\Requests\ServiceUpdateRequest' => '#update-service-form',
 
-            'TargetInk\Http\Requests\DocumentSeoCreateRequest' => '#new-seo-form',
-            'TargetInk\Http\Requests\DocumentSeoUpdateRequest' => '#update-seo-form',
+                'TargetInk\Http\Requests\DocumentSeoCreateRequest' => '#new-seo-form',
+                'TargetInk\Http\Requests\DocumentSeoUpdateRequest' => '#update-seo-form',
 
-            'TargetInk\Http\Requests\DocumentInfoCreateRequest' => '#new-info-form',
-            'TargetInk\Http\Requests\DocumentInfoUpdateRequest' => '#update-info-form',
-        ];
-
-        $userValidators = [
-        ];
-        
-        if(auth()->check() && auth()->user()->admin) {
-            $v = $adminValidators;
-        } else {
-            $v = $userValidators;
+                'TargetInk\Http\Requests\DocumentInfoCreateRequest' => '#new-info-form',
+                'TargetInk\Http\Requests\DocumentInfoUpdateRequest' => '#update-info-form',
+            ];
         }
 
         $content = '';
@@ -95,6 +90,7 @@ class AppController extends Controller
 
         // Image builder for glide
         $filesystem = config('filesystems.cloud');
+
         $client = \Aws\S3\S3Client::factory([
             'credentials' => [
                 'key'    => config('filesystems.disks.' . $filesystem . '.key'),
@@ -103,18 +99,20 @@ class AppController extends Controller
             'region' => config('filesystems.disks.' . $filesystem . '.region'),
             'version' => 'latest',
         ]);
+
         $server = ServerFactory::create([
             'source' => new \League\Flysystem\Filesystem(new \League\Flysystem\AwsS3v3\AwsS3Adapter($client, config('filesystems.disks.' . $filesystem . '.bucket'))),
             'cache' => new \League\Flysystem\Filesystem(new \League\Flysystem\Adapter\Local(storage_path() . '/app')),
             'cache_path_prefix' => 'cache',
             'response' => new LaravelResponseFactory(),
         ]);
-/*
-        header('Content-Type:'.$cache->getMimetype($path));
-        header('Content-Length:'.$cache->getSize($path));
-        header('Cache-Control:'.'max-age=31536000, public');
-        header('Expires:'.date_create('+1 years')->format('D, d M Y H:i:s').' GMT');
-*/
-        return $server->getImageResponse($path, $request->all());
+
+        try {
+            return $server->getImageResponse($path, $request->all());
+        } catch (Intervention\Image\Exception\NotReadableException $e) {
+            abort(404);
+        }
+
+        abort(404);
     }
 }
