@@ -3,11 +3,6 @@
 namespace TargetInk\Http\Controllers;
 
 use Illuminate\Http\Request;
-use TargetInk\Http\Requests;
-use TargetInk\Http\Controllers\Controller;
-
-use TargetInk\Http\Middleware\OwnCompany;
-
 use TargetInk\Ticket;
 use TargetInk\Response;
 use TargetInk\Attachment;
@@ -33,8 +28,6 @@ class TicketController extends Controller
      */
     public function index(Request $request, $company_slug)
     {
-        $this->middleware('ownCompany');
-
         if($request->has('archived')) {
             $archived = 1;
         } else {
@@ -55,7 +48,6 @@ class TicketController extends Controller
      */
     public function create($company_slug)
     {
-        $this->middleware('ownCompany');
         return view('tickets.ticketEdit', compact('company_slug'));
     }
 
@@ -67,7 +59,6 @@ class TicketController extends Controller
      */
     public function store($company_slug, TicketRequest $request)
     {
-        $this->middleware('ownCompany');
         $client = User::where('company_slug', $company_slug)->first();
 
         if($request->published_at) {
@@ -139,7 +130,6 @@ class TicketController extends Controller
      */
     public function show($company_slug, $ticket_id)
     {
-        $this->middleware('ownCompany');
         $ticket = Ticket::with('responses')->with('responses.attachments')->findOrFail($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -157,7 +147,6 @@ class TicketController extends Controller
      */
     public function update(Request $request, $company_slug, $id)
     {
-        $this->middleware('ownCompany');
         $ticket = Ticket::find($id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -177,7 +166,6 @@ class TicketController extends Controller
      */
     public function destroy($company_slug, $id)
     {
-        $this->middleware('ownCompany');
         $ticket = Ticket::find($id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -189,7 +177,6 @@ class TicketController extends Controller
 
     public function archive($company_slug, $ticket_id, $archive)
     {
-        $this->middleware('ownCompany');
         $ticket = Ticket::find($ticket_id);
         if($ticket->client->company_slug != $company_slug) {
             return redirect('/');
@@ -214,7 +201,6 @@ class TicketController extends Controller
 
     public function respond($company_slug, $ticket_id, $value)
     {
-        $this->middleware('ownCompany');
         if(!\Auth::user()->admin){
             return redirect()->to('/');
         }
@@ -319,7 +305,6 @@ class TicketController extends Controller
 
     public function addResponse($company_slug, $ticket_id, ResponseRequest $request)
     {
-        $this->middleware('ownCompany');
         $response = new Response;
         $response->fill($request->all());
         if($request->has('working_time')) {

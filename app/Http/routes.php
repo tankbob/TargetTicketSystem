@@ -50,11 +50,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('documents/{type}/{id}', 'AdminDocumentsController@destroy');
 
     // Frontend
-    Route::resource('{company_slug}/tickets', 'TicketController');
-    Route::get('{company_slug}/tickets/{id}/archive/{archive}', 'TicketController@archive');
-    Route::get('{company_slug}/tickets/{id}/respond/{value}', 'TicketController@respond');
-    Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
-    Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
-
-    Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
+    Route::group(['middleware' => 'ownCompany'], function () {
+        Route::resource('{company_slug}/tickets', 'TicketController');
+        Route::get('{company_slug}/tickets/{id}/archive/{archive}', 'TicketController@archive');
+        Route::get('{company_slug}/tickets/{id}/respond/{value}', 'TicketController@respond');
+        Route::post('{company_slug}/tickets/{id}/addresponse', 'TicketController@addResponse');
+        Route::post('{company_slug}/tickets/{ticket_id}/{response_id}/edittime', 'TicketController@editResponseTime');
+        Route::get('{company_slug}/documents/{type}', 'DocumentsController@index');
+    });
 });
