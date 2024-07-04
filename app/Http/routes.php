@@ -1,5 +1,9 @@
 <?php
 
+if (in_array(env('APP_ENV'), ['dev', 'production'])) {
+    URL::forceSchema('https');
+}
+
 // Remove Registration
 Route::any('auth/register', function () {
     return abort(404);
