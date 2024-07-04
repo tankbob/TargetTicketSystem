@@ -76,12 +76,16 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required', 'g-recaptcha-response' => 'required|captcha',
-        ], [
-            'g-recaptcha-response.required' => 'Please check the captcha',
-            'g-recaptcha-response.captcha' => 'The captcha failed, please try again',
-        ]);
+        if (getenv("BYPASS_CAPTCHA")=="true") {
+            $this->validate($request, [$this->loginUsername() => 'required', 'password' => 'required']);
+        } else {
+            $this->validate($request, [
+                $this->loginUsername() => 'required', 'password' => 'required', 'g-recaptcha-response' => 'required|captcha',
+            ], [
+                'g-recaptcha-response.required' => 'Please check the captcha',
+                'g-recaptcha-response.captcha' => 'The captcha failed, please try again',
+            ]);
+        }
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
