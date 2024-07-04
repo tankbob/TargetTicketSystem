@@ -10,3 +10,4 @@ public/build/*
 # Uploads
 public/files/documents/*
 resources/assets/js/plugins/npm.js
+/.idea

@@ -1,0 +1,24 @@
+services:
+  maint:
+    image: targetink.azurecr.io/maintenance:latest
+    build: .
+    ports:
+      - 8192:80
+      - 2222:2222
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_DATABASE=target_system
+      - DB_USERNAME=maint
+      - DB_PASSWORD=${DB_PASSWORD}
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=${APP_KEY}
+      - NOCAPTCHA_SECRET=${NOCAPTCHA_SECRET}
+      - NOCAPTCHA_SITEKEY=${NOCAPTCHA_SITEKEY}
+      - AWS_KEY=${AWS_KEY}
+      - AWS_SECRET=${AWS_SECRET}
+      - AWS_BUCKET=${AWS_BUCKET}
+      - EMAIL_TO=support@maintenanceaccounts.com
+      - BYPASS_CAPTCHA=true
